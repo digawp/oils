@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # Pre-contrib Apps
+    'grappelli',
+
+    # Contrib Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

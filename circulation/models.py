@@ -8,12 +8,25 @@ class Lend(models.Model):
     loan_at = models.DateTimeField()
 
     lend_item = models.Q(app_label='catalog', model='book')
-    content_type = models.ForeignKey(ct_models.ContentType,
+    resource_type = models.ForeignKey(ct_models.ContentType,
             limit_choices_to=lend_item)
-    object_id = models.PositiveIntegerField()
-    content_object = ct_fields.GenericForeignKey('content_type', 'object_id')
+    resource_id = models.PositiveIntegerField()
+    resource_object = ct_fields.GenericForeignKey(
+            'resource_type', 'resource_id')
+
+    def __str__(self):
+        data = {
+            'resource': self.resource_object,
+            'loan_date': self.loan_at.date(),
+            'borrower': self.patron
+        }
+        return "{resource} [borrow: {loan_date} by {borrower}]".format(**data)
 
 
 class Return(models.Model):
-    book = models.ForeignKey('catalog.Book')
     lend = models.OneToOneField('circulation.Lend')
+
+    return_at = models.DateTimeField()
+
+    def __str__(self):
+        return "{} [return: {}]".format(self.lend, self.return_at.date())
