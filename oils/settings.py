@@ -44,12 +44,16 @@ INSTALLED_APPS = (
 
     # Third Party Apps
     'django_extensions',
+    'mptt',
 
     # Internal Apps
     'authorities',
     'catalog',
     'circulation',
+    'classification',
     'patron',
+    'shelving',
+    'subject',
 )
 
 MIDDLEWARE_CLASSES = (

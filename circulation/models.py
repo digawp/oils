@@ -3,7 +3,7 @@ from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 
 
-class Lend(models.Model):
+class Issue(models.Model):
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField()
 
