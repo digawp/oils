@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'mptt',
 
     # Internal Apps
-    'authorities',
     'catalog',
     'circulation',
     'classification',

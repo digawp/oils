@@ -7,12 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('circulation', '0003_return_return_at'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='return',
-            name='book',
+        migrations.CreateModel(
+            name='Shelve',
+            fields=[
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+            ],
         ),
     ]

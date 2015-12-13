@@ -4,15 +4,10 @@ from django.contrib.contenttypes import models as ct_models
 
 
 class Issue(models.Model):
+    resource = models.ForeignKey('catalog.Resource')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField()
 
-    lend_item = models.Q(app_label='catalog', model='book')
-    resource_type = models.ForeignKey(ct_models.ContentType,
-            limit_choices_to=lend_item)
-    resource_id = models.PositiveIntegerField()
-    resource_object = ct_fields.GenericForeignKey(
-            'resource_type', 'resource_id')
 
     def __str__(self):
         data = {
@@ -24,7 +19,7 @@ class Issue(models.Model):
 
 
 class Return(models.Model):
-    lend = models.OneToOneField('circulation.Lend')
+    issue = models.OneToOneField('circulation.Issue')
 
     return_at = models.DateTimeField()
 
