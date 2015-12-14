@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(db_index=True, editable=False)),
                 ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
                 ('level', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('parent', mptt.fields.TreeForeignKey(blank=True, null=True, to='subject.Subject', related_name='children')),
+                ('parent', mptt.fields.TreeForeignKey(null=True, to='subject.Subject', related_name='children', blank=True)),
             ],
             options={
                 'abstract': False,

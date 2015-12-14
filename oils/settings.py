@@ -49,7 +49,6 @@ INSTALLED_APPS = (
     # Internal Apps
     'catalog',
     'circulation',
-    'classification',
     'patron',
     'shelving',
     'subject',

@@ -4,7 +4,7 @@ from django.contrib.contenttypes import models as ct_models
 
 
 class Issue(models.Model):
-    resource = models.ForeignKey('catalog.Resource')
+    resource = models.ForeignKey('catalog.ResourceInstance')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField()
 

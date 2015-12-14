@@ -2,11 +2,11 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.Resource)
-class ResourceAdmin(admin.ModelAdmin):
+@admin.register(models.ResourceInstance)
+class ResourceInstanceAdmin(admin.ModelAdmin):
     related_lookup_fields = {
         'generic': [
-            ('resource_type', 'resource_id'),
+            ('creative_work_type', 'creative_work_id'),
         ]
     }
 
@@ -20,7 +20,6 @@ class AuthorAdmin(admin.ModelAdmin):
     inlines = [
         AuthorAliasInline
     ]
-
 
 admin.site.register([models.SerialType, models.Serial,
     models.Book, models.Publisher])

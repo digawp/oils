@@ -8,8 +8,8 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
         ('subject', '0001_initial'),
+        ('contenttypes', '0002_remove_content_type_name'),
     ]
 
     operations = [
@@ -54,12 +54,12 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Resource',
+            name='ResourceInstance',
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('code', models.CharField(max_length=50)),
-                ('resource_id', models.PositiveIntegerField()),
-                ('resource_type', models.ForeignKey(to='contenttypes.ContentType')),
+                ('creative_work_id', models.PositiveIntegerField()),
+                ('creative_work_type', models.ForeignKey(to='contenttypes.ContentType')),
             ],
         ),
         migrations.CreateModel(
@@ -83,13 +83,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
-                ('slug', django_extensions.db.fields.AutoSlugField(blank=True, editable=False, max_length=100, unique=True, populate_from='name')),
+                ('slug', django_extensions.db.fields.AutoSlugField(unique=True, editable=False, populate_from='name', blank=True, max_length=100)),
             ],
         ),
         migrations.AddField(
             model_name='serial',
             name='serial_type',
-            field=models.ForeignKey(blank=True, null=True, to='catalog.SerialType'),
+            field=models.ForeignKey(to='catalog.SerialType'),
         ),
         migrations.AddField(
             model_name='serial',

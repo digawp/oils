@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('loan_at', models.DateTimeField()),
                 ('patron', models.ForeignKey(to='patron.Patron')),
-                ('resource', models.ForeignKey(to='catalog.Resource')),
+                ('resource', models.ForeignKey(to='catalog.ResourceInstance')),
             ],
         ),
         migrations.CreateModel(
