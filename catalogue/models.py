@@ -93,8 +93,8 @@ class ResourceInstance(models.Model):
     code = models.CharField(max_length=50)
 
     RESOURCE_CHOICES = (
-        models.Q(app_label='catalog', model='serial')|
-        models.Q(app_label='catalog', model='book'))
+        models.Q(app_label='catalogue', model='serial')|
+        models.Q(app_label='catalogue', model='book'))
 
     creative_work_type = models.ForeignKey(ct_models.ContentType,
             limit_choices_to=RESOURCE_CHOICES)

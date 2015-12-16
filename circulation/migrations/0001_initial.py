@@ -7,24 +7,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('catalogue', '0001_initial'),
         ('patron', '0001_initial'),
-        ('catalog', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Issue',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('loan_at', models.DateTimeField()),
                 ('patron', models.ForeignKey(to='patron.Patron')),
-                ('resource', models.ForeignKey(to='catalog.ResourceInstance')),
+                ('resource', models.ForeignKey(to='catalogue.ResourceInstance')),
             ],
         ),
         migrations.CreateModel(
             name='Return',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('return_at', models.DateTimeField()),
                 ('issue', models.OneToOneField(to='circulation.Issue')),
             ],

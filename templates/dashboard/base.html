@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% block menu %}
+<a href="{% url 'dashboard:index' %}">Dashboard</a>
+<a href="{% url 'dashboard:catalogue:resource-list' %}">Catalogue</a>
+<a href="">Loan</a>
+<a href="">Patron</a>
+<a href="">Report</a>
+<a href="">Utlitiy</a>
+{% endblock menu %}
+{{ block.super }}
+{% endblock content %}

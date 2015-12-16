@@ -1,0 +1,8 @@
+{% extends "library/base.html" %}
+
+{% block content %}
+Welcome to Our Library
+
+<a href="{% url 'opac:search' %}">Search</a>
+<a href="{% url 'dashboard:index' %}">My Account</a>
+{% endblock content %}

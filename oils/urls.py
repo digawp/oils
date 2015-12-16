@@ -19,4 +19,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^search/', include('opac.urls', namespace='opac')),
+    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
+    url(r'', include('library.urls')),
 ]

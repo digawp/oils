@@ -44,11 +44,16 @@ INSTALLED_APPS = (
 
     # Third Party Apps
     'django_extensions',
+    'django_tables2',
     'mptt',
 
     # Internal Apps
-    'catalog',
+    'catalogue',
     'circulation',
+    'dashboard',
+    'dashboard.catalogue',
+    'library',
+    'opac',
     'patron',
     'subject',
 )
@@ -69,7 +74,9 @@ ROOT_URLCONF = 'oils.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),            
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
