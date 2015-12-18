@@ -5,6 +5,7 @@
 <form action='' method='post'>
   {% csrf_token %}
   {{ form }}
+  {{ resource_instance_formset }}
   <button>Save</button>
 </form>
 

@@ -9,3 +9,9 @@ class Subject(mptt_models.MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['name']
+
+    def __str__(self):
+        if not self.parent:
+            return self.name
+        else:
+            return str(self.parent) + " > " + self.name

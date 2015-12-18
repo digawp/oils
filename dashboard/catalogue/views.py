@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
-
+from django.contrib.contenttypes import models as ct_models
+from django.contrib.contenttypes import generic as ct_generic
 from django.core.urlresolvers import reverse
+from django import http
 
 from catalogue import models as catalogue_models
 
@@ -34,22 +36,60 @@ class ResourceListView(tables2.SingleTableMixin, generic.TemplateView):
             'slug': 'book',
         }] + list(catalogue_models.SerialType.objects.all())
 
+
 class ResourceCreateUpdateView(generic.UpdateView):
     template_name = 'dashboard/catalogue/resource_update.html'
 
-    def get_form_class(self, **kwargs):
-        if self.kwargs['resource_type_slug'] == 'book':
-            return forms.BookForm
+    resource_instance_formset = forms.ResourceInstanceFormSet
+
+    def get_object(self):
+        self.object = catalogue_models.ResourceInstance.objects.get(
+            pk=self.kwargs['pk'])
+        if 'pk' not in self.kwargs:
+            return None
         else:
-            return forms.SerialForm
+            return self.object.creative_work_object
+            
 
-
-    def get_object(self, queryset=None):
-        return None
+    def get_form_class(self, **kwargs):
+        if 'pk' not in self.kwargs:
+            if self.kwargs['resource_type_slug'] == 'book':
+                return forms.BookForm
+            else:
+                return forms.SerialForm
+        else:
+            if self.object._meta.model_name == 'book':
+                return forms.BookForm
+            else:
+                return forms.SerialForm
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx['resource_instance_formset'] = self.resource_instance_formset()
         return ctx
+
+    def get_success_url(self):
+        return reverse('dashboard:catalogue:resource-list')
+
+    def form_valid(self, form):
+        if 'pk' not in self.kwargs and form.is_valid():
+            self.object = form.save()
+
+        resource_instance_formset = self.resource_instance_formset(
+            self.request.POST, self.request.FILES,
+            instance=self.object)
+        if form.is_valid() and resource_instance_formset.is_valid():
+            form.save()
+            resource_instance_formset.save()
+        return http.HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        resource_instance_formset = self.resource_instance_formset(
+            self.request.POST, self.request.FILES,
+            instance=self.object)
+        ctx = self.get_context_data(form=form,
+                resource_instance_formset=resource_instance_formset)
+        return self.render_to_response(ctx)
 
 class ResourceCreateRedirectView(generic.RedirectView):
     permanent = False

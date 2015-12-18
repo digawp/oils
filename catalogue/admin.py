@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.contenttypes import admin as ct_admin
 from . import models
 
 
@@ -21,5 +22,23 @@ class AuthorAdmin(admin.ModelAdmin):
         AuthorAliasInline
     ]
 
-admin.site.register([models.SerialType, models.Serial,
-    models.Book, models.Publisher])
+class ResourceInstanceInlineAdmin(ct_admin.GenericTabularInline):
+    model = models.ResourceInstance
+    ct_field = 'creative_work_type'
+    ct_fk_field = 'creative_work_id'
+
+
+@admin.register(models.Book)
+class BookAdmin(admin.ModelAdmin):
+    inlines = [
+        ResourceInstanceInlineAdmin,
+    ]
+    
+@admin.register(models.Serial)
+class BookAdmin(admin.ModelAdmin):
+    inlines = [
+        ResourceInstanceInlineAdmin,
+    ]
+
+admin.site.register([models.SerialType, 
+    models.Publisher])

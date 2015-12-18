@@ -103,7 +103,7 @@ class ResourceInstance(models.Model):
             'creative_work_type', 'creative_work_id')
 
     def __str__(self):
-        return self.resource_object
+        return "[{}] {}".format(self.code, self.creative_work_object)
 
 class Author(models.Model):
     """
