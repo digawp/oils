@@ -33,11 +33,23 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [
         ResourceInstanceInlineAdmin,
     ]
+    search_fields = [
+        'isbn13', 'title',
+    ]
+    list_display = [
+        'isbn13', 'title',
+    ]
     
 @admin.register(models.Serial)
-class BookAdmin(admin.ModelAdmin):
+class SerialAdmin(admin.ModelAdmin):
     inlines = [
         ResourceInstanceInlineAdmin,
+    ]
+    search_fields = [
+        'issn', 'title',
+    ]
+    list_display = [
+        'issn', 'title',
     ]
 
 admin.site.register([models.SerialType, 
