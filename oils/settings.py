@@ -25,7 +25,7 @@ SECRET_KEY = '!*d9mxj)nrn5y%yy&-8w99g%%^iu#kt=@hj30j(grz)zft^=ys'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +43,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Third Party Apps
+    'compressor',
+    'crispy_forms',
     'django_extensions',
     'django_tables2',
     'mptt',
@@ -119,5 +121,28 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+PUBLIC_DIR = os.path.join(BASE_DIR, 'public')
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PUBLIC_DIR, 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(PUBLIC_DIR, 'media')
+
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)
+
+
+# Registration
+ACCOUNT_ACTIVATION_DAYS = 7

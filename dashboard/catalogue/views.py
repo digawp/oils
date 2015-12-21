@@ -13,6 +13,8 @@ from . import tables
 import django_tables2 as tables2
 
 
+
+"""
 class ResourceListView(tables2.SingleTableMixin, generic.TemplateView):
 
     # TemplateView
@@ -35,8 +37,74 @@ class ResourceListView(tables2.SingleTableMixin, generic.TemplateView):
             'name': 'Book',                
             'slug': 'book',
         }] + list(catalogue_models.SerialType.objects.all())
+"""
 
+class ResourceIndexRedirectView(generic.RedirectView):
+    permanent = False
 
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('dashboard:catalogue:resource:index')
+
+class ResourceIndexView(tables2.SingleTableMixin, generic.TemplateView):
+    template_name = 'dashboard/catalogue/index.html'
+    table_class = tables.ResourceTypeTable
+    context_table_name = 'resource_types'
+
+    def get_table_data(self):
+        return [{
+            'name': 'Book',                
+            'slug': 'book',
+        }] + list(catalogue_models.SerialType.objects.all())
+
+class ResourceListView(generic.ListView):
+    pass
+
+class ResourceCreateView(generic.CreateView):
+
+    formset_class = forms.ResourceInstanceFormSet
+    template_name = 'dashboard/catalogue/resource_add.html'
+
+    def get_success_url(self):
+        return reverse('dashboard:catalogue:resource:index')
+
+    def get_form_class(self, **kwargs):
+        if self.kwargs['resourcetype'] == 'book':
+            return forms.BookForm
+        else:
+            return forms.SerialForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['formset'] = self.formset_class
+        return ctx
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+
+        formset = self.formset_class(
+            self.request.POST, self.request.FILES,
+            instance=self.object)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+        return http.HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        formset = self.formset_class(
+            self.request.POST, self.request.FILES,
+            instance=self.object)
+        ctx = self.get_context_data(form=form,
+                formset=formset)
+        return self.render_to_response(ctx)
+
+class ResourceUpdateView(generic.UpdateView):
+    pass
+
+class ResourceDeleteView(generic.DeleteView):
+    pass
+
+"""
 class ResourceCreateUpdateView(generic.UpdateView):
     template_name = 'dashboard/catalogue/resource_update.html'
 
@@ -90,16 +158,4 @@ class ResourceCreateUpdateView(generic.UpdateView):
         ctx = self.get_context_data(form=form,
                 resource_instance_formset=resource_instance_formset)
         return self.render_to_response(ctx)
-
-class ResourceCreateRedirectView(generic.RedirectView):
-    permanent = False
-    resourcetype_form_class = forms.ResourceTypeSelectForm
-
-    def get_redirect_url(self, **kwargs):
-        form = self.resourcetype_form_class(self.request.GET)
-        if form.is_valid():
-            resource_type = form.cleaned_data['resource_type']
-        else:
-            resource_type = 'book'
-        return reverse('dashboard:catalogue:resource-create',
-                kwargs={'resource_type_slug': resource_type})
+"""

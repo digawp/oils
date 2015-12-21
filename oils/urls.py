@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search/', include('opac.urls', namespace='opac')),
     url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'', include('library.urls')),
 ]

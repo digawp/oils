@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% block topbar %}
+<a href="{% url 'auth_logout' %}">Logout</a>
+{% endblock topbar %}
 {% block menu %}
 <a href="{% url 'dashboard:index' %}">Dashboard</a>
-<a href="{% url 'dashboard:catalogue:resource-list' %}">Catalogue</a>
+<a href="{% url 'dashboard:catalogue:index' %}">Catalogue</a>
 <a href="">Loan</a>
 <a href="">Patron</a>
 <a href="">Report</a>

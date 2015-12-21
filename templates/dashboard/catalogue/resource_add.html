@@ -1,0 +1,13 @@
+{% extends "dashboard/catalogue/base.html" %}
+
+{% block content %}
+{{ block.super }}
+
+<form action='' method='post'>
+  {% csrf_token %}
+  {{ form }}
+  {{ formset }}
+  <button>Save</button>
+</form>
+
+{% endblock content %}
