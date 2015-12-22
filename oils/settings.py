@@ -43,8 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Third Party Apps
-    'compressor',
-    'crispy_forms',
     'django_extensions',
     'django_tables2',
     'mptt',

@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load compress %}
 <!doctype html>
 <html>
   <head>
@@ -15,8 +14,5 @@
 
     {% block script %}
     {% endblock script %}
-    {% compress css %}
-    <link type="text/less" rel="stylesheet" href="{% static 'main.less' %}" charset="utf-8">
-    {% endcompress %}
   </body>
 </html>
