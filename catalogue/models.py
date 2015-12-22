@@ -55,6 +55,11 @@ class Book(AbstractResourceCreativeWork):
     isbn13 = models.CharField(max_length=13)
     isbn10 = models.CharField(max_length=10)
 
+    instances = ct_fields.GenericRelation('ResourceInstance',
+            content_type_field='creative_work_type',
+            object_id_field='creative_work_id',
+            related_query_name='books')
+
     def __str__(self):
         return self.isbn13
 
@@ -77,6 +82,11 @@ class Serial(AbstractResourceCreativeWork):
     Bibliographic record.
     """
     issn = models.CharField(max_length=8)
+
+    instances = ct_fields.GenericRelation('ResourceInstance',
+            content_type_field='creative_work_type',
+            object_id_field='creative_work_id',
+            related_query_name='serials')
 
     # Serial can be in many types or forms, we call this serial class
     serial_type = models.ForeignKey('SerialType')

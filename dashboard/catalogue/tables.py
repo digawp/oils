@@ -18,3 +18,8 @@ class ResourceTypeTable(tables2.Table):
     class Meta:
         model = catalogue_models.SerialType
         fields = ('name', 'actions',)
+
+class ResourceInstanceTable(tables2.Table):
+    
+    class Meta:
+        model = catalogue_models.ResourceInstance

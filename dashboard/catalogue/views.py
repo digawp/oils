@@ -56,8 +56,25 @@ class ResourceIndexView(tables2.SingleTableMixin, generic.TemplateView):
             'slug': 'book',
         }] + list(catalogue_models.SerialType.objects.all())
 
-class ResourceListView(generic.ListView):
-    pass
+class ResourceListView(tables2.SingleTableMixin, generic.ListView):
+
+    model = catalogue_models.ResourceInstance
+
+    template_name = 'dashboard/catalogue/resource_list.html'
+
+    # SingleTableMixin
+    table_class = tables.ResourceInstanceTable
+    context_table_name = 'resources'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.kwargs['resourcetype'] == 'book':
+            return qs.filter(books__isnull=False)
+        else:
+            return qs.filter(serials__isnull=False,
+                    serials__serial_type__slug=self.kwargs['resourcetype'])
+            
+
 
 class ResourceCreateView(generic.CreateView):
 
