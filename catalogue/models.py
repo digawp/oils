@@ -95,7 +95,6 @@ class Serial(AbstractResourceCreativeWork):
         return self.issn
 
 
-
 class ResourceInstance(models.Model):
     """
     Holding Record or Item Record.
@@ -112,8 +111,24 @@ class ResourceInstance(models.Model):
     creative_work_object = ct_fields.GenericForeignKey(
             'creative_work_type', 'creative_work_id')
 
+    @property
+    def resource_type(self):
+        if self.creative_work_type.model == 'serial':
+            return self.creative_work_object.serial_type.slug
+        else:
+            return self.creative_work_type.model
+
+    @property
+    def resource_identifier(self):
+        if self.creative_work_type.model == 'serial':
+            return self.creative_work_object.issn
+        else:
+            return self.creative_work_object.isbn13
+
+
     def __str__(self):
         return "[{}] {}".format(self.code, self.creative_work_object)
+
 
 class Author(models.Model):
     """
