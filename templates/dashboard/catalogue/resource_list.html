@@ -5,6 +5,12 @@
 {% block content %}
 {{ block.super }}
 
-{% render_table resources %}
+<div>
+  <a href="{% url 'dashboard:catalogue:resource:add' resourcetype=resource_type %}">
+    Add {{ resource_type|capfirst }}
+  </a>
+
+  {% render_table resources %}
+</div>
 
 {% endblock content %}

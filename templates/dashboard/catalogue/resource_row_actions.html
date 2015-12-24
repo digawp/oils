@@ -1,2 +1,2 @@
 <a href="{% url 'dashboard:catalogue:resource:update' resourcetype=record.resource_type identifier=record.resource_identifier%}">Update</a>
-<a href="{% url 'dashboard:catalogue:resource:delete' resourcetype=record.resource_type identifier=record.pk %}">Delete</a>
+<a href="{% url 'dashboard:catalogue:resource:delete' resourcetype=record.resource_type pk=record.pk %}">Delete</a>

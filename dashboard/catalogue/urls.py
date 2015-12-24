@@ -17,7 +17,7 @@ urlpatterns = [
         url(r'^(?P<resourcetype>[\w-]+)/update/(?P<identifier>[\w-]+)/$',
             login_required(views.ResourceUpdateView.as_view()),
             name='update'),
-        url(r'^(?P<resourcetype>[\w-]+)/delete/(?P<identifier>[\w-]+)/$',
+        url(r'^(?P<resourcetype>[\w-]+)/delete/(?P<pk>\d+)/$',
             login_required(views.ResourceDeleteView.as_view()),
             name='delete'),
     ], namespace='resource')),

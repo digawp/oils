@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": ""
+  },
+  "private": true,
+  "devDependencies": {
+    "webpack": "^1.12.9"
+  }
+}

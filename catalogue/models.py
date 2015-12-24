@@ -48,6 +48,11 @@ class AbstractResourceCreativeWork(models.Model):
         abstract = True
 
 
+    @property
+    def resource_type(self):
+        return self._meta.model_name
+
+
 class Book(AbstractResourceCreativeWork):
     """
     CreativeWork models
@@ -94,6 +99,10 @@ class Serial(AbstractResourceCreativeWork):
     def __str__(self):
         return self.issn
 
+    @property
+    def resource_type(self):
+        return self.serial_type.slug
+
 
 class ResourceInstance(models.Model):
     """
@@ -113,10 +122,7 @@ class ResourceInstance(models.Model):
 
     @property
     def resource_type(self):
-        if self.creative_work_type.model == 'serial':
-            return self.creative_work_object.serial_type.slug
-        else:
-            return self.creative_work_type.model
+        return self.creative_work_object.resource_type
 
     @property
     def resource_identifier(self):
