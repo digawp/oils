@@ -1,0 +1,10 @@
+{% extends "dashboard/patron/base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+{{ block.super }}
+<div>
+  {% render_table patron_table %}
+</div>
+{% endblock content %}
+

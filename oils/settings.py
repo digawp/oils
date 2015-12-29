@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'catalogue',
     'circulation',
     'dashboard',
-    'dashboard.catalogue',
     'library',
     'opac',
     'patron',
