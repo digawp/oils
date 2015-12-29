@@ -15,4 +15,4 @@ class ResourceDetailView(generic.DetailView):
         else:
             return models.Serial.objects.get(
                     serial_type__slug=self.kwargs['resourcetype'],
-                    issn=self.kwargs['slug'])
+                    slug=self.kwargs['slug'])
