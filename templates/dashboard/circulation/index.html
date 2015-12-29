@@ -1,0 +1,10 @@
+{% extends "dashboard/circulation/base.html" %}
+
+{% load render_table from django_tables2 %}
+{% block content %}
+{{ block.super }}
+<div>
+  <a href="{% url 'dashboard:circulation:issue:new' %}">New Issue</a>
+  {% render_table issue_table %}
+</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "dashboard/circulation/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+{{ block.super }}
+
+<form method='POST' action=''>
+  {% csrf_token %}
+  <div class="" id="issue-form">
+  </div>
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button>Submit</button>
+</form>
+
+{% endblock content %}
+{% block script %}
+{% endblock script %}

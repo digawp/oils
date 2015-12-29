@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Third Party Apps
+    'rest_framework',
     'django_extensions',
     'django_tables2',
     'mptt',
@@ -127,7 +128,6 @@ STATIC_ROOT = os.path.join(PUBLIC_DIR, 'static')
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 STATICFILES_DIRS = [
@@ -136,11 +136,6 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PUBLIC_DIR, 'media')
-
-COMPRESS_PRECOMPILERS = (
-    ('text/less', 'lessc {infile} {outfile}'),
-)
-
 
 # Registration
 ACCOUNT_ACTIVATION_DAYS = 7
