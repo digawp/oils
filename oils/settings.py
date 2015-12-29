@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'django_extensions',
     'django_tables2',
+    'haystack',
     'mptt',
 
     # Internal Apps
@@ -138,3 +139,10 @@ MEDIA_ROOT = os.path.join(PUBLIC_DIR, 'media')
 
 # Registration
 ACCOUNT_ACTIVATION_DAYS = 7
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}

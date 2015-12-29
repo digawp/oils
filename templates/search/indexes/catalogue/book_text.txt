@@ -1,0 +1,4 @@
+{{ object.title }}
+{{ object.description }}
+{{ object.isbn13 }}
+{{ object.publisher.name }}

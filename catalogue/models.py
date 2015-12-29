@@ -23,6 +23,7 @@ Bibframe model consists of the following main classes:
 from django.db import models
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
+from django.core.urlresolvers import reverse
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -53,6 +54,15 @@ class AbstractResourceCreativeWork(models.Model):
         return self._meta.model_name
 
 
+    
+    def get_absolute_url(self):
+        return reverse('catalogue:detail', kwargs={
+            'resourcetype': self.resource_type,
+            'slug': self.slug,
+        })
+
+
+
 class Book(AbstractResourceCreativeWork):
     """
     CreativeWork models
@@ -66,6 +76,10 @@ class Book(AbstractResourceCreativeWork):
             related_query_name='books')
 
     def __str__(self):
+        return self.isbn13
+
+    @property
+    def resource_identifier(self):
         return self.isbn13
 
 
@@ -102,6 +116,10 @@ class Serial(AbstractResourceCreativeWork):
     @property
     def resource_type(self):
         return self.serial_type.slug
+
+    @property
+    def resource_identifier(self):
+        return self.issn
 
 
 class ResourceInstance(models.Model):

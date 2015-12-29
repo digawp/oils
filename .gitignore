@@ -1,6 +1,9 @@
 ### Project ###
 public/*
 
+### Indexes ###
+whoosh_index/
+
 ### Node ###
 # Logs
 logs

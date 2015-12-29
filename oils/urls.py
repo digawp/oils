@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^catalogue/', include('catalogue.urls', namespace='catalogue')),
     url(r'^search/', include('opac.urls', namespace='opac')),
     url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
