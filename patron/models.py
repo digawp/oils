@@ -1,5 +1,7 @@
 from django.db import models
 
+from registration import signals
+
 
 class Patron(models.Model):
     user = models.OneToOneField('auth.User')
@@ -7,3 +9,9 @@ class Patron(models.Model):
 
     def __str__(self):
         return self.user.username
+
+def create_patron(sender, **kwargs):
+    patron = Patron(user=kwargs.get('user'))
+    patron.save()
+
+signals.user_registered.connect(create_patron)
