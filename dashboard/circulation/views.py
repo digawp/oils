@@ -16,6 +16,13 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
     model = circulation_models.Issue
     table_class = tables.IssueTable
     context_table_name = 'issue_table'
+    
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return super().get_queryset()
+        else:
+            return super().get_queryset().filter(
+                    patron=self.request.user.patron)
 
 
 class IssueRenewalView(generic.CreateView):

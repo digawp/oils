@@ -6,11 +6,15 @@
 {% endblock topbar %}
 {% block menu %}
 <a href="{% url 'dashboard:index' %}">Dashboard</a>
+{% if request.user.is_staff %}
 <a href="{% url 'dashboard:catalogue:index' %}">Catalogue</a>
+{% endif %}
 <a href="{% url 'dashboard:circulation:index' %}">Circulation</a>
+{% if request.user.is_staff %}
 <a href="{% url 'dashboard:patron:index' %}">Patron</a>
 <a href="">Report</a>
 <a href="">Utlitiy</a>
+{% endif %}
 {% endblock menu %}
 {{ block.super }}
 {% endblock content %}
