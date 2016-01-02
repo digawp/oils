@@ -20036,7 +20036,6 @@
 
 	var ResourceSelectField = _react2.default.createClass({
 	    displayName: 'ResourceSelectField',
-	    isLoading: true,
 	    handleSelectChange: function handleSelectChange(value) {
 	        console.log("You've selected: ", value);
 	        this.setState({ value: value });
@@ -20047,10 +20046,6 @@
 	        };
 	    },
 	    getResources: function getResources(input) {
-	        if (input === '') {
-	            return [];
-	        }
-
 	        input = input.toLowerCase();
 
 	        // API call
@@ -20078,6 +20073,7 @@
 	                'Resources'
 	            ),
 	            _react2.default.createElement(_reactSelect2.default.Async, {
+	                name: 'resource_identifier',
 	                value: this.state.value,
 	                multi: true,
 	                isLoading: false,

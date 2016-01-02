@@ -3,7 +3,6 @@ import Select from 'react-select'
 
 var ResourceSelectField = React.createClass({
     displayName: 'ResourceSelectField',
-    isLoading: true,
     handleSelectChange(value){
         console.log("You've selected: ", value);
         this.setState({value});
@@ -14,10 +13,6 @@ var ResourceSelectField = React.createClass({
         };
     },
     getResources(input){
-        if (input === ''){
-            return [];
-        }
-
         input = input.toLowerCase();
 
         // API call
@@ -41,6 +36,7 @@ var ResourceSelectField = React.createClass({
             <div className="section">
                 <label htmlFor="resource-select">Resources</label>
                 <Select.Async
+                    name='resource_identifier'
                     value={this.state.value}
                     multi={true}
                     isLoading={false}
