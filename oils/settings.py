@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 
     # Third Party Apps
     'rest_framework',
+    'django_filters',
     'django_extensions',
     'django_tables2',
     'haystack',
@@ -145,4 +146,12 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
     },
+}
+
+
+# API Resources
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    ),
 }

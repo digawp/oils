@@ -6,7 +6,10 @@ from rest_framework import viewsets
 from patron import models as patron_models
 from catalogue import models as catalogue_models
 
+from rest_framework import filters
+
 from . import serializers
+from . import filters as api_filters
 
 
 class PatronViewSet(viewsets.ModelViewSet):
@@ -22,3 +25,6 @@ class UserViewSet(viewsets.ModelViewSet):
 class ResourceViewSet(viewsets.ModelViewSet):
     queryset = catalogue_models.ResourceInstance.objects.all()
     serializer_class = serializers.ResourceInstanceSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    #filter_fields = ('creative_work_object__title',)
+    filter_class = api_filters.ResourceInstanceFilter

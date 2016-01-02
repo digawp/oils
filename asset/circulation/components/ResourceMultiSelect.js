@@ -3,6 +3,7 @@ import Select from 'react-select'
 
 var ResourceSelectField = React.createClass({
     displayName: 'ResourceSelectField',
+    isLoading: true,
     handleSelectChange(value){
         console.log("You've selected: ", value);
         this.setState({value});
@@ -12,23 +13,28 @@ var ResourceSelectField = React.createClass({
             value: '',
         };
     },
-    getResources(input, callback){
+    getResources(input){
+        if (input === ''){
+            return [];
+        }
+
         input = input.toLowerCase();
 
-        setTimeout(function() {
-            var options = [
-                { value: 'one', label: 'One' },
-                { value: 'two', label: 'Two' },
-                { value: '3', label: 'Three' }
-            ];
-            callback(null, {
-
-                options: options,
-                // CAREFUL! Only set this to true when there are no more options,
-                // or more specific queries will not be sent to the server.
-                complete: true
+        // API call
+        return fetch(`/api/resources/?code=${input}`)
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                var options = json.map((data)=>{
+                    return {
+                        value: data.code,
+                        label: data.code + " (" + data.title + ")",
+                    };
+                });
+                return {
+                    options: options,
+                };
             });
-        }, 500);
     },
     render(){
         return (
@@ -36,6 +42,8 @@ var ResourceSelectField = React.createClass({
                 <label htmlFor="resource-select">Resources</label>
                 <Select.Async
                     value={this.state.value}
+                    multi={true}
+                    isLoading={false}
                     loadOptions={this.getResources}
                     onChange={this.handleSelectChange} />
             </div>

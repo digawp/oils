@@ -20036,6 +20036,7 @@
 
 	var ResourceSelectField = _react2.default.createClass({
 	    displayName: 'ResourceSelectField',
+	    isLoading: true,
 	    handleSelectChange: function handleSelectChange(value) {
 	        console.log("You've selected: ", value);
 	        this.setState({ value: value });
@@ -20045,19 +20046,27 @@
 	            value: ''
 	        };
 	    },
-	    getResources: function getResources(input, callback) {
+	    getResources: function getResources(input) {
+	        if (input === '') {
+	            return [];
+	        }
+
 	        input = input.toLowerCase();
 
-	        setTimeout(function () {
-	            var options = [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: '3', label: 'Three' }];
-	            callback(null, {
-
-	                options: options,
-	                // CAREFUL! Only set this to true when there are no more options,
-	                // or more specific queries will not be sent to the server.
-	                complete: true
+	        // API call
+	        return fetch('/api/resources/?code=' + input).then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            var options = json.map(function (data) {
+	                return {
+	                    value: data.code,
+	                    label: data.code + " (" + data.title + ")"
+	                };
 	            });
-	        }, 500);
+	            return {
+	                options: options
+	            };
+	        });
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -20070,6 +20079,8 @@
 	            ),
 	            _react2.default.createElement(_reactSelect2.default.Async, {
 	                value: this.state.value,
+	                multi: true,
+	                isLoading: false,
 	                loadOptions: this.getResources,
 	                onChange: this.handleSelectChange })
 	        );
