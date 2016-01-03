@@ -18,7 +18,7 @@ urlpatterns = [
             name='renewal'),
 
         # Return issue (admin)
-        url(r'^(?P<pk>\d+)/$',
+        url(r'^(?P<pk>\d+)/return/$',
             login_required(views.IssueReturnView.as_view()),
             name='return'),
 

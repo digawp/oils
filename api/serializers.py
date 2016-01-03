@@ -12,10 +12,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email', 'is_staff')
 
 class PatronSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
+    username = serializers.CharField(source='user.username')
+    email = serializers.EmailField(source='user.email')
+
     class Meta:
         model = patron_models.Patron
-        fields = ('url', 'user', 'loan_limit')
+        fields = ('url', 'loan_limit', 'username', 'email')
         depth = 1
 
 

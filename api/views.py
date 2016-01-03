@@ -15,6 +15,7 @@ from . import filters as api_filters
 class PatronViewSet(viewsets.ModelViewSet):
     queryset = patron_models.Patron.objects.all()
     serializer_class = serializers.PatronSerializer
+    filter_class = api_filters.PatronFilter
 
 
 class UserViewSet(viewsets.ModelViewSet):

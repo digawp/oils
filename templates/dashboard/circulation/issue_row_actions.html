@@ -1,4 +1,12 @@
-<a href="">Renew</a>
+<form action="{% url 'dashboard:circulation:issue:renewal' pk=record.pk %}" method='post'>
+  {% csrf_token %}
+  <input type='hidden' name='issue' value='{{ record.pk }}' />
+  <button type='submit'>Renew</button>
+</form>
 {% if request.user.is_staff %}
-<a href="">Return</a>
+<form action="{% url 'dashboard:circulation:issue:return' pk=record.pk %}" method='post'>
+  {% csrf_token %}
+  <input type='hidden' name='issue' value='{{ record.pk }}' />
+  <button type='submit'>Return</button> 
+</form>
 {% endif %}

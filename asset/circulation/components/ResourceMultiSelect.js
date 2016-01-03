@@ -9,6 +9,7 @@ var ResourceSelectField = React.createClass({
     },
     getInitialState(){
         return {
+            name: 'resource_identifier',
             value: '',
         };
     },
@@ -36,7 +37,7 @@ var ResourceSelectField = React.createClass({
             <div className="section">
                 <label htmlFor="resource-select">Resources</label>
                 <Select.Async
-                    name='resource_identifier'
+                    name={this.state.name}
                     value={this.state.value}
                     multi={true}
                     isLoading={false}

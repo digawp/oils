@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
+from django.db.models.aggregates import Count, Max
 
 import django_tables2 as tables2
 
@@ -18,33 +19,58 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
     context_table_name = 'issue_table'
     
     def get_queryset(self):
+        qs = super().get_queryset()
+        onloan = qs.filter(issuereturn__isnull=True)
         if self.request.user.is_staff:
-            return super().get_queryset()
+            return onloan
         else:
-            return super().get_queryset().filter(
+            return onloan.filter(
                     patron=self.request.user.patron)
+
+    def get_table_data(self):
+        return super().get_table_data().annotate(
+            total_renewal=Count('issuerenewal'),
+            last_renewal=Max('issuerenewal__renew_at'),
+        )
 
 
 class IssueRenewalView(generic.CreateView):
-    template_name = 'dashboard/circulation/issue_renewal_create.html'
+    template_name = 'dashboard/circulation/issuerenewal_create.html'
     model = circulation_models.IssueRenewal
+    fields = ['issue',]
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('dashboard:circulation:index')
 
 class IssueReturnView(generic.CreateView):
-    template_name = 'dashboard/circulation/issue_return_create.html'
+    template_name = 'dashboard/circulation/issuereturn_create.html'
     model = circulation_models.IssueReturn
+    fields = ['issue',]
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('dashboard:circulation:index')
 
 class IssueDeleteView(generic.DeleteView):
     template_name = 'dashboard/circulation/issue_delete.html'
     model = circulation_models.Issue
 
 class IssueReturnDeleteView(generic.DeleteView):
-    template_name = 'dashboard/circulation/issue_return_delete.html'
+    template_name = 'dashboard/circulation/issuereturn_delete.html'
     model = circulation_models.IssueReturn
 
-class IssueCreateView(generic.CreateView):
+class IssueCreateView(generic.FormView):
     template_name = 'dashboard/circulation/issue_create.html'
-    model = circulation_models.Issue
     form_class = forms.IssueCreateForm
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse('dashboard:circulation:index')
+
+    def form_valid(self, form):
+        for resource_instance in form.cleaned_data['resource_identifier']:
+            circulation_models.Issue.objects.create(
+                    resource=resource_instance,
+                    patron=form.cleaned_data['patron_username'].patron)
+        return super().form_valid(form)
 
 class CirculationIndexRedirectView(generic.RedirectView):
     permanent = False

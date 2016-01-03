@@ -10,31 +10,33 @@ var PatronSelectField = React.createClass({
     getInitialState(){
         return {
             value: '',
+            name: 'patron_username'
         };
     },
-    getPatrons(input, callback){
+    getPatrons(input){
         input = input.toLowerCase();
-
-        setTimeout(function() {
-            var options = [
-                { value: 'one', label: 'One' },
-                { value: 'two', label: 'Two' },
-                { value: '3', label: 'Three' }
-            ];
-            callback(null, {
-
-                options: options,
-                // CAREFUL! Only set this to true when there are no more options,
-                // or more specific queries will not be sent to the server.
-                complete: true
+        return fetch(`/api/patrons/?username=${input}`)
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                var options = json.map((data)=>{
+                    return {
+                        value: data.username,
+                        label: data.username + " (" + data.email + ")",
+                    };
+                });
+                return {
+                    options: options,
+                };
             });
-        }, 500);
     },
     render(){
         return (
             <div className="section">
                 <Select.Async
+                    name={this.state.name}
                     value={this.state.value}
+                    multi={false}
                     loadOptions={this.getPatrons}
                     onChange={this.handleSelectChange} />
             </div>

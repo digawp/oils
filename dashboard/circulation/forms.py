@@ -1,12 +1,24 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import models as auth_models
 
 from circulation import models
+from catalogue import models as catalogue_models
+from patron import models as patron_models
 
-class IssueCreateForm(forms.ModelForm):
-    resource_identifier = forms.CharField(label=_("Resource Code"))
-    patron_id = forms.CharField(label=_("Patron ID"))
+class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def _check_values(self, value):
+        if value:
+            value = value[0].split(',')
+        return super()._check_values(value)
 
-    class Meta:
-        model = models.Issue
-        fields = ('resource_identifier', 'patron_id') 
+class IssueCreateForm(forms.Form):
+    resource_identifier = ReactSelectModelMultipleChoiceField(
+            label=_("Resource Code"),
+            queryset=catalogue_models.ResourceInstance.objects.all(),
+            to_field_name='code')
+    patron_username = forms.ModelChoiceField(
+            label=_("Patron Username"),
+            queryset=auth_models.User.objects.filter(patron__isnull=False),
+            to_field_name='username')
+

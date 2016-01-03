@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 
@@ -24,6 +25,11 @@ class IssueRenewal(models.Model):
 
     def __str__(self):
         return "{} [extend: {}]".format(self.issue, self.renew_at.date())
+
+    def clean(self):
+        if self.issue.issuerenewal_set.count() >= self.issue.patron.loan_limit:
+            raise ValidationError('Loan limit exeeded')
+
 
 
 class IssueReturn(models.Model):

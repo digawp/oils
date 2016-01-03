@@ -22,7 +22,7 @@ class PatronIndexView(tables2.SingleTableMixin, generic.ListView):
     }
 
     def get_table_data(self):
-        patrons = self.get_queryset()
+        patrons = super().get_table_data()
         return patrons.annotate(
                 username=F('user__username'),
                 email=F('user__email'),
