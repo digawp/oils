@@ -2,10 +2,12 @@ module.exports = {
 
     entry: {
         main: "./asset/main",
-        circulation_issue: "./asset/circulation/issue"
+        circulation_issue: "./asset/circulation/issue",
+        circulation_issue_return: "./asset/circulation/issue_return",
+        circulation_issue_renewal: "./asset/circulation/issue_renewal"
     },
     output: {
-        path: __dirname + '/static/',
+        path: __dirname + '/static/assets/',
         filename: "[name].js"
     },
     module: {

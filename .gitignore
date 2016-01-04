@@ -1,5 +1,6 @@
 ### Project ###
 public/*
+static/assets/
 
 ### Indexes ###
 whoosh_index/

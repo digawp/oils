@@ -1,12 +1,12 @@
-<form action="{% url 'dashboard:circulation:issue:renewal' pk=record.pk %}" method='post'>
+<form action="{% url 'dashboard:circulation:issue:renewal' %}" method='post'>
   {% csrf_token %}
-  <input type='hidden' name='issue' value='{{ record.pk }}' />
+  <input type='hidden' name='resource_code' value='{{ record.resource.code }}' />
   <button type='submit'>Renew</button>
 </form>
 {% if request.user.is_staff %}
-<form action="{% url 'dashboard:circulation:issue:return' pk=record.pk %}" method='post'>
+<form action="{% url 'dashboard:circulation:issue:return' %}" method='post'>
   {% csrf_token %}
-  <input type='hidden' name='issue' value='{{ record.pk }}' />
+  <input type='hidden' name='resource_code' value='{{ record.resource.code }}' />
   <button type='submit'>Return</button> 
 </form>
 {% endif %}

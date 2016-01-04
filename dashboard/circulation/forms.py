@@ -22,3 +22,16 @@ class IssueCreateForm(forms.Form):
             queryset=auth_models.User.objects.filter(patron__isnull=False),
             to_field_name='username')
 
+
+class IssueRenewalForm(forms.Form):
+    resource_identifier = ReactSelectModelMultipleChoiceField(
+            label=_("Resource Code"),
+            queryset=catalogue_models.ResourceInstance.objects.all(),
+            to_field_name='code')
+
+
+class IssueReturnForm(forms.Form):
+    resource_identifier = ReactSelectModelMultipleChoiceField(
+            label=_("Resource Code"),
+            queryset=catalogue_models.ResourceInstance.objects.all(),
+            to_field_name='code')

@@ -4,9 +4,6 @@
 {% block content %}
 {{ block.super }}
 <div>
-  {% if request.user.is_staff %}
-  <a href="{% url 'dashboard:circulation:issue:new' %}">New Issue</a>
-  {% endif %}
   {% render_table issue_table %}
 </div>
 {% endblock content %}

@@ -33,6 +33,7 @@ var PatronSelectField = React.createClass({
     render(){
         return (
             <div className="section">
+                <label htmlFor="patron-select">Patron</label>
                 <Select.Async
                     name={this.state.name}
                     value={this.state.value}

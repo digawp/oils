@@ -13,19 +13,14 @@ urlpatterns = [
             name='index'),
 
         # Renew (patron, admin)
-        url(r'^(?P<pk>\d+)/renewal/$',
+        url(r'^renewal/$',
             login_required(views.IssueRenewalView.as_view()),
             name='renewal'),
 
         # Return issue (admin)
-        url(r'^(?P<pk>\d+)/return/$',
+        url(r'^return/$',
             login_required(views.IssueReturnView.as_view()),
             name='return'),
-
-        # Delete (admin)
-        url(r'^(?P<pk>\d+)/delete/$',
-            login_required(views.IssueDeleteView.as_view()),
-            name='delete'),
 
         # New issue (admin)
         url(r'^new/$',

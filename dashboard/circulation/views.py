@@ -17,6 +17,9 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
     model = circulation_models.Issue
     table_class = tables.IssueTable
     context_table_name = 'issue_table'
+    table_pagination = {
+        'per_page': 10,
+    }
     
     def get_queryset(self):
         qs = super().get_queryset()
@@ -34,21 +37,31 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
         )
 
 
-class IssueRenewalView(generic.CreateView):
+class IssueRenewalView(generic.FormView):
     template_name = 'dashboard/circulation/issuerenewal_create.html'
-    model = circulation_models.IssueRenewal
-    fields = ['issue',]
+    form_class = forms.IssueRenewalForm
 
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:index')
 
-class IssueReturnView(generic.CreateView):
+    def form_valid(self, form):
+        for resource_instance in form.cleaned_data['resource_identifier']:
+            circulation_models.IssueRenewal.objects.create(
+                    issue=resource_instance.issue_set.last()),
+        return super().form_valid(form)
+
+class IssueReturnView(generic.FormView):
     template_name = 'dashboard/circulation/issuereturn_create.html'
-    model = circulation_models.IssueReturn
-    fields = ['issue',]
+    form_class = forms.IssueReturnForm
 
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:index')
+
+    def form_valid(self, form):
+        for resource_instance in form.cleaned_data['resource_identifier']:
+            circulation_models.IssueReturn.objects.create(
+                    issue=resource_instance.issue_set.last()),
+        return super().form_valid(form)
 
 class IssueDeleteView(generic.DeleteView):
     template_name = 'dashboard/circulation/issue_delete.html'
