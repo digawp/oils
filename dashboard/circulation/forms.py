@@ -13,7 +13,7 @@ class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
         return super()._check_values(value)
 
 class IssueCreateForm(forms.Form):
-    resource_identifier = ReactSelectModelMultipleChoiceField(
+    resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),
             to_field_name='code')
@@ -24,14 +24,14 @@ class IssueCreateForm(forms.Form):
 
 
 class IssueRenewalForm(forms.Form):
-    resource_identifier = ReactSelectModelMultipleChoiceField(
+    resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),
             to_field_name='code')
 
 
 class IssueReturnForm(forms.Form):
-    resource_identifier = ReactSelectModelMultipleChoiceField(
+    resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),
             to_field_name='code')
