@@ -9,7 +9,7 @@ var ResourceSelectField = React.createClass({
     },
     getInitialState(){
         return {
-            name: 'resource_identifier',
+            name: 'resource_code',
             value: '',
         };
     },

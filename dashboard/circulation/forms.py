@@ -15,7 +15,7 @@ class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 class IssueCreateForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
-            queryset=catalogue_models.ResourceInstance.objects.all(),
+            queryset=catalogue_models.ResourceInstance.objects.available(),
             to_field_name='code')
     patron_username = forms.ModelChoiceField(
             label=_("Patron Username"),

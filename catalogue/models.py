@@ -122,6 +122,10 @@ class Serial(AbstractResourceCreativeWork):
         return self.issn
 
 
+class ResourceInstanceQuerySet(models.QuerySet):
+    def available(self):
+        return self.all()
+
 class ResourceInstance(models.Model):
     """
     Holding Record or Item Record.
@@ -137,6 +141,8 @@ class ResourceInstance(models.Model):
     creative_work_id = models.PositiveIntegerField()
     creative_work_object = ct_fields.GenericForeignKey(
             'creative_work_type', 'creative_work_id')
+
+    objects = ResourceInstanceQuerySet.as_manager()
 
     @property
     def resource_type(self):
