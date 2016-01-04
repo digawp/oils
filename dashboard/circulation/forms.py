@@ -16,7 +16,10 @@ class IssueCreateForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.available(),
-            to_field_name='code')
+            to_field_name='code',
+            error_messages={
+                'invalid_choice': 'One or more of the resources is unavailable'
+            })
     patron_username = forms.ModelChoiceField(
             label=_("Patron Username"),
             queryset=auth_models.User.objects.filter(patron__isnull=False),
