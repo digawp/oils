@@ -22,6 +22,7 @@ Bibframe model consists of the following main classes:
 
 from django.db import models
 from django.db.models import Q, F
+from django.db.models.aggregates import Count
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 from django.core.urlresolvers import reverse
@@ -125,14 +126,16 @@ class Serial(AbstractResourceCreativeWork):
 
 class ResourceInstanceQuerySet(models.QuerySet):
     def available(self):
-        return self.filter(
-                Q(issue__isnull=True)|
-                Q(issue__issuereturn__isnull=False)).distinct()
+        return self.annotate(
+                issue_count=Count('issue'),
+                return_count=Count('issue__issuereturn')
+            ).filter(Q(issue_count=F('return_count')))
 
     def unavailable(self):
-        return self.filter(
-                Q(issue__isnull=False)&
-                Q(issue__issuereturn__isnull=True)).distinct()
+        return self.annotate(
+                issue_count=Count('issue'),
+                return_count=Count('issue__issuereturn')
+            ).exclude(Q(issue_count=F('return_count')))
 
 class ResourceInstance(models.Model):
     """
