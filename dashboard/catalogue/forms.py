@@ -65,7 +65,7 @@ class BookForm(BaseResourceForm):
         model = catalogue_models.Book
         fields = [
             'isbn13', 'title', 'subtitle', 'abstract', 'publisher',
-            'authors', 'subjects',
+            'authors', 'subjects', 'classification',
         ]
 
 
@@ -74,5 +74,5 @@ class SerialForm(forms.ModelForm):
         model = catalogue_models.Serial
         fields = [
             'issn', 'title', 'subtitle', 'abstract', 'publisher',
-            'authors', 'subjects',
+            'authors', 'subjects', 'classification',
         ]
