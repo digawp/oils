@@ -53,4 +53,5 @@ class SerialAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register([models.SerialType, 
-    models.Publisher])
+    models.Publisher, models.Location,
+    models.Classification, models.ClassificationStandard])
