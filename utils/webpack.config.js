@@ -1,3 +1,5 @@
+import path from 'path';
+
 module.exports = {
 
     entry: {
@@ -7,7 +9,7 @@ module.exports = {
         circulation_issue_renewal: "./asset/circulation/issue_renewal"
     },
     output: {
-        path: __dirname + '/static/assets/',
+        path: path.join(__dirname, '../static/assets'),
         filename: "[name].js"
     },
     module: {
