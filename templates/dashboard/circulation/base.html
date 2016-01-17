@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 {{ block.super }}
@@ -11,3 +12,8 @@
   {% endif %}
 </div>
 {% endblock content %}
+
+{% block script %}
+{{ block.super }}
+<script src="{% static 'oils/dist/dashboard/circulation/common.js' %}"></script>
+{% endblock script %}

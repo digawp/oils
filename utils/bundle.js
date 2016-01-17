@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import webpackConfig from './webpack.config';
+import webpackConfig from '../webpack.config';
 
 async function bundle(){
     console.log("Bundling");
