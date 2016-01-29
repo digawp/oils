@@ -1,9 +1,17 @@
+# OILS
+
 ## Setup
 
-- pip install -r requirements.txt
-- install node, 
-- npm install -g npm
-- npm install -g less
-- npm install
-- python manage.py collect
+    # Install dependencies
+    npm install
+    pip install -r requirements.txt
 
+    # Build Assets
+    npm run build
+    python manage.py collectstatic
+
+    # Migrate Database
+    python manage.py migrate
+
+    # Run Server
+    python manage.py runserver 0.0.0.0:8000

@@ -16,8 +16,8 @@
 </form>
 
 {% endblock content %}
+
 {% block script %}
-<script src="{% static 'assets/circulation_issue_return.js' %}"></script>
+{{ block.super }}
+<script src="{% static 'oils/dist/circulation/issue_return.js' %}"></script>
 {% endblock script %}
-
-

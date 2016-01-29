@@ -1,20 +1,32 @@
+import path from 'path';
+import webpack from 'webpack';
+
 module.exports = {
 
     entry: {
-        main: "./asset/main",
-        circulation_issue: "./asset/circulation/issue",
-        circulation_issue_return: "./asset/circulation/issue_return",
-        circulation_issue_renewal: "./asset/circulation/issue_renewal"
+        main:
+          "./static/oils/assets/main",
+        "dashboard/circulation/issue":
+          "./static/oils/assets/circulation/issue",
+        "dashboard/circulation/issue_return":
+          "./static/oils/assets/circulation/issue_return",
+        "dashboard/circulation/issue_renewal":
+          "./static/oils/assets/circulation/issue_renewal"
     },
     output: {
-        path: __dirname + '/static/assets/',
+        path: path.join(__dirname, './static/oils/dist'),
         filename: "[name].js"
     },
     module: {
         loaders: [
             {
                 test: /\.less$/,
-                loader: "style-loader!css-loader!less-loader"
+                loaders: [
+                    "style-loader",
+                    "css-loader",
+                    "postcss-loader",
+                    "less-loader",
+                ],
             },
             {
                 test: /\.jsx?$/,
@@ -25,5 +37,32 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    postcss: function (){
+        return [require('autoprefixer'),];
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.CommonsChunkPlugin(
+          "dashboard/circulation/common.js", [
+              "dashboard/circulation/issue",
+              "dashboard/circulation/issue_return",
+              "dashboard/circulation/issue_renewal"
+          ],
+      ),
+      new webpack.optimize.CommonsChunkPlugin(
+          "dashboard/catalogue/common.js", [
+          ],
+      ),
+      new webpack.optimize.CommonsChunkPlugin(
+          "dashboard/common.js", [
+              "dashboard/circulation/common.js"
+          ],
+      ),
+      new webpack.optimize.CommonsChunkPlugin(
+          "common.js", [
+              "dashboard/common.js"
+          ],
+      )
+    ]
 }

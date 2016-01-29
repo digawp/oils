@@ -7,7 +7,9 @@
 
 <form method='POST' action=''>
   {% csrf_token %}
+
   <div class="" id="issue-form">
+
   </div>
   <table>
     {{ form.errors }}
@@ -16,6 +18,8 @@
 </form>
 
 {% endblock content %}
+
 {% block script %}
-<script src="{% static 'assets/circulation_issue.js' %}"></script>
+{{ block.super }}
+<script src="{% static 'oils/dist/dashboard/circulation/issue.js' %}"></script>
 {% endblock script %}
