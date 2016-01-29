@@ -21,7 +21,12 @@ module.exports = {
         loaders: [
             {
                 test: /\.less$/,
-                loader: "style-loader!css-loader!less-loader"
+                loaders: [
+                    "style-loader",
+                    "css-loader",
+                    "postcss-loader",
+                    "less-loader",
+                ],
             },
             {
                 test: /\.jsx?$/,
@@ -32,6 +37,9 @@ module.exports = {
                 }
             }
         ]
+    },
+    postcss: function (){
+        return [require('autoprefixer'),];
     },
     plugins: [
       new webpack.optimize.UglifyJsPlugin(),
