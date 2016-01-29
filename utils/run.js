@@ -1,7 +1,6 @@
 async function run(fn, opts) {
   console.log(`Starting ${fn.name}`);
   await fn(opts);
-  console.log(`Terminating ${fn.name}`);
 }
 
 
