@@ -3,6 +3,12 @@ from django.contrib.auth.decorators import login_required
 from . import views
 
 urlpatterns = [
+    # List of CreativeWork (last 20 entry)
+    # Find CreativeWork (search form)
+    # Find ResourceInstace (barcode input)
+    # add CreativeWork (edit form + CRUD of resource instances)
+    # add ResourceInstance (resource instance form)
+    # edit CreativeWork (edit + delete + CRUD of resource instances)
 
     url(r'^resource/', include([
         url(r'^$',

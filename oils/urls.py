@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import dashboard
 
 
 urlpatterns = [
@@ -23,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^catalogue/', include('catalogue.urls', namespace='catalogue')),
     url(r'^search/', include('opac.urls', namespace='opac')),
-    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
+    url(r'^dashboard/', include(dashboard.site.urls)),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'', include('library.urls')),
 ]
