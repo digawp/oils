@@ -3,8 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import models as auth_models
 
 from circulation import models
+from circulation import get_backend
 from catalogue import models as catalogue_models
 from patron import models as patron_models
+
 
 class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def _check_values(self, value):
@@ -31,6 +33,15 @@ class IssueRenewalForm(forms.Form):
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),
             to_field_name='code')
+
+    def clean(self):
+        backend = get_backend()
+        cleaned_data = super().clean()
+        for resource_instance in cleaned_data['resource_code']:
+            for issue in resource_instance.issue_set.all():
+                backend.validate(issue)
+        return cleaned_data
+
 
 
 class IssueReturnForm(forms.Form):

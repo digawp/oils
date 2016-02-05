@@ -155,3 +155,9 @@ REST_FRAMEWORK = {
         'rest_framework.filters.DjangoFilterBackend',
     ),
 }
+
+
+# Circulation
+CIRCULATION = {
+    'RENEWAL_POLICY_BACKEND': 'circulation.backends.RenewalFromToday',
+}

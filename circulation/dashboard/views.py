@@ -46,8 +46,7 @@ class IssueRenewalView(generic.FormView):
 
     def form_valid(self, form):
         for resource_instance in form.cleaned_data['resource_code']:
-            circulation_models.IssueRenewal.objects.create(
-                    issue=resource_instance.issue_set.last()),
+            resource_instance.issue_set.last().renew()
         return super().form_valid(form)
 
 class IssueReturnView(generic.FormView):
@@ -60,7 +59,7 @@ class IssueReturnView(generic.FormView):
     def form_valid(self, form):
         for resource_instance in form.cleaned_data['resource_code']:
             circulation_models.IssueReturn.objects.create(
-                    issue=resource_instance.issue_set.last()),
+                    issue=resource_instance.issue_set.last())
         return super().form_valid(form)
 
 class IssueDeleteView(generic.DeleteView):

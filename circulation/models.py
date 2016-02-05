@@ -4,6 +4,14 @@ from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 
 
+from . import get_backend
+
+
+class IssueRenewalManager(models.Manager):
+    def get_last_renewal(self, issue):
+        return self.filter(issue=issue).order_by('renew_at').last()
+
+
 class Issue(models.Model):
     resource = models.ForeignKey('catalogue.ResourceInstance')
     patron = models.ForeignKey('patron.Patron')
@@ -17,19 +25,24 @@ class Issue(models.Model):
         }
         return "[{resource}] [borrow: {loan_date} by {borrower}]".format(**data)
 
+    def renew(self):
+        backend = get_backend()
+        backend.renew(issue=self)
+
 
 class IssueRenewal(models.Model):
     issue = models.ForeignKey('Issue')
 
-    renew_at = models.DateTimeField(auto_now_add=True)
+    renew_at = models.DateTimeField()
+
+    objects = IssueRenewalManager()
 
     def __str__(self):
         return "{} [extend: {}]".format(self.issue, self.renew_at.date())
 
     def clean(self):
-        if self.issue.issuerenewal_set.count() >= self.issue.patron.loan_limit:
-            raise ValidationError('Loan limit exeeded')
-
+        backend = get_backend()
+        backend.validate(self.issue)
 
 
 class IssueReturn(models.Model):

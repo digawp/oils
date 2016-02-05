@@ -17,5 +17,6 @@
 
 {% endblock content %}
 {% block script %}
-<script src="{% static 'assets/circulation_issue_renewal.js' %}"></script>
+{{ block.super }}
+<script src="{% static 'oils/dist/dashboard/circulation/issue_renewal.js' %}"></script>
 {% endblock script %}
