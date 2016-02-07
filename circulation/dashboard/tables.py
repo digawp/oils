@@ -8,7 +8,7 @@ class IssueTable(tables.Table):
     due_date = tables.DateColumn()
     actions = tables.TemplateColumn(
         verbose_name=_('Actions'),
-        template_name='dashboard/circulation/issue_row_actions.html')
+        template_name='circulation/dashboard/issue_row_actions.html')
 
     class Meta:
         model = models.Issue

@@ -13,7 +13,7 @@ from . import forms
 
 
 class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
-    template_name = 'dashboard/circulation/index.html'
+    template_name = 'circulation/dashboard/index.html'
     model = circulation_models.Issue
     table_class = tables.IssueTable
     context_table_name = 'issue_table'
@@ -38,7 +38,7 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
 
 
 class IssueRenewalView(generic.FormView):
-    template_name = 'dashboard/circulation/issuerenewal_create.html'
+    template_name = 'circulation/dashboard/issuerenewal_create.html'
     form_class = forms.IssueRenewalForm
 
     def get_success_url(self, *args, **kwargs):
@@ -50,7 +50,7 @@ class IssueRenewalView(generic.FormView):
         return super().form_valid(form)
 
 class IssueReturnView(generic.FormView):
-    template_name = 'dashboard/circulation/issuereturn_create.html'
+    template_name = 'circulation/dashboard/issuereturn_create.html'
     form_class = forms.IssueReturnForm
 
     def get_success_url(self, *args, **kwargs):
@@ -63,15 +63,15 @@ class IssueReturnView(generic.FormView):
         return super().form_valid(form)
 
 class IssueDeleteView(generic.DeleteView):
-    template_name = 'dashboard/circulation/issue_delete.html'
+    template_name = 'circulation/dashboard/issue_delete.html'
     model = circulation_models.Issue
 
 class IssueReturnDeleteView(generic.DeleteView):
-    template_name = 'dashboard/circulation/issuereturn_delete.html'
+    template_name = 'circulation/dashboard/issuereturn_delete.html'
     model = circulation_models.IssueReturn
 
 class IssueCreateView(generic.FormView):
-    template_name = 'dashboard/circulation/issue_create.html'
+    template_name = 'circulation/dashboard/issue_create.html'
     form_class = forms.IssueCreateForm
     
     def get_success_url(self, *args, **kwargs):

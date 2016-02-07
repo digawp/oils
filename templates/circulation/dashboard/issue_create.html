@@ -1,4 +1,4 @@
-{% extends "dashboard/circulation/base.html" %}
+{% extends "circulation/dashboard/base.html" %}
 
 {% load staticfiles %}
 
@@ -8,10 +8,8 @@
 <form method='POST' action=''>
   {% csrf_token %}
 
-  <div class="" id="issue-form">
-
-  </div>
   <table>
+    {{ form.as_table }}
     {{ form.errors }}
   </table>
   <button>Submit</button>

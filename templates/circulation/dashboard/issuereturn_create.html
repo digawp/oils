@@ -1,4 +1,4 @@
-{% extends "dashboard/circulation/base.html" %}
+{% extends "circulation/dashboard/base.html" %}
 
 {% load staticfiles %}
 
@@ -16,7 +16,8 @@
 </form>
 
 {% endblock content %}
+
 {% block script %}
 {{ block.super }}
-<script src="{% static 'oils/dist/dashboard/circulation/issue_renewal.js' %}"></script>
+<script src="{% static 'oils/dist/dashboard/circulation/issue_return.js' %}"></script>
 {% endblock script %}
