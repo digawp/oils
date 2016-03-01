@@ -11,6 +11,9 @@ from . import tables
 from . import forms
 
 
+class OneStopView(generic.TemplateView):
+    template_name = 'circulation/dashboard/onestop.html'
+
 
 class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
     template_name = 'circulation/dashboard/index.html'
@@ -88,4 +91,4 @@ class CirculationIndexRedirectView(generic.RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('dashboard:circulation:issue:index')
+        return reverse('dashboard:circulation:issue:onestop')

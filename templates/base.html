@@ -8,12 +8,12 @@
     {% endblock style %}
   </head>
   <body>
-    <h1><a href="/">Library</a></h1>
     {% block content %}
     {% endblock content %}
 
     {% block script %}
     <script src="{% static 'oils/dist/common.js' %}"></script>
     {% endblock script %}
+    <script src="{% static 'oils/dist/base.js' %}"></script>
   </body>
 </html>

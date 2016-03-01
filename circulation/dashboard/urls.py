@@ -8,7 +8,12 @@ urlpatterns = [
         # List of all opened issues (not returned) (patron, admin)
         # List of all issues (patron, admin)
         # List of all closed issues (returned) (patron, admin)
+
         url(r'^$',
+            login_required(views.OneStopView.as_view()),
+            name='onestop'),
+
+        url(r'^index/$',
             login_required(views.IssueIndexView.as_view()),
             name='index'),
 

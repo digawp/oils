@@ -1,0 +1,15 @@
+{% extends "circulation/dashboard/base.html" %}
+
+{% load staticfiles %}
+
+
+{% block content %}
+{{ block.super }}
+<div id="circulation-os">
+</div>
+{% endblock content %}
+
+{% block script %}
+{{ block.super }}
+<script src="{% static 'oils/dist/dashboard/circulation/onestop.js' %}"></script>
+{% endblock script %}
