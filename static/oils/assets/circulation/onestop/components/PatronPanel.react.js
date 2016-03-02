@@ -1,6 +1,8 @@
 import React from 'react'
 import PatronForm from './PatronForm.react'
 import PatronInfo from './PatronInfo.react'
+import PatronStore from '../stores/PatronStore'
+
 
 
 var PatronPanel = React.createClass({
