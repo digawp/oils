@@ -14,7 +14,7 @@ class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
             value = value[0].split(',')
         return super()._check_values(value)
 
-class IssueCreateForm(forms.Form):
+class LoanCreateForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.available(),
@@ -28,7 +28,7 @@ class IssueCreateForm(forms.Form):
             to_field_name='username')
 
 
-class IssueRenewalForm(forms.Form):
+class LoanRenewalForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),
@@ -38,13 +38,13 @@ class IssueRenewalForm(forms.Form):
         backend = get_backend()
         cleaned_data = super().clean()
         for resource_instance in cleaned_data['resource_code']:
-            for issue in resource_instance.issue_set.all():
-                backend.validate(issue)
+            for loan in resource_instance.loan_set.all():
+                backend.validate(loan)
         return cleaned_data
 
 
 
-class IssueReturnForm(forms.Form):
+class LoanReturnForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
             queryset=catalogue_models.ResourceInstance.objects.all(),

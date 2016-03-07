@@ -4,35 +4,35 @@ from . import views
 
 urlpatterns = [
 
-    url(r'^issues/', include([
-        # List of all opened issues (not returned) (patron, admin)
-        # List of all issues (patron, admin)
-        # List of all closed issues (returned) (patron, admin)
+    url(r'^loans/', include([
+        # List of all opened loans (not returned) (patron, admin)
+        # List of all loans (patron, admin)
+        # List of all closed loans (returned) (patron, admin)
 
         url(r'^$',
             login_required(views.OneStopView.as_view()),
             name='onestop'),
 
         url(r'^index/$',
-            login_required(views.IssueIndexView.as_view()),
+            login_required(views.LoanIndexView.as_view()),
             name='index'),
 
         # Renew (patron, admin)
         url(r'^renewal/$',
-            login_required(views.IssueRenewalView.as_view()),
+            login_required(views.LoanRenewalView.as_view()),
             name='renewal'),
 
-        # Return issue (admin)
+        # Return loan (admin)
         url(r'^return/$',
-            login_required(views.IssueReturnView.as_view()),
+            login_required(views.LoanReturnView.as_view()),
             name='return'),
 
-        # New issue (admin)
+        # New loan (admin)
         url(r'^new/$',
-            login_required(views.IssueCreateView.as_view()),
+            login_required(views.LoanCreateView.as_view()),
             name='new'),
 
-    ], namespace='issue')),
+    ], namespace='loan')),
     url(r'^$',
         login_required(views.CirculationIndexRedirectView.as_view()),
         name='index'),

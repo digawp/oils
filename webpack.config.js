@@ -43,9 +43,9 @@ module.exports = {
       //new webpack.optimize.UglifyJsPlugin(),
       new webpack.optimize.CommonsChunkPlugin(
           "dashboard/circulation/common.js", [
-              "dashboard/circulation/issue",
-              "dashboard/circulation/issue_return",
-              "dashboard/circulation/issue_renewal"
+              "dashboard/circulation/loan",
+              "dashboard/circulation/loan_return",
+              "dashboard/circulation/loan_renewal"
           ]
       ),
       new webpack.optimize.CommonsChunkPlugin(

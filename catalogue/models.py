@@ -129,15 +129,15 @@ class Serial(AbstractResourceCreativeWork):
 class ResourceInstanceQuerySet(models.QuerySet):
     def available(self):
         return self.annotate(
-                issue_count=Count('issue'),
-                return_count=Count('issue__issuereturn')
-            ).filter(Q(issue_count=F('return_count')))
+                loan_count=Count('loan'),
+                return_count=Count('loan__loanreturn')
+            ).filter(Q(loan_count=F('return_count')))
 
     def unavailable(self):
         return self.annotate(
-                issue_count=Count('issue'),
-                return_count=Count('issue__issuereturn')
-            ).exclude(Q(issue_count=F('return_count')))
+                loan_count=Count('loan'),
+                return_count=Count('loan__loanreturn')
+            ).exclude(Q(loan_count=F('return_count')))
 
 class ResourceInstance(models.Model):
     """

@@ -11,5 +11,5 @@ ReactDOM.render(
             <PatronSelect />
             <ResourceMultiSelect label="Resource ID" />
         </div>,
-        document.getElementById('issue-form')
+        document.getElementById('loan-form')
 );

@@ -15,18 +15,18 @@ class OneStopView(generic.TemplateView):
     template_name = 'circulation/dashboard/onestop.html'
 
 
-class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
+class LoanIndexView(tables2.SingleTableMixin, generic.ListView):
     template_name = 'circulation/dashboard/index.html'
-    model = circulation_models.Issue
-    table_class = tables.IssueTable
-    context_table_name = 'issue_table'
+    model = circulation_models.Loan
+    table_class = tables.LoanTable
+    context_table_name = 'loan_table'
     table_pagination = {
         'per_page': 10,
     }
     
     def get_queryset(self):
         qs = super().get_queryset()
-        onloan = qs.filter(issuereturn__isnull=True)
+        onloan = qs.filter(loanreturn__isnull=True)
         if self.request.user.is_staff:
             return onloan
         else:
@@ -35,54 +35,54 @@ class IssueIndexView(tables2.SingleTableMixin, generic.ListView):
 
     def get_table_data(self):
         return super().get_table_data().annotate(
-            total_renewal=Count('issuerenewal'),
-            last_renewal=Max('issuerenewal__renew_at'),
+            total_renewal=Count('loanrenewal'),
+            last_renewal=Max('loanrenewal__renew_at'),
         )
 
 
-class IssueRenewalView(generic.FormView):
-    template_name = 'circulation/dashboard/issuerenewal_create.html'
-    form_class = forms.IssueRenewalForm
+class LoanRenewalView(generic.FormView):
+    template_name = 'circulation/dashboard/loanrenewal_create.html'
+    form_class = forms.LoanRenewalForm
 
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:index')
 
     def form_valid(self, form):
         for resource_instance in form.cleaned_data['resource_code']:
-            resource_instance.issue_set.last().renew()
+            resource_instance.loan_set.last().renew()
         return super().form_valid(form)
 
-class IssueReturnView(generic.FormView):
-    template_name = 'circulation/dashboard/issuereturn_create.html'
-    form_class = forms.IssueReturnForm
+class LoanReturnView(generic.FormView):
+    template_name = 'circulation/dashboard/loanreturn_create.html'
+    form_class = forms.LoanReturnForm
 
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:index')
 
     def form_valid(self, form):
         for resource_instance in form.cleaned_data['resource_code']:
-            circulation_models.IssueReturn.objects.create(
-                    issue=resource_instance.issue_set.last())
+            circulation_models.LoanReturn.objects.create(
+                    loan=resource_instance.loan_set.last())
         return super().form_valid(form)
 
-class IssueDeleteView(generic.DeleteView):
-    template_name = 'circulation/dashboard/issue_delete.html'
-    model = circulation_models.Issue
+class LoanDeleteView(generic.DeleteView):
+    template_name = 'circulation/dashboard/loan_delete.html'
+    model = circulation_models.Loan
 
-class IssueReturnDeleteView(generic.DeleteView):
-    template_name = 'circulation/dashboard/issuereturn_delete.html'
-    model = circulation_models.IssueReturn
+class LoanReturnDeleteView(generic.DeleteView):
+    template_name = 'circulation/dashboard/loanreturn_delete.html'
+    model = circulation_models.LoanReturn
 
-class IssueCreateView(generic.FormView):
-    template_name = 'circulation/dashboard/issue_create.html'
-    form_class = forms.IssueCreateForm
+class LoanCreateView(generic.FormView):
+    template_name = 'circulation/dashboard/loan_create.html'
+    form_class = forms.LoanCreateForm
     
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:index')
 
     def form_valid(self, form):
         for resource_instance in form.cleaned_data['resource_code']:
-            circulation_models.Issue.objects.create(
+            circulation_models.Loan.objects.create(
                     resource=resource_instance,
                     patron=form.cleaned_data['patron_username'].patron)
         return super().form_valid(form)
@@ -91,4 +91,4 @@ class CirculationIndexRedirectView(generic.RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('dashboard:circulation:issue:onestop')
+        return reverse('dashboard:circulation:loan:onestop')
