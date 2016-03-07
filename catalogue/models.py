@@ -170,6 +170,16 @@ class ResourceInstance(models.Model):
         else:
             return self.creative_work_object.isbn13
 
+    @property
+    def is_available(self):
+        last_loan = self.loan_set.last()
+        if last_loan:
+            try:
+                return last_loan.is_returned
+            except ObjectDoesNotExist:
+                return False
+        return True
+
 
     def __str__(self):
         return "[{}] {}".format(self.code, self.creative_work_object)

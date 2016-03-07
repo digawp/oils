@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from . import models
 
 from datetime import timedelta
@@ -7,6 +8,14 @@ from . import exceptions
 
 
 class RenewalBackend(object):
+    def _validate_resource_not_returned(self, loan):
+        try:
+            loanreturn = loan.loanreturn
+        except ObjectDoesNotExist:
+            pass
+        else:
+            raise ValidationError({'renew_at': 'Loan has been returned'})
+
     def _validate_renewal_limit(self, loan):
         loan_renewal_count = models.LoanRenewal.objects.filter(
                 loan=loan).count()
@@ -16,6 +25,7 @@ class RenewalBackend(object):
                 "Patron has reach the current loan limit")
 
     def validate(self, loan):
+        self._validate_resource_not_returned(loan)
         self._validate_renewal_limit(loan)
         
 
