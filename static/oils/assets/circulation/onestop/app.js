@@ -1,19 +1,35 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { bindActionCreators, combineReducers, createStore } from 'redux'
+import createLogger from 'redux-logger'
+import {
+  bindActionCreators,
+  combineReducers,
+  createStore,
+  applyMiddleware,
+} from 'redux'
+import thunkMiddleware from 'redux-thunk'
+
+const loggerMiddleware = createLogger();
 
 // Constant ActionTypes
 const LOOKUP_PATRON = 'LOOKUP_PATRON';
 const CHECKOUT_RESOURCE = 'CHECKOUT_RESOURCE';
 const RETURN_RESOURCE = 'RETURN_RESOURCE';
 const RENEW_RESOURCE = 'RENEW_RESOURCE';
+const REQUEST_PATRON = 'REQUEST_PATRON';
+const RECEIVE_PATRON = 'RECEIVE_PATRON';
 
 // Actions
 
 let OneStopActions = {
   lookupPatron(patron) {
-    return { type: LOOKUP_PATRON, patron };
+    return (dispatch) => {
+      dispatch(OneStopActions.requestPatron(patron));
+      fetch(`/api/users/${patron}/`)
+        .then(response => response.json())
+        .then(json => dispatch(OneStopActions.receivePatron(patron, json)));
+    };
   },
 
   checkoutResource(identifier) {
@@ -26,6 +42,14 @@ let OneStopActions = {
 
   renewResource(identifier) {
     return { type: RENEW_RESOURCE, identifier };
+  },
+
+  requestPatron(patron) {
+    return { type: REQUEST_PATRON, patron };
+  },
+
+  receivePatron(patron, json) {
+    return { type: RECEIVE_PATRON, patron: json};
   },
 }
 
@@ -47,6 +71,8 @@ const patronProfileReducer = (state=initialPatronProfile, action) => {
         id: action.patron,
         name: action.patron + 'World' 
       });
+    case RECEIVE_PATRON:
+      return Object.assign({}, state, action.patron);
     default:
       return state;
   }
@@ -61,6 +87,15 @@ const patronReducer = (state=initialPatron, action) => {
         profile: patronProfileReducer(state.profile, action),
         circulation: circulationReducer(undefined, action),
       };
+    case REQUEST_PATRON:
+      return Object.assign({}, state, {
+        isFetching: true,
+      });
+    case RECEIVE_PATRON:
+      return Object.assign({}, state, {
+        isFetching: false,
+        profile: patronProfileReducer(state.profile, action),
+      });
     default:
       return state;
   }
@@ -120,6 +155,7 @@ class PatronDetail extends Component {
       <div>
         ID: {patronProfile.id} <br />
         Name: {patronProfile.name} <br/>
+        Email: {patronProfile.email} <br/>
         
       </div>
     );
@@ -233,7 +269,12 @@ function mapDispatchToProps(dispatch) {
 
 var OneStopApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-let store = createStore(rootReducer);
+let store = createStore(
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+  ));
 
 ReactDOM.render(
   <Provider store={store}>
