@@ -1,0 +1,113 @@
+[
+{
+    "model": "catalogue.book",
+    "pk": 1,
+    "fields": {
+        "title": "The Design of Everyday Things",
+        "authors": [
+            1
+        ],
+        "abstract": "",
+        "publisher": 2,
+        "slug": "the-design-of-everyday-things",
+        "subjects": [
+            2,
+            1
+        ],
+        "classification": "",
+        "subtitle": "Revised and Expanded Edition",
+        "isbn13": "9780465050659",
+        "isbn10": "0465050654"
+    }
+},
+{
+    "model": "catalogue.resourceinstance",
+    "pk": 1,
+    "fields": {
+        "location": 1,
+        "code": "A012345678",
+        "creative_work_id": 1,
+        "creative_work_type": 7
+    }
+},
+{
+    "model": "catalogue.location",
+    "pk": 1,
+    "fields": {
+        "slug": "shelf",
+        "name": "Racking"
+    }
+},
+{
+    "model": "catalogue.location",
+    "pk": 2,
+    "fields": {
+        "slug": "lost-found",
+        "name": "Lost & Found Station"
+    }
+},
+{
+    "model": "catalogue.location",
+    "pk": 3,
+    "fields": {
+        "slug": "lending-station",
+        "name": "Loan Station"
+    }
+},
+{
+    "model": "catalogue.location",
+    "pk": 4,
+    "fields": {
+        "slug": "checked-out",
+        "name": "Checked Out"
+    }
+},
+{
+    "model": "catalogue.location",
+    "pk": 5,
+    "fields": {
+        "slug": "temporary-staging",
+        "name": "Temporary Staging"
+    }
+},
+{
+    "model": "catalogue.author",
+    "pk": 1,
+    "fields": {
+        "first_name": "Donald Arthur",
+        "bio": "Don Norman is co-founder of the Nielsen Norman Group, an executive consulting firm that helps companies produce human-centered products and services. He is Breed Professor of Design Emeritus at Northwestern University and Professor Emeritus at the University of California, San Diego, where he was founding chair of the Department of Cognitive Science and chair of the Department of Psychology. He has served as Vice President of Apple Computer's Advanced Technology Group, and his many books include \"Emotional Design,\" \"The Design of Future Things,\" and most recently, \"Living with Complexity.\"",
+        "last_name": "Norman"
+    }
+},
+{
+    "model": "catalogue.authoralias",
+    "pk": 1,
+    "fields": {
+        "author": 1,
+        "name": "Don Norman"
+    }
+},
+{
+    "model": "catalogue.authoralias",
+    "pk": 2,
+    "fields": {
+        "author": 1,
+        "name": "Don A. Norman"
+    }
+},
+{
+    "model": "catalogue.authoralias",
+    "pk": 3,
+    "fields": {
+        "author": 1,
+        "name": "Norman, Donald A."
+    }
+},
+{
+    "model": "catalogue.publisher",
+    "pk": 2,
+    "fields": {
+        "name": "Basic Books"
+    }
+}
+]
