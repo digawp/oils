@@ -14,10 +14,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class PatronSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.CharField(source='user.username')
     email = serializers.EmailField(source='user.email')
+    first_name = serializers.CharField(
+            source='user.first_name', write_only=True)
+    last_name = serializers.CharField(
+            source='user.last_name', write_only=True)
+    name = serializers.CharField(
+            source='user.get_full_name', read_only=True)
+    
 
     class Meta:
         model = patron_models.Patron
-        fields = ('url', 'loan_limit', 'username', 'email')
+        fields = (
+            'url', 'id', 'loan_limit', 'username', 'email',
+            'first_name', 'last_name', 'name')
         depth = 1
 
 
