@@ -26,7 +26,7 @@ let OneStopActions = {
   lookupPatron(patron) {
     return (dispatch) => {
       dispatch(OneStopActions.requestPatron(patron));
-      fetch(`/api/users/${patron}/`)
+      fetch(`/api/patrons/${patron}/`)
         .then(response => response.json())
         .then(json => dispatch(OneStopActions.receivePatron(patron, json)));
     };
