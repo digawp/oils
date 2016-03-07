@@ -19,12 +19,26 @@ class LoanManager(models.Manager):
             patron=patron, *args, **kwargs)
 
 
+class ClosedLoanManager(models.Manager):
+    """Historical Loan records that has been returned"""
+    def get_queryset(self):
+        return super().get_queryset().filter(loanreturn__isnull=False)
+
+class OpenedLoanManager(models.Manager):
+    """Loan records that has not yet been returned"""
+    def get_queryset(self):
+        return super().get_queryset().filter(loanreturn__isnull=True)
+
 class Loan(models.Model):
     resource = models.ForeignKey('catalogue.ResourceInstance')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
 
     objects = LoanManager()
+    closes = ClosedLoanManager()
+    opens = OpenedLoanManager()
+
+    
 
     def __str__(self):
         data = {
