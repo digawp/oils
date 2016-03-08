@@ -27,8 +27,16 @@ let OneStopActions = {
     return (dispatch) => {
       dispatch(OneStopActions.requestPatron(patron));
       fetch(`/api/patrons/${patron}/`)
-        .then(response => response.json())
-        .then(json => dispatch(OneStopActions.receivePatron(patron, json)));
+        .then(response =>
+            response.json()
+            .then(json=>({json, response}))
+        )
+        .then(({json, response}) => {
+          if (!response.ok){
+            Promise.reject(json);
+          }
+          dispatch(OneStopActions.receivePatron(patron, json))
+        });
     };
   },
 
@@ -59,18 +67,16 @@ const initialPatronProfile = {
   id: '',
   name: '',
 };
+const initialCirculation = {
+  loans: [],
+};
 const initialPatron = {
-  profile: initialPatronProfile,
+  profile: undefined,
   circulation: undefined,
 };
 
 const patronProfileReducer = (state=initialPatronProfile, action) => {
   switch (action.type) {
-    case LOOKUP_PATRON:
-      return Object.assign({}, state, {
-        id: action.patron,
-        name: action.patron + 'World' 
-      });
     case RECEIVE_PATRON:
       return Object.assign({}, state, action.patron);
     default:
@@ -78,15 +84,19 @@ const patronProfileReducer = (state=initialPatronProfile, action) => {
   }
 };
 
-const circulationReducer = (state, action) => { state };
+const circulationReducer = (state=initialCirculation, action) => {
+  switch (action.type) {
+    case RECEIVE_PATRON:
+      return Object.assign({}, state, {
+        loans: action.patron.loans
+      });
+    default:
+      return state;
+  }
+};
 
 const patronReducer = (state=initialPatron, action) => {
   switch (action.type) {
-    case LOOKUP_PATRON:
-      return {
-        profile: patronProfileReducer(state.profile, action),
-        circulation: circulationReducer(undefined, action),
-      };
     case REQUEST_PATRON:
       return Object.assign({}, state, {
         isFetching: true,
@@ -95,9 +105,13 @@ const patronReducer = (state=initialPatron, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         profile: patronProfileReducer(state.profile, action),
+        circulation: circulationReducer(state.circulation, action),
       });
     default:
-      return state;
+      return Object.assign({}, state, {
+        profile: patronProfileReducer(undefined, action),
+        circulation: circulationReducer(undefined, action),
+      });
   }
 };
 
@@ -156,7 +170,7 @@ class PatronDetail extends Component {
         ID: {patronProfile.id} <br />
         Name: {patronProfile.name} <br/>
         Email: {patronProfile.email} <br/>
-        
+        Loan Limit: {patronProfile.loan_limit} <br/>
       </div>
     );
   }
@@ -177,8 +191,25 @@ class PatronPanel extends Component {
   }
 }
 
+class LoanRow extends Component {
+  render(){
+    const { num, loan } = this.props;
+    return (
+      <tr>
+        <td>{ num }</td>
+        <td>{loan.resource.code}</td>
+        <td>{loan.resource.title}</td>
+        <td>{loan.loan_at}</td>
+        <td>-</td>
+      </tr>
+    );
+  }
+}
+
 class LoanTable extends Component {
   render(){
+    const { loans } = this.props;
+
     return (
       <table>
         <thead>
@@ -191,20 +222,13 @@ class LoanTable extends Component {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>9871234567890</td>
-            <td>Hello World</td>
-            <td>1 April 2016</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>9871234567890</td>
-            <td>Big World</td>
-            <td>1 April 2016</td>
-            <td>-</td>
-          </tr>
+          {
+            loans.map((obj, i) => {
+              return (
+                <LoanRow key={i} loan={obj} num={i+1} />
+              );
+            })
+          }
         </tbody>
       </table>
     );
@@ -224,10 +248,11 @@ class CheckoutForm extends Component {
 
 class CirculationPanel extends Component {
   render(){
+    const { circulation, actions } = this.props;
     return (
       <div>
         <CheckoutForm></CheckoutForm>
-        <LoanTable></LoanTable>
+        <LoanTable loans={circulation.loans}></LoanTable>
       </div>
     );
   }
