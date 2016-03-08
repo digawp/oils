@@ -23,7 +23,7 @@ class ResourceInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
 class PatronLoanSerializer(serializers.HyperlinkedModelSerializer):
 
-    resource = ResourceInstanceSerializer()
+    resource = ResourceInstanceSerializer(read_only=True)
 
     class Meta:
         model = circulation_models.Loan
@@ -36,6 +36,14 @@ class LoanRenewalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = circulation_models.LoanRenewal
         fields = ('url', 'loan', 'renew_at')
+
+    def validate(self, data):
+        instance = circulation_models.LoanRenewal(**data)
+        try:
+            instance.clean()
+        except circulation_models.ValidationError as e:
+            raise serializers.ValidationError(e.message_dict)
+        return data
 
 
 class LoanReturnSerializer(serializers.HyperlinkedModelSerializer):
@@ -90,3 +98,12 @@ class LoanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = circulation_models.Loan
         fields = ('url', 'patron', 'resource', 'loan_at')
+
+
+    def validate(self, data):
+        instance = circulation_models.Loan(**data)
+        try:
+            instance.clean()
+        except circulation_models.ValidationError as e:
+            raise serializers.ValidationError(e.message_dict)
+        return data
