@@ -3,22 +3,6 @@ import { CALL_API } from '../middleware/api'
 
 
 
-function requestPatron(patron) {
-  return { type: ActionTypes.REQUEST_PATRON, patron };
-}
-
-function receivePatron(patron, json) {
-  return { type: ActionTypes.RECEIVE_PATRON, patron: json};
-}
-
-function failPatronLookup(json) {
-  return {
-    type: ActionTypes.FAIL_PATRON_LOOKUP,
-    json,
-  };
-}
-
-
 export function lookupPatron(patron) {
   return {
     [CALL_API]: {
@@ -38,18 +22,6 @@ export function selectLoanAction(loan, action) {
     type: '',
   }
 };
-
-function requestCheckout(patron, resource) {
-  return { type: ActionTypes.CHECKOUT_RESOURCE, patron, resource };
-};
-
-function failCheckout(json) {
-  return { type: ActionTypes.FAIL_CHECKOUT, json };
-}
-
-function successCheckout(json) {
-  return { type: ActionTypes.SUCCESS_CHECKOUT, json };
-}
 
 export function checkoutResource(patron, resource) {
   const request = new Request(`/api/loans/`, {
