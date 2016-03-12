@@ -64,8 +64,8 @@ export function checkoutResource(patron, resource) {
     })
   });
 
-  return (dispatch) => {
-    const promise = new Promise((resolve, reject)=>resolve(dispatch({
+  return async function(dispatch) {
+    let action = await dispatch({
       [CALL_API]: {
         request,
         types: {
@@ -74,13 +74,11 @@ export function checkoutResource(patron, resource) {
           failure: ActionTypes.CHECKOUT_FAILURE,
         }
       }
-    })));
-    promise.then((action)=>{
-      if (action.type === ActionTypes.CHECKOUT_SUCCESS) {
-        return dispatch(lookupPatron(patron));
-      }
     });
-    return promise;
+    if (action.type === ActionTypes.CHECKOUT_SUCCESS) {
+      action = await dispatch(lookupPatron(patron));
+    }
+    return action;
   }
 };
 
