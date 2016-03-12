@@ -63,15 +63,24 @@ export function checkoutResource(patron, resource) {
       resource,
     })
   });
-  return {
-    [CALL_API]: {
-      request,
-      types: {
-        request: ActionTypes.CHECKOUT_REQUEST,
-        success: ActionTypes.CHECKOUT_SUCCESS,
-        failure: ActionTypes.CHECKOUT_FAILURE,
+
+  return (dispatch) => {
+    const promise = new Promise((resolve, reject)=>resolve(dispatch({
+      [CALL_API]: {
+        request,
+        types: {
+          request: ActionTypes.CHECKOUT_REQUEST,
+          success: ActionTypes.CHECKOUT_SUCCESS,
+          failure: ActionTypes.CHECKOUT_FAILURE,
+        }
       }
-    }
+    })));
+    promise.then((action)=>{
+      if (action.type === ActionTypes.CHECKOUT_SUCCESS) {
+        return dispatch(lookupPatron(patron));
+      }
+    });
+    return promise;
   }
 };
 
