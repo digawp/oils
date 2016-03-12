@@ -1,5 +1,7 @@
 # OILS
 
+[![Build Status](https://travis-ci.org/9gix/oils.svg?branch=master)](https://travis-ci.org/9gix/oils)
+
 ## Setup
 
     # Install dependencies
