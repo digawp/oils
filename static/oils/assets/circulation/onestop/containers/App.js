@@ -19,7 +19,7 @@ class App extends Component {
           patron.profile.id ? (
           <CirculationPanel
             patron={patron.profile.id}
-            circulation={patron.circulation}
+            loans={patron.profile.loans}
             actions={actions} />
             ) : null
         }

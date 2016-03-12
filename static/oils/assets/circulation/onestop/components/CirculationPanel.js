@@ -114,11 +114,11 @@ class CheckoutForm extends Component {
 
 class CirculationPanel extends Component {
   render(){
-    const { patron, circulation, actions } = this.props;
+    const { patron, loans, actions } = this.props;
     return (
       <div>
         <CheckoutForm patron={patron} onCheckout={actions.checkoutResource} />
-        <LoanTable loans={circulation.loans} actions={actions}></LoanTable>
+        <LoanTable loans={loans} actions={actions}></LoanTable>
       </div>
     );
   }
