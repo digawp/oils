@@ -7,7 +7,7 @@ from circulation import models as circulation_models
 from django.contrib.auth import models as auth_models
 
 
-class ResourceInstanceSerializer(serializers.HyperlinkedModelSerializer):
+class ResourceInstanceSerializer(serializers.ModelSerializer):
     resource_type = serializers.CharField(
             source='creative_work_object.resource_type')
     resource_identifier = serializers.CharField(
@@ -21,17 +21,17 @@ class ResourceInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-class PatronLoanSerializer(serializers.HyperlinkedModelSerializer):
+class PatronLoanSerializer(serializers.ModelSerializer):
 
     resource = ResourceInstanceSerializer(read_only=True)
 
     class Meta:
         model = circulation_models.Loan
-        fields = ('url', 'resource', 'loan_at')
+        fields = ('id', 'resource', 'loan_at')
         depth = 1
 
 
-class LoanRenewalSerializer(serializers.HyperlinkedModelSerializer):
+class LoanRenewalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = circulation_models.LoanRenewal
@@ -46,18 +46,19 @@ class LoanRenewalSerializer(serializers.HyperlinkedModelSerializer):
         return data
 
 
-class LoanReturnSerializer(serializers.HyperlinkedModelSerializer):
+class LoanReturnSerializer(serializers.ModelSerializer):
     class Meta:
         model = circulation_models.LoanReturn
         fields = ('url', 'loan', 'return_at')
+        read_only_fields = ('return_at',)
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = auth_models.User
         fields = ('url', 'username', 'email', 'is_staff')
 
-class PatronSerializer(serializers.HyperlinkedModelSerializer):
+class PatronSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     email = serializers.EmailField(source='user.email')
     first_name = serializers.CharField(
@@ -85,7 +86,7 @@ class PatronSerializer(serializers.HyperlinkedModelSerializer):
         return serializer.data
 
 
-class LoanSerializer(serializers.HyperlinkedModelSerializer):
+class LoanSerializer(serializers.ModelSerializer):
     
     patron = serializers.SlugRelatedField(
             slug_field='id',

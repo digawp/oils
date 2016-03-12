@@ -9,8 +9,7 @@ class LoanActions extends Component {
   }
 
   handleChange(e) {
-    this.setState({value: e.target.value });
-    this.props.onSelect(this.props.loan, this.state.value);
+    this.props.onSelect(this.props.loan, e.target.value);
     this.setState({value: ''});
   }
 
@@ -85,7 +84,7 @@ class CheckoutForm extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.onCheckout(this.props.patron, this.state.resource);
+    this.props.onCheckout(this.state.resource);
     this.setState({ resource : '' });
   }
 
