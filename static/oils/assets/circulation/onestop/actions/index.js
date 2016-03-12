@@ -92,8 +92,32 @@ export function returnResource(loan) {
   };
 };
 
-export function renewResource(identifier) {
-  return { type: ActionTypes.RENEW_RESOURCE, identifier };
+export function renewResource(loan) {
+  const request = new Request(`/api/loans-renewals/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      loan
+    })
+  });
+
+  return async function(dispatch) {
+    let action = await dispatch({
+      [CALL_API]: {
+        request,
+        types: {
+          request: ActionTypes.RENEWAL_REQUEST,
+          success: ActionTypes.RENEWAL_SUCCESS,
+          failure: ActionTypes.RENEWAL_FAILURE
+        }
+      }
+    });
+    action = await dispatch(lookupPatron());
+    return action;
+  };
 };
 
 export function selectLoanAction(loan, value) {
@@ -101,6 +125,8 @@ export function selectLoanAction(loan, value) {
     switch (value) {
       case 'return':
         return dispatch(returnResource(loan));
+      case 'renew':
+        return dispatch(renewResource(loan));
       default:
         return null;
     }
