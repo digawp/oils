@@ -47,7 +47,7 @@ class AbstractResourceCreativeWork(models.Model):
     authors = models.ManyToManyField('Author')
     publisher = models.ForeignKey('Publisher')
 
-    classification = models.ForeignKey('Classification')
+    classification = models.CharField(max_length=20, blank=True)
 
     class Meta:
         abstract = True
@@ -129,15 +129,15 @@ class Serial(AbstractResourceCreativeWork):
 class ResourceInstanceQuerySet(models.QuerySet):
     def available(self):
         return self.annotate(
-                issue_count=Count('issue'),
-                return_count=Count('issue__issuereturn')
-            ).filter(Q(issue_count=F('return_count')))
+                loan_count=Count('loan'),
+                return_count=Count('loan__loanreturn')
+            ).filter(Q(loan_count=F('return_count')))
 
     def unavailable(self):
         return self.annotate(
-                issue_count=Count('issue'),
-                return_count=Count('issue__issuereturn')
-            ).exclude(Q(issue_count=F('return_count')))
+                loan_count=Count('loan'),
+                return_count=Count('loan__loanreturn')
+            ).exclude(Q(loan_count=F('return_count')))
 
 class ResourceInstance(models.Model):
     """
@@ -170,24 +170,19 @@ class ResourceInstance(models.Model):
         else:
             return self.creative_work_object.isbn13
 
+    @property
+    def is_available(self):
+        last_loan = self.loan_set.last()
+        if last_loan:
+            try:
+                return last_loan.is_returned
+            except ObjectDoesNotExist:
+                return False
+        return True
+
 
     def __str__(self):
         return "[{}] {}".format(self.code, self.creative_work_object)
-
-
-class Classification(models.Model):
-    call_number = models.CharField(max_length=50)
-    standard = models.ForeignKey('ClassificationStandard')
-
-    def __str__(self):
-        return "{}: {}".format(self.standard, self.call_number)
-
-class ClassificationStandard(models.Model):
-    name = models.CharField(max_length=100)
-    abbrev = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.abbrev
 
 
 class Location(models.Model):

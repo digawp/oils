@@ -39,6 +39,11 @@ class BookAdmin(admin.ModelAdmin):
     list_display = [
         'isbn13', 'title',
     ]
+    prepopulated_fields = {
+        'slug': [
+            'isbn13'
+        ]
+    }
     
 @admin.register(models.Serial)
 class SerialAdmin(admin.ModelAdmin):
@@ -51,7 +56,11 @@ class SerialAdmin(admin.ModelAdmin):
     list_display = [
         'issn', 'title',
     ]
+    prepopulated_fields = {
+        'slug': [
+            'issn'
+        ]
+    }
 
 admin.site.register([models.SerialType, 
-    models.Publisher, models.Location,
-    models.Classification, models.ClassificationStandard])
+    models.Publisher, models.Location])

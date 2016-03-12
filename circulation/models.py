@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 
@@ -7,15 +7,38 @@ from django.contrib.contenttypes import models as ct_models
 from . import get_backend
 
 
-class IssueRenewalManager(models.Manager):
-    def get_last_renewal(self, issue):
-        return self.filter(issue=issue).order_by('renew_at').last()
+class LoanRenewalManager(models.Manager):
+    def get_last_renewal(self, loan):
+        return self.filter(loan=loan).order_by('renew_at').last()
+
+class LoanManager(models.Manager):
+    def create_loan(self, patron, *args, **kwargs):
+        if not self.last().is_returned:
+            raise ValueError("Resource has not been returned")
+        return self.create(resource=self.instance, 
+            patron=patron, *args, **kwargs)
 
 
-class Issue(models.Model):
+class ClosedLoanManager(models.Manager):
+    """Historical Loan records that has been returned"""
+    def get_queryset(self):
+        return super().get_queryset().filter(loanreturn__isnull=False)
+
+class OpenedLoanManager(models.Manager):
+    """Loan records that has not yet been returned"""
+    def get_queryset(self):
+        return super().get_queryset().filter(loanreturn__isnull=True)
+
+class Loan(models.Model):
     resource = models.ForeignKey('catalogue.ResourceInstance')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
+
+    objects = LoanManager()
+    closes = ClosedLoanManager()
+    opens = OpenedLoanManager()
+
+    
 
     def __str__(self):
         data = {
@@ -25,30 +48,50 @@ class Issue(models.Model):
         }
         return "[{resource}] [borrow: {loan_date} by {borrower}]".format(**data)
 
+    @property
+    def is_returned(self):
+        if self.pk: #  Existing Loan (check the loan return record)
+            try:
+                return self.loanreturn is not None
+            except ObjectDoesNotExist:
+                return False
+        else: # New Loan (check the resource)
+            return self.resource.is_available
+
+
     def renew(self):
         backend = get_backend()
-        backend.renew(issue=self)
+        backend.renew(loan=self)
+
+    def clean(self):
+        if not self.pk and self.resource_id and not self.is_returned:
+            raise ValidationError({
+                'resource': 'Resource is not available'
+            })
 
 
-class IssueRenewal(models.Model):
-    issue = models.ForeignKey('Issue')
+
+
+class LoanRenewal(models.Model):
+    loan = models.ForeignKey('Loan')
 
     renew_at = models.DateTimeField()
 
-    objects = IssueRenewalManager()
+    objects = LoanRenewalManager()
 
     def __str__(self):
-        return "{} [extend: {}]".format(self.issue, self.renew_at.date())
+        return "{} [extend: {}]".format(self.loan, self.renew_at.date())
 
     def clean(self):
-        backend = get_backend()
-        backend.validate(self.issue)
+        if self.loan_id:
+            backend = get_backend()
+            backend.validate(self.loan)
 
 
-class IssueReturn(models.Model):
-    issue = models.OneToOneField('circulation.Issue')
+class LoanReturn(models.Model):
+    loan = models.OneToOneField('circulation.Loan')
 
     return_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "{} [return: {}]".format(self.issue, self.return_at.date())
+        return "{} [return: {}]".format(self.loan, self.return_at.date())

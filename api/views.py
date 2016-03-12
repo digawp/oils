@@ -5,6 +5,7 @@ from rest_framework import viewsets
 
 from patron import models as patron_models
 from catalogue import models as catalogue_models
+from circulation import models as circulation_models
 
 from rest_framework import filters
 
@@ -29,3 +30,18 @@ class ResourceViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     #filter_fields = ('creative_work_object__title',)
     filter_class = api_filters.ResourceInstanceFilter
+
+
+class LoanViewSet(viewsets.ModelViewSet):
+    queryset = circulation_models.Loan.objects.all()
+    serializer_class = serializers.LoanSerializer
+
+
+class LoanRenewalViewSet(viewsets.ModelViewSet):
+    queryset = circulation_models.LoanRenewal.objects.all()
+    serializer_class = serializers.LoanRenewalSerializer
+
+
+class LoanReturnViewSet(viewsets.ModelViewSet):
+    queryset = circulation_models.LoanReturn.objects.all()
+    serializer_class = serializers.LoanReturnSerializer
