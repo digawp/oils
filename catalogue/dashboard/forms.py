@@ -12,6 +12,7 @@ class ResourceInstanceForm(forms.ModelForm):
             'code',
             'creative_work_type',
             'creative_work_id',
+            'location',
         ]
 
 ResourceInstanceFormSet = ct_generic.generic_inlineformset_factory(
@@ -20,12 +21,6 @@ ResourceInstanceFormSet = ct_generic.generic_inlineformset_factory(
         'ct_field': 'creative_work_type',
         'fk_field': 'creative_work_id',
     })
-
-class ResourceTypeSelectForm(forms.Form):
-    resource_type = forms.ModelChoiceField(
-        label=_('Create a new resource of type'),
-        empty_label=_('Book'),
-        queryset=catalogue_models.SerialType.objects.all())
 
 
 class BaseResourceForm(forms.ModelForm):
@@ -68,11 +63,3 @@ class BookForm(BaseResourceForm):
             'authors', 'subjects', 'classification',
         ]
 
-
-class SerialForm(forms.ModelForm):
-    class Meta:
-        model = catalogue_models.Serial
-        fields = [
-            'issn', 'title', 'subtitle', 'abstract', 'publisher',
-            'authors', 'subjects', 'classification',
-        ]

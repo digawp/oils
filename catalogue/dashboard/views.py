@@ -34,7 +34,7 @@ class ResourceIndexView(tables2.SingleTableMixin, generic.TemplateView):
         return [{
             'name': 'Book',                
             'slug': 'book',
-        }] + list(catalogue_models.SerialType.objects.all())
+        }]
 
 class ResourceListView(
         tables2.SingleTableMixin,
@@ -56,12 +56,7 @@ class ResourceListView(
     }
 
     def get_queryset(self):
-        res_type = self.kwargs['resourcetype']
-        if res_type == 'book':
-            qs = catalogue_models.Book.objects.all()
-        else:
-            qs = catalogue_models.Serial.objects.filter(serial_type=res_type)
-        return qs
+        return catalogue_models.Book.objects.all()
             
 
 
@@ -83,10 +78,7 @@ class ResourceCreateView(
 
 
     def get_form_class(self, **kwargs):
-        if self.kwargs['resourcetype'] == 'book':
-            return forms.BookForm
-        else:
-            return forms.SerialForm
+        return forms.BookForm
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -128,10 +120,6 @@ class ResourceUpdateView(
         if self.kwargs['resourcetype'] == 'book':
             return catalogue_models.Book.objects.get(
                     isbn13=self.kwargs['identifier'])
-        else:
-            return catalogue_models.Serial.objects.get(
-                    serial_type__slug=self.kwargs['resourcetype'],
-                    issn=self.kwargs['identifier'])
 
     def get_success_url(self):
         return reverse('dashboard:catalogue:resource:list', kwargs={
@@ -139,10 +127,7 @@ class ResourceUpdateView(
         })
 
     def get_form_class(self, **kwargs):
-        if self.kwargs['resourcetype'] == 'book':
-            return forms.BookForm
-        else:
-            return forms.SerialForm
+        return forms.BookForm
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

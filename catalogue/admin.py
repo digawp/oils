@@ -44,23 +44,5 @@ class BookAdmin(admin.ModelAdmin):
             'isbn13'
         ]
     }
-    
-@admin.register(models.Serial)
-class SerialAdmin(admin.ModelAdmin):
-    inlines = [
-        ResourceInstanceInlineAdmin,
-    ]
-    search_fields = [
-        'issn', 'title',
-    ]
-    list_display = [
-        'issn', 'title',
-    ]
-    prepopulated_fields = {
-        'slug': [
-            'issn'
-        ]
-    }
 
-admin.site.register([models.SerialType, 
-    models.Publisher, models.Location])
+admin.site.register([models.Publisher, models.Location])

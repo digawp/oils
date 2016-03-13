@@ -66,7 +66,6 @@ class AbstractResourceCreativeWork(models.Model):
         })
 
 
-
 class Book(AbstractResourceCreativeWork):
     """
     CreativeWork models
@@ -85,45 +84,6 @@ class Book(AbstractResourceCreativeWork):
     @property
     def resource_identifier(self):
         return self.isbn13
-
-
-class SerialType(models.Model):
-    """
-    Different type of Serial
-    (e.g. Magazine, Newspaper, Journal, etc..)
-    """
-    name = models.CharField(max_length=100)
-    slug = ext_fields.AutoSlugField(max_length=100, unique=True,
-            populate_from='name')
-
-    def __str__(self):
-        return self.name
-
-
-class Serial(AbstractResourceCreativeWork):
-    """
-    Bibliographic record.
-    """
-    issn = models.CharField(max_length=8)
-
-    instances = ct_fields.GenericRelation('ResourceInstance',
-            content_type_field='creative_work_type',
-            object_id_field='creative_work_id',
-            related_query_name='serials')
-
-    # Serial can be in many types or forms, we call this serial class
-    serial_type = models.ForeignKey('SerialType')
-
-    def __str__(self):
-        return self.issn
-
-    @property
-    def resource_type(self):
-        return self.serial_type.slug
-
-    @property
-    def resource_identifier(self):
-        return self.issn
 
 
 class ResourceInstanceQuerySet(models.QuerySet):
@@ -145,9 +105,7 @@ class ResourceInstance(models.Model):
     """
     code = models.CharField(max_length=50)
 
-    RESOURCE_CHOICES = (
-        models.Q(app_label='catalogue', model='serial')|
-        models.Q(app_label='catalogue', model='book'))
+    RESOURCE_CHOICES = (models.Q(app_label='catalogue', model='book'))
 
     creative_work_type = models.ForeignKey(ct_models.ContentType,
             limit_choices_to=RESOURCE_CHOICES)
@@ -165,10 +123,7 @@ class ResourceInstance(models.Model):
 
     @property
     def resource_identifier(self):
-        if self.creative_work_type.model == 'serial':
-            return self.creative_work_object.issn
-        else:
-            return self.creative_work_object.isbn13
+        return self.creative_work_object.isbn13
 
     @property
     def is_available(self):

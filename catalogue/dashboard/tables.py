@@ -16,7 +16,6 @@ class ResourceTypeTable(tables.Table):
         orderable=False)
 
     class Meta:
-        model = catalogue_models.SerialType
         fields = ('name', 'actions',)
 
 class ResourceTable(tables.Table):

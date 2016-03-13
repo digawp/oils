@@ -11,12 +11,3 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         return self.get_model().objects.filter(instances__isnull=False)
 
-
-class SerialIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
-
-    def get_model(self):
-        return models.Serial
-
-    def index_queryset(self, using=None):
-        return self.get_model().objects.filter(instances__isnull=False)
