@@ -19,7 +19,7 @@ class ResourceTypeTable(tables.Table):
         model = catalogue_models.SerialType
         fields = ('name', 'actions',)
 
-class ResourceInstanceTable(tables.Table):
+class ResourceTable(tables.Table):
 
     resource_identifier = tables.LinkColumn(
             'dashboard:catalogue:resource:update', kwargs={
@@ -37,4 +37,4 @@ class ResourceInstanceTable(tables.Table):
 
     class Meta:
         model = catalogue_models.ResourceInstance
-        fields = ('resource_identifier', 'code', 'title', 'actions',)
+        fields = ('resource_identifier', 'title', 'actions',)

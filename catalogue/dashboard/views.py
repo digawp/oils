@@ -21,6 +21,11 @@ class ResourceIndexRedirectView(generic.RedirectView):
         return reverse('dashboard:catalogue:resource:index')
 
 class ResourceIndexView(tables2.SingleTableMixin, generic.TemplateView):
+    """
+    Displaying Resource Types, such as:
+    - book
+    - newspaper
+    """
     template_name = 'dashboard/catalogue/index.html'
     table_class = tables.ResourceTypeTable
     context_table_name = 'resource_types'
@@ -35,32 +40,38 @@ class ResourceListView(
         tables2.SingleTableMixin,
         mixins.ResourceTypeMixin, 
         generic.ListView):
-
-    model = catalogue_models.ResourceInstance
-    queryset = model.objects.order_by('code')
+    """List view for a particular type. e.g.
+    - book list
+    - newspaper list
+    - movie list
+    """
 
     template_name = 'dashboard/catalogue/resource_list.html'
 
     # SingleTableMixin
-    table_class = tables.ResourceInstanceTable
+    table_class = tables.ResourceTable
     context_table_name = 'resources'
     table_pagination = {
         'per_page': 10,
     }
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        if self.kwargs['resourcetype'] == 'book':
-            return qs.filter(books__isnull=False)
+        res_type = self.kwargs['resourcetype']
+        if res_type == 'book':
+            qs = catalogue_models.Book.objects.all()
         else:
-            return qs.filter(serials__isnull=False,
-                    serials__serial_type__slug=self.kwargs['resourcetype'])
+            qs = catalogue_models.Serial.objects.filter(serial_type=res_type)
+        return qs
             
 
 
 class ResourceCreateView(
         mixins.ResourceTypeMixin,        
         generic.CreateView):
+    """Creation of resource bibliographic record, e.g.
+    - Add Book biblio record
+    - Add Newspaper biblio record
+    """
 
     formset_class = forms.ResourceInstanceFormSet
     template_name = 'dashboard/catalogue/resource_add.html'
@@ -105,6 +116,11 @@ class ResourceCreateView(
 class ResourceUpdateView(
         mixins.ResourceTypeMixin,        
         generic.UpdateView):
+    """Editing of resource bibliographic record, e.g.
+    - Edit Book biblio record
+    - Edit Newspaper biblio record
+    """
+
     formset_class = forms.ResourceInstanceFormSet
     template_name = 'dashboard/catalogue/resource_add.html'
 
@@ -156,6 +172,11 @@ class ResourceUpdateView(
 class ResourceDeleteView(
         mixins.ResourceTypeMixin,        
         generic.DeleteView):
+    """Deletion of resource bibliographic record, e.g.
+    - Delete Book biblio record
+    - Delete Newspaper biblio record
+    """
+
     model = catalogue_models.ResourceInstance
     template_name = 'dashboard/catalogue/resource_delete.html'
     

@@ -64,7 +64,7 @@ class BookForm(BaseResourceForm):
     class Meta:
         model = catalogue_models.Book
         fields = [
-            'isbn13', 'title', 'subtitle', 'abstract', 'publisher',
+            'isbn13', 'isbn10', 'title', 'subtitle', 'abstract', 'publisher',
             'authors', 'subjects', 'classification',
         ]
 
