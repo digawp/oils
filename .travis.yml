@@ -20,4 +20,4 @@ after_success:
     - codecov
 
 script: 
-    - "python manage.py test"
+    - "coverage run --source='.' manage.py test"
