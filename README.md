@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/9gix/oils.svg?branch=master)](https://travis-ci.org/9gix/oils)
 
+[![Codecov]( https://codecov.io/github/audreyr/cookiecutter/coverage.svg?branch=master)](https://codecov.io/github/audreyr/cookiecutter?branch=master)
 ## Setup
 
     # Install dependencies
