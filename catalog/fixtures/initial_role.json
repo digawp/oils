@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.role",
+    "pk": 1,
+    "fields": {
+        "label": "Author",
+        "slug": "author"
+    }
+},
+{
+    "model": "catalog.role",
+    "pk": 2,
+    "fields": {
+        "label": "Editor",
+        "slug": "editor"
+    }
+},
+{
+    "model": "catalog.role",
+    "pk": 3,
+    "fields": {
+        "label": "Illustrator",
+        "slug": "illustrator"
+    }
+}
+]

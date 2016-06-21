@@ -30,7 +30,7 @@
     <ul class='nav-list'>
       <li><a href="{% url 'dashboard:index' %}">Dashboard</a></li>
       {% if request.user.is_staff %}
-      <li><a href="{% url 'dashboard:catalogue:index' %}">Catalogue</a></li>
+      <li><a href="{% url 'dashboard:catalog:index' %}">Catalog</a></li>
       {% endif %}
       <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
       {% if request.user.is_staff %}

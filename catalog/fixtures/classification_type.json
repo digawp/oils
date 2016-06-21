@@ -1,0 +1,16 @@
+[
+{
+    "model": "catalog.classificationtype",
+    "pk": 1,
+    "fields": {
+        "name": "lc_classifications"
+    }
+},
+{
+    "model": "catalog.classificationtype",
+    "pk": 2,
+    "fields": {
+        "name": "dewey_decimal_class"
+    }
+}
+]

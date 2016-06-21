@@ -1,0 +1,26 @@
+[
+{
+    "model": "holding.location",
+    "pk": 1,
+    "fields": {
+        "slug": "general",
+        "name": "General"
+    }
+},
+{
+    "model": "holding.location",
+    "pk": 2,
+    "fields": {
+        "slug": "reference",
+        "name": "Reference"
+    }
+},
+{
+    "model": "holding.location",
+    "pk": 3,
+    "fields": {
+        "slug": "children",
+        "name": "Children"
+    }
+}
+]

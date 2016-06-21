@@ -1,0 +1,2 @@
+class OpenLibraryAdapter(object):
+    pass

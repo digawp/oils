@@ -1,8 +1,0 @@
-{% extends "dashboard/catalogue/base.html" %}
-
-{% load render_table from django_tables2 %}
-
-{% block content %}
-{{ block.super }}
-{% render_table resource_types %}
-{% endblock content %}

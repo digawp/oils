@@ -4,8 +4,9 @@ from django.contrib.auth import models as auth_models
 
 from circulation import models
 from circulation import get_backend
-from catalogue import models as catalogue_models
+from catalog import models as catalog_models
 from patron import models as patron_models
+from holding import models as holding_models
 
 
 class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -17,7 +18,7 @@ class ReactSelectModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 class LoanCreateForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
-            queryset=catalogue_models.ResourceInstance.objects.available(),
+            queryset=holding_models.Item.objects.all(),
             to_field_name='code',
             error_messages={
                 'invalid_choice': 'One or more of the resources is unavailable'
@@ -31,14 +32,14 @@ class LoanCreateForm(forms.Form):
 class LoanRenewalForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
-            queryset=catalogue_models.ResourceInstance.objects.all(),
+            queryset=holding_models.Item.objects.all(),
             to_field_name='code')
 
     def clean(self):
         backend = get_backend()
         cleaned_data = super().clean()
-        for resource_instance in cleaned_data['resource_code']:
-            for loan in resource_instance.loan_set.all():
+        for item in cleaned_data['resource_code']:
+            for loan in item.loan_set.all():
                 backend.validate(loan)
         return cleaned_data
 
@@ -47,5 +48,5 @@ class LoanRenewalForm(forms.Form):
 class LoanReturnForm(forms.Form):
     resource_code = ReactSelectModelMultipleChoiceField(
             label=_("Resource Code"),
-            queryset=catalogue_models.ResourceInstance.objects.all(),
+            queryset=holding_models.Item.objects.all(),
             to_field_name='code')

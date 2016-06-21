@@ -1,0 +1,17 @@
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+    url(r'^(?P<resourcetype>[\w-]+)/(?P<slug>[\w-]+)/$',
+        views.ResourceDetailView.as_view(),
+        name='detail'),
+]
+
+api_urlpatterns = [
+    url(r'^openlibrary/', include([
+        url(r'^(?P<identifiertype>[\w-]+)/(?P<identifiervalue>[\w-]+)/$',
+            views.OpenLibraryBibliographicView.as_view(),
+            name='lookup'),
+        ], namespace='openlibrary')),
+    url(r'^bibkeys/', views.bibkey_view, name='bibkey'),
+]

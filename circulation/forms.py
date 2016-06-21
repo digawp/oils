@@ -5,7 +5,7 @@ from . import models
 class LoanForm(forms.ModelForm):
     class Meta:
         model = models.Loan
-        fields = ('resource', 'patron',)
+        fields = ('item', 'patron',)
 
 
 class LoanRenewalForm(forms.ModelForm):

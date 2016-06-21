@@ -1,0 +1,7 @@
+{% extends "catalog/dashboard/base.html" %}
+
+{% block content %}
+{{ block.super }}
+<a href='{% url "dashboard:catalog:lookup" %}'>Lookup Catalog</a>
+<a href='{% url "dashboard:catalog:onestop" %}'>Manage Catalog</a>
+{% endblock %}

@@ -3,18 +3,26 @@
 [![Build Status](https://travis-ci.org/9gix/oils.svg?branch=master)](https://travis-ci.org/9gix/oils) 
 [![Codecov]( https://codecov.io/github/9gix/oils/coverage.svg?branch=master)](https://codecov.io/github/9gix/oils?branch=master)
 
-## Setup
+## Development Setup
 
-    # Install dependencies
-    npm install
-    pip install -r requirements.txt
+    # Setup
+	make setup_dev
 
-    # Build Assets
-    npm run build
-    python manage.py collectstatic
+    # run local server
+    make dev
 
-    # Migrate Database
-    python manage.py migrate
+## Production Setup
 
-    # Run Server
-    python manage.py runserver 0.0.0.0:8000
+	# Setup
+	make setup_prod
+
+    # run production server
+    make prod
+
+## Test Setup
+
+	# Setup
+    make setup_test
+    
+    # run test
+    make test

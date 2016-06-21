@@ -1,0 +1,22 @@
+[
+{
+    "model": "patron.patron",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "loan_duration": 15,
+        "loan_limit": 2,
+        "renewal_limit": 3
+    }
+},
+{
+    "model": "patron.patron",
+    "pk": 2,
+    "fields": {
+        "user": 3,
+        "loan_duration": 15,
+        "loan_limit": 2,
+        "renewal_limit": 3
+    }
+}
+]

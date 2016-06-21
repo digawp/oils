@@ -1,0 +1,32 @@
+{% extends 'catalog/dashboard/base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+{{ block.super }}
+<form method='GET' action='{% url "dashboard:catalog:onestop" %}'
+    onsubmit='return submitForm(this);'>
+  {{ form.bibtype }}
+  {{ form.bibvalue }}
+  <button>Lookup</button>
+</form>
+<a href='{% url "dashboard:catalog:onestop" %}'>Manual Bibliographic Entry</a>
+
+<div id='lookup'></div>
+{% endblock content %}
+
+{% block script %}
+{{ block.super }}
+<script src="{% static 'oils/dist/dashboard/catalog/lookup.js' %}"></script>
+<script>
+function submitForm(form){
+  var bibtype_elem = document.getElementById('id_bibtype');
+  var bibtype = bibtype_elem.options[bibtype_elem.selectedIndex].text;
+  var bibvalue = document.getElementById('id_bibvalue').value;
+  if (bibvalue !== '') {
+    window.location = '{% url "dashboard:catalog:onestop" %}'+bibtype+ ':' + bibvalue + '/';
+  }
+  return false;
+}
+</script>
+{% endblock script %}

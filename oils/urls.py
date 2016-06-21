@@ -17,14 +17,17 @@ from django.conf.urls import include, url
 from django.contrib import admin
 import dashboard
 
+from catalog import urls as catalog_urls
+
 
 urlpatterns = [
-    url(r'^api/', include('api.urls')),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^catalogue/', include('catalogue.urls', namespace='catalogue')),
+    url(r'^catalog/', include('catalog.urls', namespace='catalog')),
     url(r'^search/', include('opac.urls', namespace='opac')),
     url(r'^dashboard/', include(dashboard.site.urls)),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^api/catalog/', include(catalog_urls.api_urlpatterns, namespace='api')),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'', include('library.urls')),
 ]

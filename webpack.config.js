@@ -8,6 +8,10 @@ module.exports = {
           "./static/oils/assets/oils/app",
         "dashboard/app":
           "./static/oils/assets/dashboard/app",
+        "dashboard/catalog/onestop":
+          "./static/oils/assets/catalog/onestop/app",
+        "dashboard/catalog/lookup":
+          "./static/oils/assets/catalog/lookup",
         "dashboard/circulation/onestop":
           "./static/oils/assets/circulation/onestop/app",
     },
@@ -49,7 +53,7 @@ module.exports = {
           ]
       ),
       new webpack.optimize.CommonsChunkPlugin(
-          "dashboard/catalogue/common.js", [
+          "dashboard/catalog/common.js", [
           ]
       ),
       new webpack.optimize.CommonsChunkPlugin(

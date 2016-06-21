@@ -5,6 +5,7 @@ from django.contrib.contenttypes import models as ct_models
 
 
 from . import get_backend
+from . import exceptions
 
 
 class LoanRenewalManager(models.Manager):
@@ -15,7 +16,7 @@ class LoanManager(models.Manager):
     def create_loan(self, patron, *args, **kwargs):
         if not self.last().is_returned:
             raise ValueError("Resource has not been returned")
-        return self.create(resource=self.instance, 
+        return self.create(item=self.item, 
             patron=patron, *args, **kwargs)
 
 
@@ -30,7 +31,7 @@ class OpenedLoanManager(models.Manager):
         return super().get_queryset().filter(loanreturn__isnull=True)
 
 class Loan(models.Model):
-    resource = models.ForeignKey('catalogue.ResourceInstance')
+    item = models.ForeignKey('holding.Item')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
 
@@ -38,15 +39,13 @@ class Loan(models.Model):
     closes = ClosedLoanManager()
     opens = OpenedLoanManager()
 
-    
-
     def __str__(self):
         data = {
-            'resource': self.resource.resource_identifier,
+            'item': self.item.resource_identifiers,
             'loan_date': self.loan_at.date(),
             'borrower': self.patron
         }
-        return "[{resource}] [borrow: {loan_date} by {borrower}]".format(**data)
+        return "[{item}] [borrow: {loan_date} by {borrower}]".format(**data)
 
     @property
     def is_returned(self):
@@ -56,21 +55,23 @@ class Loan(models.Model):
             except ObjectDoesNotExist:
                 return False
         else: # New Loan (check the resource)
-            return self.resource.is_available
-
+            last_loan = Loan.objects.filter(resource=self.resource).last()
+            if last_loan:
+                try:
+                    return last_loan.is_returned
+                except ObjectDoesNotExist:
+                    return False
+            return True
 
     def renew(self):
         backend = get_backend()
-        backend.renew(loan=self)
+        return backend.renew(loan=self)
 
     def clean(self):
         if not self.pk and self.resource_id and not self.is_returned:
             raise ValidationError({
                 'resource': 'Resource is not available'
             })
-
-
-
 
 class LoanRenewal(models.Model):
     loan = models.ForeignKey('Loan')
@@ -85,7 +86,10 @@ class LoanRenewal(models.Model):
     def clean(self):
         if self.loan_id:
             backend = get_backend()
-            backend.validate(self.loan)
+            try:
+                backend.validate(self.loan)
+            except exceptions.RenewalLimitException as e:
+                raise exceptions.RenewalLimitException({'loan': e.message})
 
 
 class LoanReturn(models.Model):
