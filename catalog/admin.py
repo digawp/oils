@@ -14,14 +14,11 @@ class PublisherInline(admin.TabularInline):
     }
     extra = 1
 
-class AgentInline(admin.TabularInline):
-    model = models.Agent
-    extra = 1
-
 
 class BookAgentInline(admin.TabularInline):
     model = models.BookAgent
     extra = 1
+    raw_id_fields = ('agent',)
 
 
 class BookAdmin(admin.ModelAdmin):

@@ -139,13 +139,13 @@ class BookQuerySet(models.QuerySet):
 
 
 class Agent(models.Model):
-    identifiers = models.ManyToManyField('AgentIdentifier')
+    identifiers = models.ManyToManyField('AgentIdentifier', blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, blank=True)
     bio = models.TextField(blank=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.identifiers.first(), self.get_full_name())
+        return self.get_full_name()
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name).strip()
