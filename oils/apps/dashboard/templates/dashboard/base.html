@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% load dashboard_nav %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Library Administration{% endblock title %}</title>
+    {% block style %}
+    {% endblock style %}
+  </head>
+  <body>
+
+    {% block content %}
+    <div class="site-content">
+      <header class="site-header">
+      {% block header %}
+        <div class="brand">
+          <h1><a href="/">Library Administration</a></h1>
+        </div>
+      {% endblock header %}
+      </header>
+
+      <nav class="dashboard-nav">
+        {% block dashboard_nav %}
+        {% dashboard_nav %}
+        {% endblock dashboard_nav %}
+      </nav>
+
+      <div class='dashboard-main'>
+        {% block dashboard_content %}
+        {% endblock dashboard_content %}
+      </div>
+
+      <footer class="site-footer">
+        {% block footer %}
+        {% endblock footer %}
+      </footer>
+    </div>
+    {% endblock content %}
+
+    {% block script %}
+    <script src="{% static 'dashboard/app.js' %}"></script>
+    {% endblock script %}
+  </body>
+</html>
+

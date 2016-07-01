@@ -1,0 +1,51 @@
+body {
+    background: #fcfcfc;
+}
+
+.site-content {
+    display: grid;
+    grid-template-columns: 200px auto; 
+    grid-template-rows: 100px auto 100px; 
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+}
+
+.site-header {
+    grid-area: header;
+}
+
+.dashboard-nav {
+    grid-area: sidebar;    
+    .nav-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background: #e0e0e0;
+
+        li>a {
+            text-decoration: none;
+            display: block;
+            padding: 5px 0 5px 15px;
+            color: #000000;
+            &.active {
+                background: #4caf50;
+                color: #ffffff;
+            }
+
+            &:not(.active):hover{
+                background: #555555;
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+.dashboard-main {
+    grid-area: content;
+}
+
+.site-footer {
+    grid-area: footer;
+}

@@ -1,0 +1,36 @@
+{% load active_url %}
+<ul class='nav-list'>
+  <li>
+    {% with url_name='dashboard:index' label='Dashboard' %}
+    <a href="{% url url_name %}"
+       class="{% active_url '^/dashboard/$' %}" >{{ label }}</a>
+    {% endwith %}
+  </li>
+
+  {% if user.is_staff %}
+  <li>
+    {% with url_name='dashboard:catalog:index' label='Catalog' %}
+    <a href="{% url url_name %}"
+       class="{% active_url url_name %}" >{{ label }}</a>
+    {% endwith %}
+  </li>
+  {% endif %}
+
+  <li>
+    {% with url_name='dashboard:circulation:index' label='Circulation' %}
+    <a href="{% url url_name %}"
+       class="{% active_url url_name %}" >{{ label }}</a>
+    {% endwith %}
+  </li>
+
+  {% if user.is_staff %}
+  <li>
+    {% with url_name='dashboard:patron:index' label='Patron' %}
+    <a href="{% url url_name %}"
+       class="{% active_url url_name %}" >{{ label }}</a>
+    {% endwith %}
+  </li>
+  <li><a href="">Report</a></li>
+  <li><a href="">Utlitiy</a></li>
+  {% endif %}
+</ul>

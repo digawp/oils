@@ -1,24 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
-module.exports = {
-
-    entry: {
-        "base":
-          "./static/oils/assets/oils/app",
-        "dashboard/app":
-          "./static/oils/assets/dashboard/app",
-        "dashboard/catalog/onestop":
-          "./static/oils/assets/catalog/onestop/app",
-        "dashboard/catalog/lookup":
-          "./static/oils/assets/catalog/lookup",
-        "dashboard/circulation/onestop":
-          "./static/oils/assets/circulation/onestop/app",
-    },
-    output: {
-        path: path.join(__dirname, './static/oils/dist'),
-        filename: "[name].js"
-    },
+const config = {
     module: {
         loaders: [
             {
@@ -43,28 +26,18 @@ module.exports = {
     postcss: function (){
         return [require('autoprefixer'),];
     },
-    plugins: [
-      //new webpack.optimize.UglifyJsPlugin(),
-      new webpack.optimize.CommonsChunkPlugin(
-          "dashboard/circulation/common.js", [
-              "dashboard/circulation/loan",
-              "dashboard/circulation/loan_return",
-              "dashboard/circulation/loan_renewal"
-          ]
-      ),
-      new webpack.optimize.CommonsChunkPlugin(
-          "dashboard/catalog/common.js", [
-          ]
-      ),
-      new webpack.optimize.CommonsChunkPlugin(
-          "dashboard/common.js", [
-              "dashboard/circulation/common.js"
-          ]
-      ),
-      new webpack.optimize.CommonsChunkPlugin(
-          "common.js", [
-              "dashboard/common.js"
-          ]
-      )
-    ]
-}
+};
+
+const dashboardConfig = Object.assign({}, config, {
+    entry: {
+        "dashboard/app": "./oils/apps/dashboard/assets/app",
+    },
+    output: {
+        path: path.join(__dirname, './oils/apps/dashboard/static'),
+        filename: "[name].js"
+    },
+});
+
+module.exports = [
+    dashboardConfig,
+];
