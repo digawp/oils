@@ -10,36 +10,40 @@
   </head>
   <body>
 
-    {% block content %}
-    <div class="site-content">
-      <header class="site-header">
-      {% block header %}
-        <div class="brand">
-          <h1><a href="/">Library Administration</a></h1>
-        </div>
-      {% endblock header %}
-      </header>
+    <header class="header">
+    {% block header %}
+      <nav class="topbar">
+        <a href="{% url 'dashboard:index' %}" class="brand">Library Administration</a>
+        <a href="#">Account</a>
+        <a href="#">Logout</a>
+      </nav>
+    {% endblock header %}
+    </header>
 
-      <nav class="dashboard-nav">
+    <div class="content">
+      {% block content %}
+
+      <div class="sidebar">
         {% block dashboard_nav %}
         {% dashboard_nav %}
         {% endblock dashboard_nav %}
-      </nav>
-
-      <div class='dashboard-main'>
-        {% block dashboard_content %}
-        {% endblock dashboard_content %}
       </div>
 
-      <footer class="site-footer">
+      <main class='main'>
+        {% block main %}
+        {% endblock main %}
+      </main>
+
+      <footer class="footer">
         {% block footer %}
         {% endblock footer %}
       </footer>
+
+      {% endblock content %}
     </div>
-    {% endblock content %}
 
     {% block script %}
-    <script src="{% static 'dashboard/app.js' %}"></script>
+    <script src="{% static 'dist/dashboard/app.js' %}"></script>
     {% endblock script %}
   </body>
 </html>

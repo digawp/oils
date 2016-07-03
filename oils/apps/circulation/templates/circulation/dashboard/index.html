@@ -1,9 +1,9 @@
 {% extends "circulation/dashboard/base.html" %}
 
 {% load render_table from django_tables2 %}
-{% block content %}
+{% block main %}
 {{ block.super }}
 <div>
   {% render_table loan_table %}
 </div>
-{% endblock content %}
+{% endblock main %}

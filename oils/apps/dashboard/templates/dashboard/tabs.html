@@ -7,30 +7,41 @@
     {% endwith %}
   </li>
 
-  {% if user.is_staff %}
   <li>
-    {% with url_name='dashboard:catalog:index' label='Catalog' %}
-    <a href="{% url url_name %}"
-       class="{% active_url url_name %}" >{{ label }}</a>
-    {% endwith %}
+    <h2 class="sidebar-heading">Catalog</h2>
+    <ul class="nav-list">
+      <li>
+        <a href="">Add Book</a>
+      </li>
+      <li>
+        <a href="">Manage Book</a>
+      </li>
+    </ul>
   </li>
-  {% endif %}
+  <li>
+    <h2 class="sidebar-heading">Circulation</h2>
+    <ul class="nav-list">
+      <li>
+        <a href="#">Loan</a>
+      </li>
+      <li>
+        <a href="#">Renewal</a>
+      </li>
+      <li>
+        <a href="#">Return</a>
+      </li>
+    </ul>
+  </li>
 
   <li>
-    {% with url_name='dashboard:circulation:index' label='Circulation' %}
-    <a href="{% url url_name %}"
-       class="{% active_url url_name %}" >{{ label }}</a>
-    {% endwith %}
+    <h2 class="sidebar-heading">Patron</h2>
+    <ul class="nav-list">
+      <li>
+        <a href="#">Add Patron</a>
+      </li>
+      <li>
+        <a href="#">Manage Patron</a>
+      </li>
+    </ul>
   </li>
-
-  {% if user.is_staff %}
-  <li>
-    {% with url_name='dashboard:patron:index' label='Patron' %}
-    <a href="{% url url_name %}"
-       class="{% active_url url_name %}" >{{ label }}</a>
-    {% endwith %}
-  </li>
-  <li><a href="">Report</a></li>
-  <li><a href="">Utlitiy</a></li>
-  {% endif %}
 </ul>

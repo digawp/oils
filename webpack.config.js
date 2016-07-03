@@ -33,7 +33,7 @@ const dashboardConfig = Object.assign({}, config, {
         "dashboard/app": "./oils/apps/dashboard/assets/app",
     },
     output: {
-        path: path.join(__dirname, './oils/apps/dashboard/static'),
+        path: path.join(__dirname, './oils/apps/dashboard/static/dist'),
         filename: "[name].js"
     },
 });
