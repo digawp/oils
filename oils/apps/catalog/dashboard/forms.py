@@ -47,6 +47,6 @@ class BookForm(BaseResourceForm):
 
 class LookupForm(forms.Form):
     bibtype = forms.ModelChoiceField(
-            queryset=catalog_models.BookIdentifierType.objects.all(),
+            queryset=catalog_models.UniversalIdentifierType.objects.all(),
             initial=0)
     bibvalue = forms.CharField()

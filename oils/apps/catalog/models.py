@@ -37,40 +37,44 @@ from . import openlibrary
 
 from .bibkey import Bibkey
 
-class BookIdentifierTypeQuerySet(models.QuerySet):
+class UniversalIdentifierTypeQuerySet(models.QuerySet):
     def bibkey_list(self):
         result = self.all().values_list('name', flat=True)
         return result
 
 
-class BookIdentifierType(models.Model):
+class UniversalIdentifierType(models.Model):
     name = models.CharField(max_length=25, unique=True)
 
-    objects = BookIdentifierTypeQuerySet.as_manager()
+    objects = UniversalIdentifierTypeQuerySet.as_manager()
 
     def __str__(self):
         return self.name
 
 
-class BookIdentifierQuerySet(models.QuerySet):
+class UniversalIdentifierQuerySet(models.QuerySet):
     def identifiers_list(self):
         return {
             bib['id_type__name']: bib['value']
             for bib in self.values('id_type__name', 'value')}
 
 
-class BookIdentifier(models.Model):
-    id_type = models.ForeignKey('BookIdentifierType')
-    book = models.ForeignKey('Book', related_name='identifiers')
+class UniversalIdentifier(models.Model):
+    id_type = models.ForeignKey('UniversalIdentifierType')
     value = models.CharField(max_length=16)
 
-    objects = BookIdentifierQuerySet.as_manager()
+    objects = UniversalIdentifierQuerySet.as_manager()
 
     class Meta:
         unique_together = ('id_type', 'value')
 
     def __str__(self):
         return '{}:{}'.format(self.id_type.name, self.value)
+
+
+class BookIdentifier(models.Model):
+    book = models.ForeignKey('Book')
+    identifier = models.ForeignKey('UniversalIdentifier')
 
 
 class ClassificationType(models.Model):
@@ -198,6 +202,8 @@ class Book(models.Model):
 
     title = models.CharField(max_length=250)
     subtitle = models.TextField(blank=True)
+    identifiers = models.ManyToManyField('UniversalIdentifier',
+        through='BookIdentifier', related_name='books')
 
     subjects = models.ManyToManyField('Subject', blank=True)
     classifications = models.ManyToManyField('Classification', blank=True)
@@ -319,7 +325,7 @@ class GenericBibliographic(object):
 
 
 class OpenLibrary(models.Model):
-    id_type = models.ForeignKey('BookIdentifierType')
+    id_type = models.ForeignKey('UniversalIdentifierType')
     id_value = models.CharField(max_length=16)
     raw_json = pg_fields.JSONField()
     oils_book = models.OneToOneField('Book', null=True, blank=True)

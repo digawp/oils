@@ -4,6 +4,7 @@ from . import models
 
 class BookIdentifierInline(admin.TabularInline):
     model = models.BookIdentifier
+    raw_id_fields = ("identifier",)
     extra = 2
 
 class PublisherInline(admin.TabularInline):
@@ -58,7 +59,8 @@ admin.site.register(models.Role, RoleAdmin)
 
 admin.site.register([
     models.Series, models.BookSeries,
-    models.BookIdentifier, models.BookIdentifierType,
+    models.UniversalIdentifier, models.UniversalIdentifierType,
+    models.BookIdentifier,
     models.BookAgent,
     models.AgentIdentifier, models.AgentIdentifierType,
     models.Subject, models.AgentAlias,

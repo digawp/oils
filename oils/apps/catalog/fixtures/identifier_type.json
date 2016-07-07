@@ -1,34 +1,34 @@
 [
 {
-    "model": "catalog.bookidentifiertype",
+    "model": "catalog.universalidentifiertype",
     "pk": 1,
     "fields": {
         "name": "isbn"
     }
 },
 {
-    "model": "catalog.bookidentifiertype",
+    "model": "catalog.universalidentifiertype",
     "pk": 2,
     "fields": {
         "name": "lccn"
     }
 },
 {
-    "model": "catalog.bookidentifiertype",
+    "model": "catalog.universalidentifiertype",
     "pk": 3,
     "fields": {
         "name": "openlibrary"
     }
 },
 {
-    "model": "catalog.bookidentifiertype",
+    "model": "catalog.universalidentifiertype",
     "pk": 4,
     "fields": {
         "name": "oclc"
     }
 },
 {
-    "model": "catalog.bookidentifiertype",
+    "model": "catalog.universalidentifiertype",
     "pk": 5,
     "fields": {
         "name": "goodreads"
