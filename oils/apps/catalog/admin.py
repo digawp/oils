@@ -29,7 +29,7 @@ class BookAdmin(admin.ModelAdmin):
     }
     search_fields = (
             'identifiers__value', 'title', 'subtitle',
-            'agents__first_name', 'agents__last_name',
+            'agents__name', 'agents__name',
             'publication__year', 'publishers__name')
     inlines = [
         BookAgentInline,
@@ -41,7 +41,7 @@ class AgentAliasInline(admin.TabularInline):
     model = models.AgentAlias
 
 class AgentAdmin(admin.ModelAdmin):
-    search_fields = ('first_name', 'last_name', )
+    search_fields = ('name', 'birth', 'death', )
     inlines = [
         AgentAliasInline
     ]

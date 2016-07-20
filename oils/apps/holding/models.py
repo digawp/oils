@@ -19,7 +19,7 @@ class Item(models.Model):
     creative_work_object = ct_fields.GenericForeignKey(
             'creative_work_type', 'creative_work_id')
 
-    location = models.ForeignKey('Location')
+    location = models.ForeignKey('Location', blank=True, null=True)
 
     def __str__(self):
         return "[{}] {}".format(self.code, self.creative_work_object)

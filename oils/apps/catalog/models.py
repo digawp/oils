@@ -92,7 +92,7 @@ class Classification(models.Model):
         unique_together = ('classification_type', 'value')
 
     def __str__(self):
-        return '{}:{}'.format(self.classification_type.name, self.value)
+        return self.value
 
     @staticmethod
     def autocomplete_search_fields():
@@ -144,20 +144,21 @@ class BookQuerySet(models.QuerySet):
 
 class Agent(models.Model):
     identifiers = models.ManyToManyField('AgentIdentifier', blank=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=150)
+    birth = models.SmallIntegerField(blank=True, null=True)
+    death = models.SmallIntegerField(blank=True, null=True)
     bio = models.TextField(blank=True)
 
     def __str__(self):
         return self.get_full_name()
 
     def get_full_name(self):
-        return '{} {}'.format(self.first_name, self.last_name).strip()
+        return self.name
 
     @staticmethod
     def autocomplete_search_fields():
         """grappelli (django admin) autocomplete search"""
-        return ("first_name__icontains", "last_name__icontains",)
+        return ("name__icontains", )
 
 
 class Role(models.Model):
@@ -277,12 +278,13 @@ class Publisher(models.Model):
 
 
 class Publication(models.Model):
-    publisher = models.ForeignKey('Publisher')
+    publisher = models.ForeignKey('Publisher', blank=True, null=True)
     book = models.ForeignKey('Book')
-    year = models.SmallIntegerField()
+    year = models.SmallIntegerField(blank=True, null=True)
+    place = models.CharField(max_length=150, blank=True)
 
     def __str__(self):
-        return '{} ({}) @ {}'.format(self.book, self.year, self.publisher.name)
+        return '{} ({}) @ {}'.format(self.book, self.year, self.publisher)
 
 
 class OpenLibraryQuerySet(models.QuerySet):
