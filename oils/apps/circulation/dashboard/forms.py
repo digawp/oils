@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import models as auth_models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 from .. import models
 from .. import get_backend
@@ -25,7 +26,7 @@ class LoanCreateForm(forms.Form):
             })
     patron_username = forms.ModelChoiceField(
             label=_("Patron Username"),
-            queryset=auth_models.User.objects.filter(patron__isnull=False),
+            queryset=User.objects.filter(patron__isnull=False),
             to_field_name='username')
 
 

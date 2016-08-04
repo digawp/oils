@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.contrib.auth import models as auth_models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from rest_framework import viewsets
 
 from . import models
@@ -15,5 +16,5 @@ class PatronViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = auth_models.User.objects.all()
+    queryset = User.objects.all()
     serializer_class = serializers.UserSerializer

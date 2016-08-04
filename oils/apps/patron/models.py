@@ -1,10 +1,11 @@
 from django.db import models
+from django.conf import settings
 
 from registration import signals
 
-
 class Patron(models.Model):
-    user = models.OneToOneField('auth.User')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    identification = models.CharField(max_length=30, unique=True)
 
     # Loan duration (in days unit)
     loan_duration = models.IntegerField(default=15)

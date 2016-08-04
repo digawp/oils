@@ -1,13 +1,14 @@
 from rest_framework import serializers
 
-from django.contrib.auth import models as auth_models
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 from . import models
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = auth_models.User
+        model = User
         fields = ('url', 'username', 'email', 'is_staff')
 
 class PatronSerializer(serializers.ModelSerializer):

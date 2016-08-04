@@ -182,18 +182,6 @@ class BookAgent(models.Model):
             'role': self.agent
         })
 
-class Series(models.Model):
-    title = models.CharField(max_length=250)
-    books = models.ManyToManyField('Book', through='BookSeries')
-
-
-class BookSeries(models.Model):
-    book = models.ForeignKey('Book')
-    series = models.ForeignKey('Series')
-
-    volume = models.IntegerField()
-    edition = models.IntegerField()
-
 
 class Book(models.Model):
     """

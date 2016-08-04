@@ -9,6 +9,13 @@ class BookAnnotation(models.Model):
     abstract = models.TextField(help_text='Book Abstract', blank=True)
     note = models.TextField(blank=True)
 
+    volume = models.CharField(max_length=50, blank=True)
+    edition = models.CharField(max_length=50, blank=True)
+    issue = models.CharField(max_length=50, blank=True)
+    revision = models.CharField(max_length=50, blank=True)
+    series = models.CharField(max_length=150, blank=True)
+
+
     pages = models.IntegerField(blank=True, null=True)
     height = models.FloatField(help_text='Book Height (cm)',
             blank=True, null=True)

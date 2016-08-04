@@ -2,6 +2,11 @@ from django.contrib import admin
 from django.contrib.contenttypes import admin as ct_admin
 from . import models
 
+from mptt.admin import DraggableMPTTAdmin
+
+class SubjectAdmin(DraggableMPTTAdmin):
+    model = models.Subject
+
 class BookIdentifierInline(admin.TabularInline):
     model = models.BookIdentifier
     raw_id_fields = ("identifier",)
@@ -23,9 +28,9 @@ class BookAgentInline(admin.TabularInline):
 
 
 class BookAdmin(admin.ModelAdmin):
-    raw_id_fields = ('agents','classifications')
+    raw_id_fields = ('agents','classifications', 'subjects')
     autocomplete_lookup_fields = {
-        'm2m': ['classifications', 'agents'],
+        'm2m': ['classifications', 'agents', 'subjects',],
     }
     search_fields = (
             'identifiers__value', 'title', 'subtitle',
@@ -55,15 +60,15 @@ class RoleAdmin(admin.ModelAdmin):
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.Agent, AgentAdmin)
 admin.site.register(models.Role, RoleAdmin)
+admin.site.register(models.Subject, SubjectAdmin)
 
 
 admin.site.register([
-    models.Series, models.BookSeries,
     models.UniversalIdentifier, models.UniversalIdentifierType,
     models.BookIdentifier,
     models.BookAgent,
     models.AgentIdentifier, models.AgentIdentifierType,
-    models.Subject, models.AgentAlias,
+    models.AgentAlias,
     models.Classification, models.ClassificationType,
     models.Publication, models.Publisher,
     models.OpenLibrary,
