@@ -12,4 +12,5 @@ django-registration>=2.0,<2.1
 django-braces>=1.8,<1.9
 whoosh>=2.7,<2.8
 pyisbn>=1.0,<1.1
+django-countries>=4.0,<4.1
 requests>=2.9,<3.0

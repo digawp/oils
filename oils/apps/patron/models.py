@@ -1,11 +1,63 @@
 from django.db import models
 from django.conf import settings
 
+from django_countries import fields as dj_countries_fields
+
 from registration import signals
+
+
+class MembershipType(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Membership(models.Model):
+    membership_type = models.ForeignKey('MembershipType')
+    patron = models.ForeignKey('Patron')
+
+    register_on = models.DateField(blank=True, null=True)
+    expire_on = models.DateField(blank=True, null=True)
+
+    # timestamp
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} [{}]".format(self.patron, self.membership_type)
+
+
+class IdentificationType(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class PatronIdentification(models.Model):
+    patron = models.ForeignKey('Patron')
+    id_type = models.ForeignKey('IdentificationType')
+    value = models.CharField(max_length=60)
+
+    def __str__(self):
+        return "{}:{}".format(self.id_type, self.value)
 
 class Patron(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    identification = models.CharField(max_length=30, unique=True)
+
+    birth_date = models.DateField(blank=True, null=True)
+
+    address = models.TextField(blank=True)
+    country = dj_countries_fields.CountryField()
+    postcode = models.CharField(max_length=12, blank=True)
+    contact = models.CharField(max_length=30, blank=True)
+
+    note = models.TextField(blank=True,
+            help_text='Extra Information for Administrator')
+
+    notification_type = models.CharField(max_length=25, blank=True)
 
     # Loan duration (in days unit)
     loan_duration = models.IntegerField(default=15)
