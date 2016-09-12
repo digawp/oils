@@ -4,7 +4,7 @@ from django.db.models import signals
 
 # Create your models here.
 class BookAnnotation(models.Model):
-    book = models.OneToOneField('catalog.Book')
+    book = models.OneToOneField('catalog.Book', primary_key=True)
 
     abstract = models.TextField(help_text='Book Abstract', blank=True)
     note = models.TextField(blank=True)
