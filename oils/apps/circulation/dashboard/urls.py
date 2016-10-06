@@ -32,6 +32,11 @@ urlpatterns = [
             login_required(views.LoanCreateView.as_view()),
             name='new'),
 
+        # Success loan (admin)
+        url(r'^success/$',
+            login_required(views.LoanSuccessView.as_view()),
+            name='success'),
+
     ], namespace='loan')),
     url(r'^$',
         login_required(views.CirculationIndexRedirectView.as_view()),

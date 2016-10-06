@@ -55,7 +55,7 @@ class Loan(models.Model):
             except ObjectDoesNotExist:
                 return False
         else: # New Loan (check the resource)
-            last_loan = Loan.objects.filter(resource=self.resource).last()
+            last_loan = Loan.objects.filter(item=self.item).last()
             if last_loan:
                 try:
                     return last_loan.is_returned
@@ -68,9 +68,9 @@ class Loan(models.Model):
         return backend.renew(loan=self)
 
     def clean(self):
-        if not self.pk and self.resource_id and not self.is_returned:
+        if not self.is_returned:
             raise ValidationError({
-                'resource': 'Resource is not available'
+                'item': 'Item is not available'
             })
 
 class LoanRenewal(models.Model):

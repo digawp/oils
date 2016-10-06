@@ -37,7 +37,7 @@ class IdentificationType(models.Model):
 
 
 class PatronIdentification(models.Model):
-    patron = models.ForeignKey('Patron')
+    patron = models.ForeignKey('Patron', related_name='identifications')
     id_type = models.ForeignKey('IdentificationType')
     value = models.CharField(max_length=60)
 

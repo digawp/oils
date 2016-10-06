@@ -11,10 +11,4 @@
 
 {% block script %}
 {{ block.super }}
-{% if initial_data %}
-<script>
-window.initial_data = {{ initial_data|safe }}
-</script>
-{% endif %}
-<script src="{% static 'oils/dist/dashboard/catalog/onestop.js' %}"></script>
 {% endblock script %}

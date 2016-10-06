@@ -1,0 +1,25 @@
+{% extends "patron/dashboard/base.html" %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:patron:index' %}">Patron</a></li>
+  <li>Patron Registration</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-body %}
+{{ block.super }}
+
+<form method='POST' action=''>
+  {% csrf_token %}
+
+  <table>
+    {{ form.as_table }}
+    {{ form.errors }}
+  </table>
+  <button>Submit</button>
+</form>
+
+{% endblock page-body %}
+

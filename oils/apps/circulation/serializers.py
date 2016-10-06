@@ -2,9 +2,9 @@ from rest_framework import serializers
 
 from . import models
 
-from holding import serializers as holding_serializers
-from holding import models as holding_models
-from patron import models as patron_models
+from oils.apps.holding import serializers as holding_serializers
+from oils.apps.holding import models as holding_models
+from oils.apps.patron import models as patron_models
 
 class PatronLoanSerializer(serializers.ModelSerializer):
 
@@ -47,11 +47,13 @@ class LoanSerializer(serializers.ModelSerializer):
     
     patron = serializers.SlugRelatedField(
             slug_field='id',
-            queryset=patron_models.Patron.objects.all())
+            queryset=patron_models.Patron.objects.all(),
+            html_cutoff=100)
 
     item = serializers.SlugRelatedField(
             slug_field='code',
-            queryset=holding_models.Item.objects.all())
+            queryset=holding_models.Item.objects.all(),
+            html_cutoff=100)
 
     class Meta:
         model = models.Loan

@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from . import views
+from . import routers
 
 urlpatterns = [
     url(r'^(?P<resourcetype>[\w-]+)/(?P<slug>[\w-]+)/$',
@@ -14,4 +15,5 @@ api_urlpatterns = [
             name='lookup'),
         ], namespace='openlibrary')),
     url(r'^bibkeys/', views.bibkey_view, name='bibkey'),
+    url(r'', include(routers.router.urls)),
 ]

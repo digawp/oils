@@ -16,12 +16,13 @@ import json
 from ..bibkey import Bibkey
 from .. import serializers
 
+from oils.apps.dashboard import mixins as dashboard_mixins
 
-class CatalogIndexView(generic.TemplateView):
+class CatalogIndexView(dashboard_mixins.DashboardContextMixin, generic.TemplateView):
     template_name = 'catalog/dashboard/index.html'
 
 
-class OneStopView(generic.TemplateView):
+class OneStopView(dashboard_mixins.DashboardContextMixin, generic.TemplateView):
     template_name = 'catalog/dashboard/onestop.html'
 
     def get_context_data(self, **kwargs):
@@ -59,6 +60,6 @@ class OneStopView(generic.TemplateView):
             ctx['initial_data'] = json.dumps(initial_data)
         return ctx
 
-class LookupView(generic.FormView):
+class LookupView(dashboard_mixins.DashboardContextMixin, generic.FormView):
     template_name = 'catalog/dashboard/lookup.html'
     form_class = forms.LookupForm

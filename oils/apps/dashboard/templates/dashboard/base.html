@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load dashboard_nav %}
 <!doctype html>
 <html>
   <head>
@@ -23,14 +22,25 @@
     <div class="content">
       {% block content %}
 
-      <div class="sidebar">
-        {% block dashboard_nav %}
-        {% dashboard_nav %}
-        {% endblock dashboard_nav %}
+      <div class="sidebar" id="sidebar">
       </div>
 
       <main class='main'>
         {% block main %}
+
+        <div class="breadcrumbs">
+        {% block breadcrumbs %}
+          <ul class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+          </ul>
+        {% endblock breadcrumbs %}
+        </div>
+
+        {% block page %}
+          {% block page-header %}{% endblock page-header %}
+          {% block page-body %}{% endblock page-body %}
+        {% endblock page%}
+
         {% endblock main %}
       </main>
 
@@ -44,6 +54,13 @@
 
     {% block script %}
     <script src="{% static 'dist/dashboard/app.js' %}"></script>
+    <script src="{% static 'dist/dashboard/menu.js' %}"></script>
+    {% if initial_data %}
+    <script>
+        // ReactJS Data Hydration
+        window.initialData = {{ initial_data|safe }};
+    </script>
+    {% endif %}
     {% endblock script %}
   </body>
 </html>

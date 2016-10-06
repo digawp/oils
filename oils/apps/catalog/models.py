@@ -215,6 +215,12 @@ class Book(models.Model):
     def resource_identifiers(self):
         return self.identifiers.identifiers_list()
 
+    @property
+    def authors(self):
+        return self.agents.filter(
+            bookagent__role__label='Author'
+        ).values_list('name', flat=True)
+
 
 class AgentIdentifierType(models.Model):
     name = models.CharField(max_length=20)

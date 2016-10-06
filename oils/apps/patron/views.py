@@ -13,8 +13,10 @@ class PatronViewSet(viewsets.ModelViewSet):
     queryset = models.Patron.objects.all()
     serializer_class = serializers.PatronSerializer
     filter_class = filters.PatronFilter
+    lookup_field = 'user__username'
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+    lookup_field = 'user__username'

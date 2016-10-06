@@ -1,1 +1,8 @@
 {% extends "dashboard/base.html" %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumbs">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:catalog:index' %}">Catalog</a></li>
+</ul>
+{% endblock breadcrumbs %}

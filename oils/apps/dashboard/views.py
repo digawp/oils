@@ -1,12 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 
-from braces import views as braces_views
+from . import mixins as dashboard_mixins
 
-
-class BaseDashboardView(braces_views.LoginRequiredMixin, generic.TemplateView):
-    pass
-
-class DashboardView(BaseDashboardView):
+class DashboardIndexView(dashboard_mixins.DashboardContextMixin, generic.TemplateView):
     template_name = 'dashboard/index.html'
     

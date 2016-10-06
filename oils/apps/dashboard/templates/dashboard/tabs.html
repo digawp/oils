@@ -1,47 +1,36 @@
-{% load active_url %}
-<ul class='nav-list'>
-  <li>
-    {% with url_name='dashboard:index' label='Dashboard' %}
-    <a href="{% url url_name %}"
-       class="{% active_url '^/dashboard/$' %}" >{{ label }}</a>
-    {% endwith %}
-  </li>
+<ul class="nav-list">
+  {% for item in nav_items %}
+  <li class="{{ item.css_class }}">
 
-  <li>
-    <h2 class="sidebar-heading">Catalog</h2>
-    <ul class="nav-list">
-      <li>
-        <a href="">Add Book</a>
-      </li>
-      <li>
-        <a href="">Manage Book</a>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <h2 class="sidebar-heading">Circulation</h2>
-    <ul class="nav-list">
-      <li>
-        <a href="#">Loan</a>
-      </li>
-      <li>
-        <a href="#">Renewal</a>
-      </li>
-      <li>
-        <a href="#">Return</a>
-      </li>
-    </ul>
-  </li>
+    <a class="{% if item.children %}dropdown-toggle{% endif %}"
+       href="{% if item.children %}#{% else %}{{ item.url }}{% endif %}">
 
-  <li>
-    <h2 class="sidebar-heading">Patron</h2>
-    <ul class="nav-list">
-      <li>
-        <a href="#">Add Patron</a>
+      {% if item.icon %}
+      <i class='menu-left-icon {{ item.icon }}'></i>
+      {% endif %}
+
+      <span>
+      {{ item.html }}
+      </span>
+
+      {% if item.children %}
+      <i class="menu-right-icon fa fa-angle-down"></i>
+      {% endif %}
+
+    </a>
+
+    {% if item.children %}
+    <ul class="nav-list submenu {{ item.subnav_hide }}">
+      {% for child in item.children %}
+      <li class="{{ child.css_class }}">
+        <a href="{{ child.url }}" class="{{ child.css_class }}">
+          {{ child.html }}
+        </a>
       </li>
-      <li>
-        <a href="#">Manage Patron</a>
-      </li>
+      {% endfor %}
     </ul>
+    {% endif %}
+
   </li>
+  {% endfor %}
 </ul>

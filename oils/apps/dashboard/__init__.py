@@ -14,5 +14,3 @@ def autodiscover():
 
 
 default_app_config = 'oils.apps.dashboard.apps.DashboardConfig'
-
-

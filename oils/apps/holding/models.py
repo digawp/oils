@@ -28,6 +28,9 @@ class Item(models.Model):
     def resource_identifiers(self):
         return self.creative_work_object.resource_identifiers
 
+    @property
+    def book(self):
+        return self.creative_work_object
 
 class Location(models.Model):
     """

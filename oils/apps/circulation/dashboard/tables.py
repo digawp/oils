@@ -12,6 +12,6 @@ class LoanTable(tables.Table):
 
     class Meta:
         model = models.Loan
-        fields = ('resource', 'patron',
+        fields = ('item', 'patron',
                 'loan_at', 'total_renewal', 'last_renewal', 'due_date', 
                 'actions',)

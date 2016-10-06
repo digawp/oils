@@ -2,22 +2,29 @@
 
 {% load staticfiles %}
 
-{% block content %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
+  <li>Loan Creation</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-header %}
+<h1>Loan Form</h1>
+{% endblock page-header %}
+
+{% block page-body %}
 {{ block.super }}
-
 <form method='POST' action=''>
+  {{ form.errors }}
   {% csrf_token %}
-
-  <table>
-    {{ form.as_table }}
-    {{ form.errors }}
-  </table>
-  <button>Submit</button>
+  <div id="loan-form">
+  </div>
 </form>
-
-{% endblock content %}
+{% endblock page-body %}
 
 {% block script %}
 {{ block.super }}
-<script src="{% static 'oils/dist/dashboard/circulation/loan.js' %}"></script>
+<script src="{% static 'dist/dashboard/circulation/loan.js' %}"></script>
 {% endblock script %}

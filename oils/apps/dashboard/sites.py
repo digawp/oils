@@ -5,6 +5,8 @@ from django.http import HttpResponse
 
 from django.shortcuts import render
 
+from . import views as dashboard_views
+
 class DashboardSite(object):
 
     def __init__(self, name='dashboard'):
@@ -23,7 +25,7 @@ class DashboardSite(object):
             return update_wrapper(wrapper, view)
 
         urlpatterns = [
-            url(r'^$', wrap(self.index), name='index'),
+            url(r'^$', wrap(dashboard_views.DashboardIndexView.as_view()), name='index'),
         ]
 
         for panel in self._registry:
@@ -48,9 +50,6 @@ class DashboardSite(object):
             return view(request, *args, **kwargs)
 
         return update_wrapper(wrapper, view)
-
-    def index(self, request):
-        return render(request, 'dashboard/index.html', {})
 
 
 site = DashboardSite()

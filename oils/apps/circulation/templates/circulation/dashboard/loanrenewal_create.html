@@ -1,21 +1,33 @@
 {% extends "circulation/dashboard/base.html" %}
 
 {% load staticfiles %}
+{% block page-header %}
+<h1>Loan Renewal</h1>
+{% endblock page-header %}
 
-{% block content %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
+  <li>Loan Renewal</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-body %}
 {{ block.super }}
 
 <form method='POST' action=''>
   {% csrf_token %}
   <div class="" id="loan-form">
+    {{ form }}
   </div>
   <table>
     {{ form.errors }}
   </table>
   <button>Submit</button>
 </form>
+{% endblock page-body %}
 
-{% endblock content %}
 {% block script %}
 {{ block.super }}
 <script src="{% static 'oils/dist/dashboard/circulation/loan_renewal.js' %}"></script>

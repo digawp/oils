@@ -22,5 +22,6 @@ class LoanAdmin(admin.ModelAdmin):
     ]
     form = forms.LoanForm
     readonly_fields = ('loan_at',)
+    raw_id_fields = ("item", "patron",)
 
 admin.site.register([models.LoanReturn, models.LoanRenewal])

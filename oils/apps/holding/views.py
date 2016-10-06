@@ -13,4 +13,5 @@ class ItemViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     #filter_fields = ('creative_work_object__title',)
     filter_class = cat_filters.ItemFilter
+    lookup_field = 'code'
 

@@ -3,6 +3,9 @@ all: setup_dev
 bundle:
 	node_modules/.bin/webpack --watch
 
+hotreload:
+	node utils/server.js
+
 collect:
 	node_modules/.bin/webpack
 	python manage.py collectstatic

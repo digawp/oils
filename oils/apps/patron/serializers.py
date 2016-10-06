@@ -11,6 +11,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('url', 'username', 'email', 'is_staff')
 
+class PatronIdentificationSerializer(serializers.ModelSerializer):
+    id_type = serializers.StringRelatedField()
+    class Meta:
+        model = models.PatronIdentification
+        fields = ('id_type', 'value')
+
+
 class PatronSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     email = serializers.EmailField(source='user.email')
@@ -21,9 +28,14 @@ class PatronSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
             source='user.get_full_name', read_only=True)
 
+    identifications = PatronIdentificationSerializer(many=True)
+
 
     class Meta:
         model = models.Patron
         fields = (
-            'id', 'loan_limit', 'username', 'email',
-            'first_name', 'last_name', 'name',)
+            'loan_limit', 'username', 'email', 'identifications',
+            'first_name', 'last_name', 'name', 'birth_date',
+            'address', 'country', 'postcode', 'contact',
+            'note', 'notification_type',
+            'loan_duration', 'loan_limit', 'renewal_limit')

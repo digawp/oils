@@ -10,6 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 install_requires = [
     'django>=1.9,<1.10',
     'django-countries>=4.0,<4.1',
+    'django-braces>=1.9,<1.10',
 ]
 
 setup(

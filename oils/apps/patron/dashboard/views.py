@@ -10,9 +10,13 @@ from . import tables
 from . import forms
 from .. import models
 
-# Create your views here.
+from oils.apps.dashboard import mixins
 
-class PatronIndexView(tables2.SingleTableMixin, generic.ListView):
+
+class PatronIndexView(
+        mixins.DashboardContextMixin,
+        tables2.SingleTableMixin,
+        generic.ListView):
     model = models.Patron
     template_name = 'patron/dashboard/index.html'
     table_class = tables.PatronTable
@@ -32,7 +36,10 @@ class PatronIndexView(tables2.SingleTableMixin, generic.ListView):
         ).values('pk', 'username', 'email', 'firstname', 'lastname', 'loan_limit', 'is_active')
 
 
-class PatronActivationView(generic.detail.SingleObjectMixin, generic.View):
+class PatronActivationView(
+        mixins.DashboardContextMixin,
+        generic.detail.SingleObjectMixin,
+        generic.View):
     model = models.Patron
 
     def post(self, *args, **kwargs):
@@ -43,3 +50,17 @@ class PatronActivationView(generic.detail.SingleObjectMixin, generic.View):
             user.is_active = False
         user.save()
         return redirect(reverse('dashboard:patron:index'))
+
+class PatronRegistrationView(
+        mixins.DashboardContextMixin,
+        generic.FormView):
+    """Patron Registration made by the Staff"""
+    template_name = 'patron/dashboard/patron_registration.html'
+    form_class = forms.PatronRegistrationForm
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('dashboard:patron:index')
+
+    def form_valid(self, form):
+        # TODO: Save Patron
+        return super().form_valid(form)

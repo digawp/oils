@@ -1,9 +1,12 @@
 @import "~normalize.css/normalize.css";
+@import "~font-awesome/less/font-awesome.less";
+/*@fa-font-path: "~font-awesome/fonts";*/
 
-@primary-color: #4caf50;
+@primary-color: #438eb9;
 @secondary-color: #f1f1f1;
 @white: #f5f5f5;
 @black: #050505;
+
 
 body {
     background: #fcfcfc;
@@ -16,7 +19,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background: @secondary-color;
+    background: @primary-color;
     
     .brand {
         margin-right: auto;
@@ -25,10 +28,10 @@ body {
     a {
         text-decoration: none;
         display: block;
-        color: @black;
+        color: @white;
         padding: 1em;
         &:hover{
-            background: darken(@secondary-color, 50%);
+            background: darken(@primary-color, 5%);
             color: @white;
         }
     }
@@ -46,37 +49,118 @@ body {
 }
 
 .header{
-    grid-area: header;
+}
+
+.breadcrumbs {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    background-color: @secondary-color;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    .breadcrumb {
+        margin: 0;
+        padding: 0;
+
+    }
+    li {
+        &:first-child:before {
+            font-family: FontAwesome;
+            content: "\f015";
+            margin-right: 5px;
+        }
+        &:not(:first-child):before {
+            font-family: FontAwesome;
+            content: "\f105";
+            margin-right: 5px;
+        }
+        display: inline-block;
+    }
 }
 
 .sidebar {
-    @media (min-width: 661px) {
-        position: fixed;
-        overflow-y: scroll;
-        width: 200px;
-        top: 50px;
-        bottom: 0;
-    }
+
+    grid-area: sidebar;
+
 
     .nav-list {
         list-style-type: none;
         margin: 0;
         padding: 0;
         background: @secondary-color;
+        position: relative;
 
-        li>a {
-            text-decoration: none;
-            display: block;
-            padding: 5px 0 5px 15px;
-            color: @black;
-            &.active {
-                background: @primary-color;
-                color: @white;
+        li {
+            position: relative;
+            i {
+                &.menu-right-icon:before {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+                &.menu-left-icon {
+                    margin-right: 10px;
+                }
             }
-
-            &:not(.active):hover{
-                background: darken(@secondary-color, 50%);
+            &>a {
+                box-sizing: border-box;
+                text-decoration: none;
+                display: block;
+                height: 38px;
+                padding: 10px 0 10px 15px;
                 color: @black;
+                &.active {
+                    background: @primary-color;
+                    color: @white;
+                }
+
+                &:not(.active):hover{
+                    background: lighten(@secondary-color, 50%);
+                    color: @black;
+                }
+            }
+        }
+        ul {
+            &.nav-hide {
+                display: none;
+            }
+            &.nav-show {
+                display: block;
+            }
+            &.submenu {
+                position: relative;
+                &:before {
+                    z-index: 1;
+                    display: block;
+                    position: absolute;
+                    left: 18px;
+                    border: 1px dotted;
+                    border-width: 0 0 0 1px;
+                    top: 0;
+                    bottom: 0;
+                    content: '';
+                }
+
+                li {
+                    position: relative;
+                    &:before {
+                        content: '';
+                        width: 10px;
+                        left: 20px;
+                        top: 15px;
+                        display: block;
+                        position: absolute;
+                        border: 1px dotted;
+                        border-width: 1px 0 0;
+                        z-index: 1;
+                    }
+                    
+                    &>a {
+                        padding-left: 40px;
+                    }
+                }
             }
         }
     }
@@ -91,8 +175,6 @@ body {
 
 .main {
     grid-area: main;
-    justify-self: center;
-    align-self: start;
 }
 
 .footer {
