@@ -7,6 +7,8 @@ from django.contrib.contenttypes import models as ct_models
 from . import get_backend
 from . import exceptions
 
+from oils.apps.holding import models as holding_models
+
 
 class LoanRenewalManager(models.Manager):
     def get_last_renewal(self, loan):
@@ -68,10 +70,13 @@ class Loan(models.Model):
         return backend.renew(loan=self)
 
     def clean(self):
-        if not self.is_returned:
-            raise ValidationError({
-                'item': 'Item is not available'
-            })
+        try:
+            if not self.is_returned:
+                raise ValidationError({
+                    'item': 'Item is not available'
+                })
+        except holding_models.Item.DoesNotExist:
+            pass
 
 class LoanRenewal(models.Model):
     loan = models.ForeignKey('Loan')

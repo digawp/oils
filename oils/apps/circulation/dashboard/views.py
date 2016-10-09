@@ -94,16 +94,34 @@ class LoanCreateView(
         dashboard_mixins.DashboardContextMixin,
         generic.FormView):
     template_name = 'circulation/dashboard/loan_create.html'
-    form_class = forms.LoanCreateForm
+    form_class = forms.LoanForm
     
     def get_success_url(self, *args, **kwargs):
         return reverse('dashboard:circulation:loan:success')
 
-    def form_valid(self, form):
-        circulation_models.Loan.objects.create(
-                item=form.cleaned_data['item'],
-                patron=form.cleaned_data['patron'].patron)
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        formset = forms.LoanFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if 'formset' not in kwargs:
+            ctx['formset'] = forms.LoanFormSet()
+        return ctx
+
+    def form_valid(self, form, formset):
+        formset.instance = form.cleaned_data['patron'].patron
+        formset.save()
         return super().form_valid(form)
+
+    def form_invalid(self, form, formset):
+        ctx = self.get_context_data(form=form, formset=formset)
+        return self.render_to_response(ctx)
 
 class CirculationIndexRedirectView(generic.RedirectView):
     permanent = False

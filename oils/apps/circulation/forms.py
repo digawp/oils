@@ -7,7 +7,6 @@ class LoanForm(forms.ModelForm):
         model = models.Loan
         fields = ('item', 'patron',)
 
-
 class LoanRenewalForm(forms.ModelForm):
     class Meta:
         model = models.LoanRenewal

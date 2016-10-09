@@ -6,10 +6,6 @@ class MenuItem extends Component {
     super(props);
     let path = window.location.pathname;
     let reg = new RegExp('^' + props.url + '$');
-    console.log(props.label);
-    console.log(path)
-    console.log(reg)
-    console.log(reg.test(path));
     if (reg.test(path)){
       this.state = {
         showMenu: true

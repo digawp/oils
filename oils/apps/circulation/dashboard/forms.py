@@ -37,6 +37,19 @@ class LoanCreateForm(forms.Form):
         except models.ValidationError as e:
             raise forms.ValidationError(e.message_dict, code='invalid')
         return data
+
+class LoanForm(forms.Form):
+    patron = forms.ModelChoiceField(
+            widget=forms.TextInput(),
+            label=_("Patron"),
+            queryset=User.objects.filter(patron__isnull=False),
+            to_field_name='username')
+
+
+LoanFormSet = forms.inlineformset_factory(
+        patron_models.Patron, models.Loan, fields=('item',),
+        widgets={'item': forms.TextInput()},
+        min_num=1, validate_min=True, extra=3)
         
 class LoanRenewalForm(forms.Form):
     resource_code = forms.ModelChoiceField(
