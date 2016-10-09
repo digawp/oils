@@ -16,15 +16,34 @@
 
 {% block page-body %}
 {{ block.super }}
-<form method='POST' action=''>
-  {{ form.errors }}
-  {% csrf_token %}
-  <div id="loan-form">
+<form method='POST' action=''>{% csrf_token %}
+  <div id="patron-field">
+    {{ form.as_p }}
   </div>
+  <fieldset id="item-fieldset">
+    <legend>Item List</legend>
+    {{ formset.management_form }}
+    {{ formset.non_form_errors }}
+    {% for form in formset %}
+      {{ form.id }}
+      <div class="item-form">
+        {{ form.item.errors }}
+        {{ form.item.label_tag }}
+        {{ form.item }}
+      </div>
+      <div class="item-info"></div>
+    {% endfor %}
+  </fieldset>
+  <button>Submit</button>
+  <!--
+  <div id="loan-form">
+  </div> -->
 </form>
 {% endblock page-body %}
 
 {% block script %}
 {{ block.super }}
+{% include "patron/dashboard/patron-info-panel.html" %}
+{% include "holding/dashboard/item-info-panel.html" %}
 <script src="{% static 'dist/dashboard/circulation/loan.js' %}"></script>
 {% endblock script %}
