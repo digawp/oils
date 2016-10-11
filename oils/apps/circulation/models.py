@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
 
+from datetime import datetime, timedelta
+
 
 from . import get_backend
 from . import exceptions
@@ -32,10 +34,14 @@ class OpenedLoanManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(loanreturn__isnull=True)
 
+def get_due_date():
+    return datetime.now() + timedelta(days=20)
+
 class Loan(models.Model):
     item = models.ForeignKey('holding.Item')
     patron = models.ForeignKey('patron.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
+    due_on = models.DateField(default=get_due_date)
 
     objects = LoanManager()
     closes = ClosedLoanManager()

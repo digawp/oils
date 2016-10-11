@@ -9,10 +9,6 @@ urlpatterns = [
         # List of all loans (patron, admin)
         # List of all closed loans (returned) (patron, admin)
 
-        url(r'^$',
-            login_required(views.OneStopView.as_view()),
-            name='onestop'),
-
         url(r'^index/$',
             login_required(views.LoanIndexView.as_view()),
             name='index'),

@@ -45,9 +45,17 @@ class LoanForm(forms.Form):
             queryset=User.objects.filter(patron__isnull=False),
             to_field_name='username')
 
+class LoanItemBaseForm(forms.ModelForm):
+    item = forms.ModelChoiceField(
+            widget=forms.TextInput(),
+            label=_("Item Code"),
+            queryset=holding_models.Item.objects.all(),
+            to_field_name='code')
+
 
 LoanFormSet = forms.inlineformset_factory(
         patron_models.Patron, models.Loan, fields=('item',),
+        form=LoanItemBaseForm,
         widgets={'item': forms.TextInput()},
         min_num=1, validate_min=True, extra=3)
         
@@ -72,11 +80,13 @@ class LoanRenewalForm(forms.Form):
 
 
 class LoanReturnForm(forms.Form):
-    resource_code = forms.ModelChoiceField(
+    item = forms.ModelChoiceField(
             widget=forms.TextInput(),
-            label=_("Resource Code"),
-            queryset=holding_models.Item.objects.all(),
+            label=_("Item Code"),
+            queryset=holding_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
             to_field_name='code',
             error_messages={
-                'invalid_choice': 'One or more of the resources is unavailable'
+                'invalid_choice': 'This item is not being loaned out'
             })
+
+

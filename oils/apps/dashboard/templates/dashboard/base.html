@@ -36,6 +36,16 @@
         {% endblock breadcrumbs %}
         </div>
 
+        <div class="messages">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
         {% block page %}
           {% block page-header %}{% endblock page-header %}
           {% block page-body %}{% endblock page-body %}
