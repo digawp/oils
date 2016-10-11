@@ -60,23 +60,23 @@ LoanFormSet = forms.inlineformset_factory(
         min_num=1, validate_min=True, extra=3)
         
 class LoanRenewalForm(forms.Form):
-    resource_code = forms.ModelChoiceField(
+    item_code = forms.ModelChoiceField(
             widget=forms.TextInput(),
-            label=_("Resource Code"),
-            queryset=holding_models.Item.objects.all(),
+            label=_("Item Code"),
+            queryset=holding_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
             to_field_name='code',
             error_messages={
-                'invalid_choice': 'One or more of the resources is unavailable'
+                'invalid_choice': 'This item is not being loaned out'
             })
+
 
     def clean(self):
         backend = get_backend()
         cleaned_data = super().clean()
-        for item in cleaned_data['resource_code']:
-            for loan in item.loan_set.all():
-                backend.validate(loan)
+        item = cleaned_data['item_code']
+        last_loan = item.loan_set.last()
+        backend.validate(last_loan)
         return cleaned_data
-
 
 
 class LoanReturnForm(forms.Form):
