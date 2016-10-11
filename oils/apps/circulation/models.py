@@ -75,14 +75,23 @@ class Loan(models.Model):
         backend = get_backend()
         return backend.renew(loan=self)
 
+
+    def clean_patron(self):
+
+        if Loan.opens.filter(patron=self.patron).count() >= self.patron.loan_limit:
+            raise ValidationError({
+                'patron': 'Patron has exceed the loan limit',
+            })
+
+    def clean_item(self):
+        if self.item and not self.is_returned:
+            raise ValidationError({
+                'item': 'Item is not available'
+            })
+
     def clean(self):
-        try:
-            if not self.is_returned:
-                raise ValidationError({
-                    'item': 'Item is not available'
-                })
-        except holding_models.Item.DoesNotExist:
-            pass
+        self.clean_patron()
+        self.clean_item()
 
 class LoanRenewal(models.Model):
     loan = models.ForeignKey('Loan')

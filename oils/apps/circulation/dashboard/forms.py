@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -44,6 +45,15 @@ class LoanForm(forms.Form):
             label=_("Patron"),
             queryset=User.objects.filter(patron__isnull=False),
             to_field_name='username')
+
+    def clean_patron(self):
+        user = self.cleaned_data['patron']
+        try:
+            models.Loan(patron=user.patron).clean_patron()
+        except models.ValidationError as e:
+            raise forms.ValidationError(e.message_dict['patron'], code='invalid')
+        return user
+
 
 class LoanItemBaseForm(forms.ModelForm):
     item = forms.ModelChoiceField(

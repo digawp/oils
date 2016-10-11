@@ -18,7 +18,9 @@
 {{ block.super }}
 <form method='POST' action=''>{% csrf_token %}
   <div id="patron-field">
-    {{ form.as_p }}
+    {{ form.patron.errors }}
+    {{ form.patron.label_tag }}
+    {{ form.patron }}
   </div>
   <fieldset id="item-fieldset">
     <legend>Item List</legend>
