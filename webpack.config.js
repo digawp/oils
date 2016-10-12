@@ -82,8 +82,8 @@ const circulationConfig = Object.assign({}, config, {
 
 const patronConfig = Object.assign({}, config, {
     entry: {
-        "patron/index": [
-            "./oils/apps/patron/assets/patron/index.js",
+        "patron/registration": [
+            "./oils/apps/patron/assets/patron/registration.js",
         ]
     },
     output: {

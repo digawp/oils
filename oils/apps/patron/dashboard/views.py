@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from functools import reduce
+import operator
 
 from django.views import generic
 from django.db.models import F
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 import django_tables2 as tables2
+from registration.signals import user_registered
 
 from . import tables
 from . import forms
@@ -62,5 +67,38 @@ class PatronRegistrationView(
         return reverse('dashboard:patron:index')
 
     def form_valid(self, form):
-        # TODO: Save Patron
+        data = form.cleaned_data
+
+        # Register User
+        user = User.objects.create_user(data['username'])
+        user.first_name = data['first_name']
+        user.last_name = data['last_name']
+        user.save()
+
+        # Notify system that user registered
+        # Follow up Processing (e.g. create patron record)
+        user_registered.send(
+                sender=self.__class__,
+                user=user,
+                request=self.request)
+
+        patron = user.patron
+
+        # Save Patron Identification
+        iden = data['identification']
+        iden.patron = patron
+        iden.save()
+
+        patron.birth_date = data['birth_date']
+        patron.address = data['address']
+        patron.country = data['country']
+        patron.postcode = data['postcode']
+        patron.contact = data['contact']
+        patron.note = data['note']
+        patron.notification_type = reduce(operator.ior, data['notification_type'])
+        patron.loan_duration = data['loan_duration']
+        patron.renewal_limit = data['renewal_limit']
+        patron.loan_limit = data['loan_limit']
+        patron.save()
+
         return super().form_valid(form)

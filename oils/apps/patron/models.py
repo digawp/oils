@@ -57,7 +57,7 @@ class Patron(models.Model):
     note = models.TextField(blank=True,
             help_text='Extra Information for Administrator')
 
-    notification_type = models.CharField(max_length=25, blank=True)
+    notification_type = models.PositiveSmallIntegerField(default=0)
 
     # Loan duration (in days unit)
     loan_duration = models.IntegerField(default=15)
