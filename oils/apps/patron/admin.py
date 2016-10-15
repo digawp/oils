@@ -12,9 +12,13 @@ class PatronAdmin(admin.ModelAdmin):
         PatronIdentificationInline
     ]
 
+class MembershipTypeAdmin(admin.ModelAdmin):
+    model = models.MembershipType
+
 
 admin.site.register([
-    models.Membership, models.MembershipType,
+    models.Membership,
     models.IdentificationType, models.PatronIdentification])
 
 admin.site.register(models.Patron, PatronAdmin)
+admin.site.register(models.MembershipType, MembershipTypeAdmin)

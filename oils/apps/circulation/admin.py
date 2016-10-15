@@ -3,6 +3,16 @@ from django.utils import timezone
 from . import models
 from . import forms
 
+class BorrowingPrivillageInline(admin.TabularInline):
+    model = models.BorrowingPrivillage
+    extra = 1
+
+from oils.apps.patron.models import MembershipType
+from oils.apps.patron.admin import MembershipTypeAdmin
+MembershipTypeAdmin.inlines += [BorrowingPrivillageInline]
+admin.site.unregister(MembershipType)
+admin.site.register(MembershipType, MembershipTypeAdmin)
+
 
 class LoanRenewalInline(admin.TabularInline):
     model = models.LoanRenewal

@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.contenttypes import fields as ct_fields
 from django.contrib.contenttypes import models as ct_models
@@ -10,7 +12,26 @@ from . import get_backend
 from . import exceptions
 
 from oils.apps.holding import models as holding_models
+from oils.apps.patron import models as patron_models
 
+DEFAULT_LOAN_LIMIT = settings.OILS['CIRCULATION'].get('DEFAULT_LOAN_LIMIT', 8)
+DEFAULT_LOAN_DURATION = settings.OILS['CIRCULATION'].get('DEFAULT_LOAN_DURATION', 20)
+DEFAULT_RENEWAL_LIMIT = settings.OILS['CIRCULATION'].get('DEFAULT_RENEWAL_LIMIT', 3)
+
+class BorrowingPrivillage(models.Model):
+    loan_limit = models.IntegerField(default=DEFAULT_LOAN_LIMIT)
+    loan_duration = models.IntegerField(default=DEFAULT_LOAN_DURATION)
+    renewal_limit = models.IntegerField(default=DEFAULT_RENEWAL_LIMIT)
+
+    membership_type = models.OneToOneField(patron_models.MembershipType)
+
+def create_borrowing_privillage(sender, instance, created, **kwargs):
+    try:
+        instance.borrowingprivillage
+    except BorrowingPrivillage.DoesNotExist:
+        BorrowingPrivillage.objects.create(membership_type=instance)
+
+post_save.connect(create_borrowing_privillage, sender=patron_models.MembershipType)
 
 class LoanRenewalManager(models.Manager):
     def get_last_renewal(self, loan):

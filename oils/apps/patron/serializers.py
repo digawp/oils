@@ -39,3 +39,12 @@ class PatronSerializer(serializers.ModelSerializer):
             'address', 'country', 'postcode', 'contact',
             'note', 'notification_type',
             'loan_duration', 'loan_limit', 'renewal_limit')
+
+class MembershipTypeSerializer(serializers.ModelSerializer):
+    loan_duration = serializers.IntegerField(source='borrowingprivillage.loan_duration')
+    loan_limit = serializers.IntegerField(source='borrowingprivillage.loan_limit')
+    renewal_limit = serializers.IntegerField(source='borrowingprivillage.renewal_limit')
+    class Meta:
+        model = models.MembershipType
+        fields = ('id', 'name', 'description', 'loan_duration', 'renewal_limit', 'loan_limit')
+
