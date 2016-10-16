@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.db.models.functions import Concat
+from django.db.models import Value as V
 from functools import reduce
 import operator
 
@@ -35,10 +37,11 @@ class PatronIndexView(
         return patrons.annotate(
                 username=F('user__username'),
                 email=F('user__email'),
-                firstname=F('user__first_name'),
-                lastname=F('user__last_name'),
+                name=Concat('user__first_name', V(' '), 'user__last_name'),
+                datejoin=F('user__date_joined'),
                 is_active=F('user__is_active'),
-        ).values('pk', 'username', 'email', 'firstname', 'lastname', 'loan_limit', 'is_active')
+        ).values('pk', 'username', 'email', 'name', 
+                'loan_limit', 'datejoin', 'is_active')
 
 
 class PatronActivationView(

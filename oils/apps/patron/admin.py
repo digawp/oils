@@ -14,6 +14,7 @@ class PatronAdmin(admin.ModelAdmin):
 
 class MembershipTypeAdmin(admin.ModelAdmin):
     model = models.MembershipType
+    inlines = []
 
 
 admin.site.register([
