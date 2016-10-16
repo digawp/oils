@@ -16,11 +16,6 @@ class PatronViewSet(viewsets.ModelViewSet):
     lookup_field = 'user__username'
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
-    lookup_field = 'user__username'
-
 class MembershipTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.MembershipType.objects.all()
     serializer_class = serializers.MembershipTypeSerializer

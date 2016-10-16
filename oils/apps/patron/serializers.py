@@ -6,10 +6,6 @@ User = get_user_model()
 
 from . import models
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
 
 class PatronIdentificationSerializer(serializers.ModelSerializer):
     id_type = serializers.StringRelatedField()
