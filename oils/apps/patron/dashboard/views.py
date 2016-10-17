@@ -44,6 +44,16 @@ class PatronIndexView(
                 'loan_limit', 'datejoin', 'is_active')
 
 
+class PatronUpdateView(
+        mixins.DashboardContextMixin,
+        generic.UpdateView):
+    model = models.Patron
+    fields = ['first_name', 'last_name']
+    template_name_suffix = '_update_form'
+
+
+
+
 class PatronActivationView(
         mixins.DashboardContextMixin,
         generic.detail.SingleObjectMixin,

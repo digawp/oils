@@ -1,11 +1,12 @@
 import django_tables2 as tables
+from django_tables2.utils import A
 
 from django.utils.translation import ugettext_lazy as _
 
 from .. import models
 
 class PatronTable(tables.Table):
-    username = tables.Column(verbose_name=_('Username'))
+    username = tables.LinkColumn('dashboard:patron:update', kwargs={'pk': A('pk')}, verbose_name=_('Username'))
     email = tables.EmailColumn(verbose_name=_('Email'))
     name = tables.Column(verbose_name=_('Full name'))
     datejoin = tables.Column(verbose_name=_('Date joined'))
