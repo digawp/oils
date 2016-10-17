@@ -45,7 +45,10 @@ class PatronIdentification(models.Model):
         return "{}:{}".format(self.id_type, self.value)
 
 class Patron(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(
+            settings.AUTH_USER_MODEL,
+            on_delete=models.CASCADE,
+            primary_key=True)
 
     birth_date = models.DateField(blank=True, null=True)
 
