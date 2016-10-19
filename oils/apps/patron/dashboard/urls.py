@@ -18,7 +18,7 @@ urlpatterns = [
             name='update'),
     ])),
     url(r'^registration/$',
-        login_required(views.PatronRegistrationView.as_view()),
+        login_required(views.PatronCreateView.as_view()),
         name='registration'),
     url(r'^$',
         login_required(views.PatronIndexView.as_view()),

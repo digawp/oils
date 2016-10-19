@@ -20,3 +20,4 @@ class PatronTable(tables.Table):
         fields = (
             'username', 'name', 'email', 'loan_limit',
             'datejoin', 'actions')
+        order_by = '-datejoin'

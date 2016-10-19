@@ -11,13 +11,12 @@
 
 {% block page-body %}
 {{ block.super }}
-
 <form method='POST' action=''>
   {% csrf_token %}
-  {{ form.errors }}
-
   <table>
-    {{ form.as_table }}
+  {{ patron_identification_formset.as_table }}
+  {{ user_form.as_table }}
+  {{ form.as_table }}
   </table>
   <button>Submit</button>
 </form>

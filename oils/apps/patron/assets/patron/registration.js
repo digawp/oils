@@ -1,6 +1,12 @@
 import $ from 'jquery'
 
-$('#id_identification_1').on('input', function(e){
+$(document).ready(function(){
+  if ($('#id_identifications-INITIAL_FORMS').val() === "0") {
+    $('#id_identifications-0-identification_0').val(1)
+  }
+})
+
+$('#id_identifications-0-identification_1').on('input', function(e){
   $('#id_username').val(e.currentTarget.value)
 })
 

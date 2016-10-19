@@ -53,7 +53,7 @@ class Patron(models.Model):
     birth_date = models.DateField(blank=True, null=True)
 
     address = models.TextField(blank=True)
-    country = dj_countries_fields.CountryField()
+    country = dj_countries_fields.CountryField(blank=True)
     postcode = models.CharField(max_length=12, blank=True)
     contact = models.CharField(max_length=30, blank=True)
 
@@ -105,8 +105,9 @@ class Patron(models.Model):
         # the limit by the patron membership
         return self.renewal_limit
 
-def create_patron(sender, **kwargs):
-    patron = Patron(user=kwargs.get('user'))
-    patron.save()
+def create_patron(sender, user, **kwargs):
+    if not hasattr(user, 'patron'):
+        patron = Patron(user=user)
+        patron.save()
 
 signals.user_registered.connect(create_patron)
