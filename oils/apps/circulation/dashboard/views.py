@@ -14,12 +14,17 @@ from . import forms
 
 from oils.apps.dashboard import mixins as dashboard_mixins
 
+from braces import views as braces_views
+
 
 
 class LoanIndexView(
+        braces_views.LoginRequiredMixin,
+        braces_views.GroupRequiredMixin,
         dashboard_mixins.DashboardContextMixin,
         tables2.SingleTableMixin,
         generic.ListView):
+    group_required = 'circulator'
     template_name = 'circulation/dashboard/index.html'
     model = circulation_models.Loan
     table_class = tables.LoanTable
@@ -48,8 +53,11 @@ class LoanSuccessView(
     template_name = 'circulation/dashboard/loan_success.html'
 
 class LoanRenewalView(
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         dashboard_mixins.DashboardContextMixin,
         generic.FormView):
+    permission_required = 'circulation.add_loanrenewal'
     template_name = 'circulation/dashboard/loanrenewal_create.html'
     form_class = forms.LoanRenewalForm
     success_message = """
@@ -72,8 +80,11 @@ class LoanRenewalView(
         return super().form_valid(form)
 
 class LoanReturnView(
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         dashboard_mixins.DashboardContextMixin,
         generic.FormView):
+    permission_required = 'circulation.add_loanreturn'
     template_name = 'circulation/dashboard/loanreturn_create.html'
     form_class = forms.LoanReturnForm
     success_message = """
@@ -109,8 +120,11 @@ class LoanReturnDeleteView(
     model = circulation_models.LoanReturn
 
 class LoanCreateView(
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         dashboard_mixins.DashboardContextMixin,
         generic.FormView):
+    permission_required = 'circulation.add_loan'
     template_name = 'circulation/dashboard/loan_create.html'
     form_class = forms.LoanForm
     success_message = """
