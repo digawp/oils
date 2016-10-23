@@ -15,6 +15,7 @@ User = get_user_model()
 
 import django_tables2 as tables2
 from registration.signals import user_registered
+from braces import views as braces_views
 
 from . import tables
 from . import forms
@@ -25,6 +26,8 @@ from oils.apps.dashboard import mixins
 
 class PatronIndexView(
         mixins.DashboardContextMixin,
+        braces_views.LoginRequiredMixin,
+        braces_views.GroupRequiredMixin,
         tables2.SingleTableMixin,
         generic.ListView):
     model = models.Patron
@@ -34,6 +37,7 @@ class PatronIndexView(
     table_pagination = {
         'per_page': 20,
     }
+    group_required = 'account-manager'
 
     def get_table_data(self):
         patrons = super().get_table_data()
@@ -47,21 +51,16 @@ class PatronIndexView(
                 'loan_limit', 'datejoin', 'is_active')
 
 
-class PatronUpdateView(
-        mixins.DashboardContextMixin,
-        generic.UpdateView):
-    model = models.Patron
-    fields = ['first_name', 'last_name']
-    template_name_suffix = '_update_form'
-
-
 
 
 class PatronActivationView(
         mixins.DashboardContextMixin,
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         generic.detail.SingleObjectMixin,
         generic.View):
     model = models.Patron
+    permission_required = "patron.change_patron"
 
     def post(self, *args, **kwargs):
         user = self.get_object().user
@@ -74,6 +73,8 @@ class PatronActivationView(
 
 class PatronCreateView(
         mixins.DashboardContextMixin,
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         generic.CreateView):
     """Patron Registration made by the Staff"""
     model = models.Patron
@@ -83,6 +84,7 @@ class PatronCreateView(
     Patron "{name}" successfully registered. 
     Follow up to <a href="{link}">Change Detail</a>.
     """
+    permission_required = "patron.add_patron"
 
     def form_valid(self, user_form, patron_form, patron_identification_form):
         user = user_form.save()
@@ -160,11 +162,14 @@ class PatronCreateView(
 
 class PatronUpdateView(
         mixins.DashboardContextMixin,
+        braces_views.LoginRequiredMixin,
+        braces_views.PermissionRequiredMixin,
         generic.UpdateView):
 
     model = models.Patron
     form_class = forms.PatronUpdateForm
     template_name = 'patron/dashboard/patron_update_form.html'
+    permission_required = "patron.change_patron"
 
     def form_valid(self, user_form, patron_form, patron_identification_form):
         user = user_form.save()

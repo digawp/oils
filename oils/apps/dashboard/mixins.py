@@ -19,12 +19,27 @@ def process_data(nav):
             process_data(child) for child in nav.get('children', [])]
     return data
 
+def test_user_access(user, perm=None):
+    # Default allow user when no permission required
+    if not perm:
+        return True
+
+    # Check the Permission
+    if user.has_perm(perm):
+        return True
+
+    # Alternatively user belong to a group
+    if user.groups.filter(name=perm).exists():
+        return True
+
+    return False
+
 class DashboardContextMixin(generic.base.ContextMixin):
     def _process_dashboard_menu(self, menu_data):
         menu_items = []
         for nav in menu_data:
             req_perm = nav.get('access')
-            if req_perm and not self.request.user.has_perm(req_perm):
+            if not test_user_access(self.request.user, req_perm):
                 continue
 
             data = process_data(nav)
