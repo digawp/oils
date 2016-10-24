@@ -7,7 +7,7 @@ User = get_user_model()
 from .. import models
 from .. import get_backend
 from oils.apps.catalog import models as catalog_models
-from oils.apps.patron import models as patron_models
+from oils.apps.account import models as account_models
 from oils.apps.holding import models as holding_models
 
 
@@ -64,7 +64,7 @@ class LoanItemBaseForm(forms.ModelForm):
 
 
 LoanFormSet = forms.inlineformset_factory(
-        patron_models.Patron, models.Loan, fields=('item',),
+        account_models.Patron, models.Loan, fields=('item',),
         form=LoanItemBaseForm,
         widgets={'item': forms.TextInput()},
         min_num=1, validate_min=True, extra=3)

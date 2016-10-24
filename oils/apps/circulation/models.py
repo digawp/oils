@@ -12,7 +12,7 @@ from . import get_backend
 from . import exceptions
 
 from oils.apps.holding import models as holding_models
-from oils.apps.patron import models as patron_models
+from oils.apps.account import models as account_models
 
 DEFAULT_LOAN_LIMIT = settings.OILS['CIRCULATION'].get('DEFAULT_LOAN_LIMIT', 8)
 DEFAULT_LOAN_DURATION = settings.OILS['CIRCULATION'].get('DEFAULT_LOAN_DURATION', 20)
@@ -23,7 +23,7 @@ class BorrowingPrivillage(models.Model):
     loan_duration = models.IntegerField(default=DEFAULT_LOAN_DURATION)
     renewal_limit = models.IntegerField(default=DEFAULT_RENEWAL_LIMIT)
 
-    membership_type = models.OneToOneField(patron_models.MembershipType)
+    membership_type = models.OneToOneField(account_models.MembershipType)
 
 def create_borrowing_privillage(sender, instance, created, **kwargs):
     try:
@@ -31,7 +31,7 @@ def create_borrowing_privillage(sender, instance, created, **kwargs):
     except BorrowingPrivillage.DoesNotExist:
         BorrowingPrivillage.objects.create(membership_type=instance)
 
-post_save.connect(create_borrowing_privillage, sender=patron_models.MembershipType)
+post_save.connect(create_borrowing_privillage, sender=account_models.MembershipType)
 
 class LoanRenewalManager(models.Manager):
     def get_last_renewal(self, loan):
@@ -60,7 +60,7 @@ def get_due_date():
 
 class Loan(models.Model):
     item = models.ForeignKey('holding.Item')
-    patron = models.ForeignKey('patron.Patron')
+    patron = models.ForeignKey('account.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
     due_on = models.DateField(default=get_due_date)
 

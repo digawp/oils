@@ -7,7 +7,7 @@ const config = {
             path.resolve('./oils/core/assets'),
             path.resolve('./oils/apps/catalog/assets'),
             path.resolve('./oils/apps/circulation/assets'),
-            path.resolve('./oils/apps/patron/assets'),
+            path.resolve('./oils/apps/account/assets'),
             path.resolve('./oils/apps/holding/assets'),
             path.resolve('./oils/apps/dashboard/assets'),
         ],
@@ -80,14 +80,14 @@ const circulationConfig = Object.assign({}, config, {
     }
 })
 
-const patronConfig = Object.assign({}, config, {
+const accountConfig = Object.assign({}, config, {
     entry: {
-        "patron/registration": [
-            "./oils/apps/patron/assets/patron/registration.js",
+        "account/registration": [
+            "./oils/apps/account/assets/account/registration.js",
         ]
     },
     output: {
-        path: path.join(__dirname, "./oils/apps/patron"),
+        path: path.join(__dirname, "./oils/apps/account"),
         filename: "static/dist/[name].js"
     }
 })
@@ -105,5 +105,5 @@ module.exports = [
     coreConfig,
     dashboardConfig,
     circulationConfig,
-    patronConfig,
+    accountConfig,
 ];

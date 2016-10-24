@@ -1,12 +1,12 @@
 from oils.apps import dashboard
 
 
-class PatronPanel(dashboard.Panel):
-    name = 'patron'
+class AccountPanel(dashboard.Panel):
+    name = 'account'
 
     def get_urls(self):
         from . import urls
         return urls.urlpatterns
 
 
-dashboard.site.register(PatronPanel)
+dashboard.site.register(AccountPanel)

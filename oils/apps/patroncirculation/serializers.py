@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from patron import serializers as patron_serializers
-from patron import models as patron_models
+from patron import models as account_models
 from circulation import models as circulation_models
 from holding import serializers as holding_serializers
 
@@ -28,7 +28,7 @@ class PatronSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = patron_models.Patron
+        model = account_models.Patron
         fields = (
             'id', 'loan_limit', 'username', 'email', 'loans',
             'first_name', 'last_name', 'name',)

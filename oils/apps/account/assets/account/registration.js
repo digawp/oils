@@ -13,7 +13,7 @@ $('#id_identifications-0-identification_1').on('input', function(e){
 $('#id_membership_type').on('input', function(e){
   let curMemTypId = e.currentTarget.value
   if (curMemTypId !== ""){
-    let url = `/api/memberships/membershiptype/${curMemTypId}/`
+    let url = `/api/accounts/membershiptype/${curMemTypId}/`
     fetch(url).then(resp=>resp.json()).then(data=>{
       $('#id_loan_duration').val(data['loan_duration'])
       $('#id_loan_limit').val(data['loan_limit'])

@@ -4,7 +4,7 @@ from . import models
 
 from oils.apps.holding import serializers as holding_serializers
 from oils.apps.holding import models as holding_models
-from oils.apps.patron import models as patron_models
+from oils.apps.account import models as account_models
 
 class PatronLoanSerializer(serializers.ModelSerializer):
 
@@ -47,7 +47,7 @@ class LoanSerializer(serializers.ModelSerializer):
     
     patron = serializers.SlugRelatedField(
             slug_field='id',
-            queryset=patron_models.Patron.objects.all(),
+            queryset=account_models.Patron.objects.all(),
             html_cutoff=100)
 
     item = serializers.SlugRelatedField(

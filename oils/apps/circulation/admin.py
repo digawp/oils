@@ -7,11 +7,12 @@ class BorrowingPrivillageInline(admin.TabularInline):
     model = models.BorrowingPrivillage
     extra = 1
 
-from oils.apps.patron.models import MembershipType
-from oils.apps.patron.admin import MembershipTypeAdmin
-MembershipTypeAdmin.inlines += [BorrowingPrivillageInline]
-admin.site.unregister(MembershipType)
-admin.site.register(MembershipType, MembershipTypeAdmin)
+from oils.apps.account import models as account_models
+from oils.apps.account import admin as account_admin
+account_admin.MembershipTypeAdmin.inlines += [BorrowingPrivillageInline]
+admin.site.unregister(account_models.MembershipType)
+admin.site.register(account_models.MembershipType,
+        account_admin.MembershipTypeAdmin)
 
 
 class LoanRenewalInline(admin.TabularInline):

@@ -31,7 +31,7 @@ class PatronIndexView(
         tables2.SingleTableMixin,
         generic.ListView):
     model = models.Patron
-    template_name = 'patron/dashboard/index.html'
+    template_name = 'account/dashboard/index.html'
     table_class = tables.PatronTable
     context_table_name = 'patron_table'
     table_pagination = {
@@ -69,7 +69,7 @@ class PatronActivationView(
         else:
             user.is_active = False
         user.save()
-        return redirect(reverse('dashboard:patron:index'))
+        return redirect(reverse('dashboard:account:index'))
 
 class PatronCreateView(
         mixins.DashboardContextMixin,
@@ -79,7 +79,7 @@ class PatronCreateView(
     """Patron Registration made by the Staff"""
     model = models.Patron
     form_class = forms.PatronCreateForm
-    template_name = 'patron/dashboard/patron_registration.html'
+    template_name = 'account/dashboard/patron_registration.html'
     success_message = """
     Patron "{name}" successfully registered. 
     Follow up to <a href="{link}">Change Detail</a>.
@@ -130,12 +130,12 @@ class PatronCreateView(
         return data
 
     def get_success_url(self, *args, **kwargs):
-        return reverse('dashboard:patron:index')
+        return reverse('dashboard:account:index')
 
     def get_success_message(self, patron):
         return mark_safe(self.success_message.format(**{
             'name': patron.user.get_full_name(),
-            'link': reverse('dashboard:patron:update', args=(patron.pk,)),
+            'link': reverse('dashboard:account:update', args=(patron.pk,)),
         }))
 
 
@@ -168,7 +168,7 @@ class PatronUpdateView(
 
     model = models.Patron
     form_class = forms.PatronUpdateForm
-    template_name = 'patron/dashboard/patron_update_form.html'
+    template_name = 'account/dashboard/patron_update_form.html'
     permission_required = "patron.change_patron"
 
     def form_valid(self, user_form, patron_form, patron_identification_form):
@@ -192,7 +192,7 @@ class PatronUpdateView(
             patron_identification_form=patron_identification_form))
 
     def get_success_url(self, *args, **kwargs):
-        return reverse('dashboard:patron:index')
+        return reverse('dashboard:account:index')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)

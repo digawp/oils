@@ -1,10 +1,10 @@
-{% extends "patron/dashboard/base.html" %}
+{% extends "account/dashboard/base.html" %}
 {% load staticfiles %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
   <li><a href="{% url 'dashboard:index' %}">Home</a></li>
-  <li><a href="{% url 'dashboard:patron:index' %}">Patron</a></li>
+  <li><a href="{% url 'dashboard:account:index' %}">Patron</a></li>
   <li>Patron Update</li>
 </ul>
 {% endblock breadcrumbs %}
