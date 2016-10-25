@@ -9,8 +9,21 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 install_requires = [
     'django>=1.9,<1.10',
+    'psycopg2>=2.6,<2.7',
+    'django-grappelli>=2.8,<2.9',
     'django-countries>=4.0,<4.1',
     'django-braces>=1.9,<1.10',
+    'djangorestframework>=3.3,<3.4',
+    'django-rest-swagger>=0.3,<0.4',
+    'django-filter>=0.11,<0.12',
+    'django-extensions>=1.5,<1.6',
+    'django-haystack>=2.4,<2.5',
+    'django-mptt>=0.8,<0.9',
+    'django-tables2>=1.0,<1.1',
+    'django-registration>=2.0,<2.1',
+    'whoosh>=2.7,<2.8',
+    'pyisbn>=1.0,<1.1',
+    'requests>=2.9,<3.0',
 ]
 
 setup(
