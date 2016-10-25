@@ -1,1 +1,1 @@
--e git+git@github.com:9gix/oils.git@master#egg=oils
+-e git+ssh://git@github.com/9gix/oils.git@master#egg=oils
