@@ -20,13 +20,13 @@ env:
     - DJANGO_SETTINGS_MODULE=oils.settings.test
 
 install:
-    - travis_retry make setup_test
+    - travis_retry make setup_test -C demo/hackerlibrary
 
 before_install:
     - pip install codecov
 
 script: 
-    - make test
+    - make test -C demo/hackerlibrary
 
 after_success:
     - codecov
