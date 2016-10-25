@@ -4,6 +4,6 @@ from .base import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'thebuddhistlibrary_test',
+        'NAME': '{{ project_name }}_test',
     }
 }
