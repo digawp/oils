@@ -63,7 +63,7 @@ var Patron = Backbone.Model.extend({
     name: '',
     address: '',
   },    
-  urlRoot: '/api/memberships/patrons',
+  urlRoot: '/api/accounts/patrons',
   initialize(){
     this.on('change', (model, resp)=>{
       patronView.render()                                    

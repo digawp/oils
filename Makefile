@@ -19,7 +19,7 @@ initial_data:
 db:
 	python manage.py migrate
 
-demo: db initial_data
+more_data: db initial_data
 	python manage.py loaddata initial_user initial_patron location
 
 dump:
@@ -32,7 +32,7 @@ dev_env: $(eval export DJANGO_SETTINGS_MODULE=oils.settings.dev)
 setup_dev: dev_env
 	npm install
 	pip install -r requirements/dev.pip
-	$(MAKE) demo
+	$(MAKE) more_data
 
 dev: dev_env
 	python manage.py runserver 0.0.0.0:8000

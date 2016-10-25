@@ -3,8 +3,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-
 from . import models
+
+from django_countries.serializer_fields import CountryField
 
 
 class PatronIdentificationSerializer(serializers.ModelSerializer):
@@ -25,6 +26,7 @@ class PatronSerializer(serializers.ModelSerializer):
             source='user.get_full_name', read_only=True)
 
     identifications = PatronIdentificationSerializer(many=True)
+    country = CountryField()
 
 
     class Meta:
