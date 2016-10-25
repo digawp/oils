@@ -25,7 +25,7 @@ install:
 before_install:
     - pip install codecov
     - npm config set spin false
-    - npm install -g npm@^2
+    - npm install -g npm@^3
 
 script: 
     - make test -C demo/hackerlibrary
