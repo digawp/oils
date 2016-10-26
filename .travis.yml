@@ -28,7 +28,7 @@ before_install:
     - npm install -g npm@^3
 
 script: 
-    - make test -C demo/hackerlibrary
+    - make test
 
 after_success:
     - codecov
