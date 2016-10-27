@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from . import get_backend
 from . import exceptions
 
-from oils.apps.holding import models as holding_models
+from oils.apps.shelving import models as shelving_models
 from oils.apps.account import models as account_models
 
 DEFAULT_LOAN_LIMIT = settings.OILS['CIRCULATION'].get('DEFAULT_LOAN_LIMIT', 8)
@@ -59,7 +59,7 @@ def get_due_date():
     return datetime.now() + timedelta(days=20)
 
 class Loan(models.Model):
-    item = models.ForeignKey('holding.Item')
+    item = models.ForeignKey('shelving.Item')
     patron = models.ForeignKey('account.Patron')
     loan_at = models.DateTimeField(auto_now_add=True)
     due_on = models.DateField(default=get_due_date)

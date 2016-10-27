@@ -2,13 +2,13 @@ from rest_framework import serializers
 
 from . import models
 
-from oils.apps.holding import serializers as holding_serializers
-from oils.apps.holding import models as holding_models
+from oils.apps.shelving import serializers as shelving_serializers
+from oils.apps.shelving import models as shelving_models
 from oils.apps.account import models as account_models
 
 class PatronLoanSerializer(serializers.ModelSerializer):
 
-    resource = holding_serializers.ItemSerializer(read_only=True)
+    resource = shelving_serializers.ItemSerializer(read_only=True)
 
     class Meta:
         model = models.Loan
@@ -52,7 +52,7 @@ class LoanSerializer(serializers.ModelSerializer):
 
     item = serializers.SlugRelatedField(
             slug_field='code',
-            queryset=holding_models.Item.objects.all(),
+            queryset=shelving_models.Item.objects.all(),
             html_cutoff=100)
 
     class Meta:

@@ -21,7 +21,7 @@ from oils.apps.library import urls as lib_urls
 from oils.apps.circulation import urls as circ_urls
 from oils.apps.catalog import urls as cat_urls
 from oils.apps.account import urls as account_urls
-from oils.apps.holding import urls as holding_urls
+from oils.apps.shelving import urls as shelving_urls
 
 from oils.apps.library import views as library_views
 
@@ -34,9 +34,9 @@ urlpatterns = [
         url(r'^catalogs/',
             include(cat_urls.api_urlpatterns,
                     namespace='catalog')),
-        url(r'^holdings/',
-            include(holding_urls.api_urlpatterns,
-                    namespace='holding')),
+        url(r'^shelving/',
+            include(shelving_urls.api_urlpatterns,
+                    namespace='shelving')),
         url(r'^circulations/',
             include(circ_urls.api_urlpatterns,
                     namespace='circulation')),

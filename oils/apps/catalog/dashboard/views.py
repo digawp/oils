@@ -54,7 +54,7 @@ class OneStopView(dashboard_mixins.DashboardContextMixin, generic.TemplateView):
 
             # Existing OILS Record
             if initial_data['provider'] == 'oils':
-                initial_data['item']['holdings'] = {}
+                initial_data['item']['shelving'] = {}
                 initial_data['item']['annotations'] = {}
 
             ctx['initial_data'] = json.dumps(initial_data)

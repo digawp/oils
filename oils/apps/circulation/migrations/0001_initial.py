@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('holding', '0001_initial'),
+        ('shelving', '0001_initial'),
         ('account', '0001_initial'),
     ]
 
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('loan_at', models.DateTimeField(auto_now_add=True)),
                 ('due_on', models.DateField(default=oils.apps.circulation.models.get_due_date)),
-                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='holding.Item')),
+                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shelving.Item')),
                 ('patron', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.Patron')),
             ],
         ),

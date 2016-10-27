@@ -13,7 +13,7 @@ api_root_dict = {
     'circulations': 'circulation:api-root',
     'memberships': 'patron:api-root',
     'catalogs': 'catalog:api-root',
-    'holdings': 'holding:api-root',
+    'shelving': 'shelving:api-root',
 }
 
 class APIRoot(views.APIView):

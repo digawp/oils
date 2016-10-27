@@ -8,7 +8,7 @@ var Item = Backbone.Model.extend({
     title: '',
     identifiers: {},
   },
-  urlRoot: '/api/holdings/items',
+  urlRoot: '/api/shelving/items',
 })
 
 var ItemInfoView = Backbone.View.extend({

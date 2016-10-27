@@ -8,7 +8,7 @@ const config = {
             path.resolve('./oils/apps/catalog/assets'),
             path.resolve('./oils/apps/circulation/assets'),
             path.resolve('./oils/apps/account/assets'),
-            path.resolve('./oils/apps/holding/assets'),
+            path.resolve('./oils/apps/shelving/assets'),
             path.resolve('./oils/apps/dashboard/assets'),
         ],
     },

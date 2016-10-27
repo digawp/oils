@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'oils.apps.catalog',
     'oils.apps.circulation',
     'oils.apps.dashboard',
-    'oils.apps.holding',
+    'oils.apps.shelving',
     'oils.apps.library',
     'oils.apps.opac',
     'oils.apps.account',

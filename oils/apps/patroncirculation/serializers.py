@@ -2,11 +2,11 @@ from rest_framework import serializers
 from patron import serializers as patron_serializers
 from patron import models as account_models
 from circulation import models as circulation_models
-from holding import serializers as holding_serializers
+from shelving import serializers as shelving_serializers
 
 
 class PatronLoanSerializer(serializers.ModelSerializer):
-    resource = holding_serializers.ItemSerializer(read_only=True)
+    resource = shelving_serializers.ItemSerializer(read_only=True)
 
     class Meta:
         model = circulation_models.Loan

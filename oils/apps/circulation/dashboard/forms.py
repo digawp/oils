@@ -8,14 +8,14 @@ from .. import models
 from .. import get_backend
 from oils.apps.catalog import models as catalog_models
 from oils.apps.account import models as account_models
-from oils.apps.holding import models as holding_models
+from oils.apps.shelving import models as shelving_models
 
 
 class LoanCreateForm(forms.Form):
     item = forms.ModelChoiceField(
             widget=forms.TextInput(),
             label=_("Item Code"),
-            queryset=holding_models.Item.objects.all(),
+            queryset=shelving_models.Item.objects.all(),
             to_field_name='code',
             error_messages={
                 'invalid_choice': 'One or more of the items is unavailable'
@@ -59,7 +59,7 @@ class LoanItemBaseForm(forms.ModelForm):
     item = forms.ModelChoiceField(
             widget=forms.TextInput(),
             label=_("Item Code"),
-            queryset=holding_models.Item.objects.all(),
+            queryset=shelving_models.Item.objects.all(),
             to_field_name='code')
 
 
@@ -73,7 +73,7 @@ class LoanRenewalForm(forms.Form):
     item_code = forms.ModelChoiceField(
             widget=forms.TextInput(),
             label=_("Item Code"),
-            queryset=holding_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
+            queryset=shelving_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
             to_field_name='code',
             error_messages={
                 'invalid_choice': 'This item is not being loaned out'
@@ -93,7 +93,7 @@ class LoanReturnForm(forms.Form):
     item = forms.ModelChoiceField(
             widget=forms.TextInput(),
             label=_("Item Code"),
-            queryset=holding_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
+            queryset=shelving_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
             to_field_name='code',
             error_messages={
                 'invalid_choice': 'This item is not being loaned out'
