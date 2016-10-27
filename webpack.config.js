@@ -64,6 +64,7 @@ const circulationConfig = Object.assign({}, config, {
         "dashboard/circulation/loan": [
             "babel-polyfill",
             "./oils/apps/circulation/assets/dashboard/circulation/loan.js",
+            "./oils/apps/circulation/assets/dashboard/circulation/loan.less",
         ],
         "dashboard/circulation/return": [
             "babel-polyfill",

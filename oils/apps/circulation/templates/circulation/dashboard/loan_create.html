@@ -22,20 +22,22 @@
     {{ form.patron.label_tag }}
     {{ form.patron }}
   </div>
-  <fieldset id="item-fieldset">
-    <legend>Item List</legend>
-    {{ formset.management_form }}
-    {{ formset.non_form_errors }}
-    {% for form in formset %}
-      {{ form.id }}
-      <div class="item-form">
-        {{ form.item.errors }}
-        {{ form.item.label_tag }}
-        {{ form.item }}
-      </div>
-      <div class="item-info"></div>
-    {% endfor %}
-  </fieldset>
+  <div class="items-field">
+    <fieldset id="item-fieldset" class="items-fieldset">
+      <legend>Item List</legend>
+      {{ formset.management_form }}
+      {{ formset.non_form_errors }}
+      {% for form in formset %}
+        {{ form.id }}
+        <div class="item-form">
+          {{ form.item.errors }}
+          {{ form.item.label_tag }}
+          {{ form.item }}
+        </div>
+        <div class="item-info"></div>
+      {% endfor %}
+    </fieldset>
+  </div>
   <button>Submit</button>
   <!--
   <div id="loan-form">
