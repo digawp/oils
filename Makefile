@@ -61,5 +61,4 @@ setup_test: test_env
 	$(MAKE) db initial_data
 
 test: test_env
-	# py.test --cov oils
 	coverage run --source='.' -m py.test
