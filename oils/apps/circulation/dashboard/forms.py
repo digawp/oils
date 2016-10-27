@@ -70,7 +70,7 @@ LoanFormSet = forms.inlineformset_factory(
         min_num=1, validate_min=True, extra=3)
         
 class LoanRenewalForm(forms.Form):
-    item_code = forms.ModelChoiceField(
+    item = forms.ModelChoiceField(
             widget=forms.TextInput(),
             label=_("Item Code"),
             queryset=shelving_models.Item.objects.filter(loan__in=models.Loan.opens.all()),
@@ -80,13 +80,12 @@ class LoanRenewalForm(forms.Form):
             })
 
 
-    def clean(self):
+    def clean_item(self):
         backend = get_backend()
-        cleaned_data = super().clean()
-        item = cleaned_data['item_code']
+        item = self.cleaned_data['item']
         last_loan = item.loan_set.last()
         backend.validate(last_loan)
-        return cleaned_data
+        return item
 
 
 class LoanReturnForm(forms.Form):
