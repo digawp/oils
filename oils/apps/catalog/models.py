@@ -204,6 +204,9 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('catalog:detail', args=[self.pk])
+
     def to_generic_bibliographic(self):
         return GenericBibliographic(**self.__dict__)
 

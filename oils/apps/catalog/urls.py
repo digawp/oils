@@ -3,7 +3,7 @@ from . import views
 from . import routers
 
 urlpatterns = [
-    url(r'^(?P<resourcetype>[\w-]+)/(?P<slug>[\w-]+)/$',
+    url(r'^books/(?P<pk>[\w-]+)/$',
         views.ResourceDetailView.as_view(),
         name='detail'),
 ]

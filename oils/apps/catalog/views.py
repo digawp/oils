@@ -14,12 +14,8 @@ from .bibkey import Bibkey
 
 
 class ResourceDetailView(generic.DetailView):
-
+    model = models.Book
     template_name = 'catalog/resource_detail.html'
-
-    def get_object(self):
-        return models.Book.objects.get(
-                slug=self.kwargs['slug'])
 
 
 class BookViewSet(viewsets.ModelViewSet):
