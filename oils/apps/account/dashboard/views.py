@@ -60,7 +60,7 @@ class PatronActivationView(
         generic.detail.SingleObjectMixin,
         generic.View):
     model = models.Patron
-    permission_required = "patron.change_patron"
+    permission_required = "account.change_patron"
 
     def post(self, *args, **kwargs):
         user = self.get_object().user
@@ -84,7 +84,7 @@ class PatronCreateView(
     Patron "{name}" successfully registered. 
     Follow up to <a href="{link}">Change Detail</a>.
     """
-    permission_required = "patron.add_patron"
+    permission_required = "account.add_patron"
 
     def form_valid(self, user_form, patron_form, patron_identification_form):
         user = user_form.save()
@@ -169,7 +169,7 @@ class PatronUpdateView(
     model = models.Patron
     form_class = forms.PatronUpdateForm
     template_name = 'account/dashboard/patron_update_form.html'
-    permission_required = "patron.change_patron"
+    permission_required = "account.change_patron"
 
     def form_valid(self, user_form, patron_form, patron_identification_form):
         user = user_form.save()
