@@ -11,7 +11,7 @@ def home(request):
 
 api_root_dict = {
     'circulations': 'circulation:api-root',
-    'memberships': 'patron:api-root',
+    'memberships': 'account:api-root',
     'catalogs': 'catalog:api-root',
     'shelving': 'shelving:api-root',
 }
