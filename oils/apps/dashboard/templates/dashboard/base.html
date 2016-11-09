@@ -14,7 +14,7 @@
       <nav class="topbar">
         <a href="{% url 'dashboard:index' %}" class="brand">Library Administration</a>
         <a href="#">Account</a>
-        <a href="#">Logout</a>
+        <a href="{% url 'auth_logout' %}">Logout</a>
       </nav>
     {% endblock header %}
     </header>

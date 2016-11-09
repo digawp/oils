@@ -16,6 +16,3 @@ class BookAnnotationInline(admin.StackedInline):
 BookAdmin.inlines.append(BookAnnotationInline)
 admin.site.unregister(catalog_models.Book)
 admin.site.register(catalog_models.Book, BookAdmin)
-admin.site.register([
-    models.BookAnnotation,
-])

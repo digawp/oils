@@ -17,7 +17,7 @@ addons:
     postgresql: "9.4"
 
 env:
-    - DJANGO_SETTINGS_MODULE=oils.settings.test
+    - DJANGO_SETTINGS_MODULE=hackerlibrary.settings.test
 
 install:
     - travis_retry make setup_test -C demo/hackerlibrary

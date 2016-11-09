@@ -6,10 +6,17 @@ from mptt.admin import DraggableMPTTAdmin
 
 class SubjectAdmin(DraggableMPTTAdmin):
     model = models.Subject
+    search_fields = (
+        'name',
+        'parent__name',
+    )
 
 class BookIdentifierInline(admin.TabularInline):
     model = models.BookIdentifier
     raw_id_fields = ("identifier",)
+    autocomplete_lookup_fields = {
+        'fk': ['identifier'],
+    }
     extra = 2
 
 class PublisherInline(admin.TabularInline):
@@ -24,6 +31,9 @@ class PublisherInline(admin.TabularInline):
 class BookAgentInline(admin.TabularInline):
     model = models.BookAgent
     extra = 1
+    autocomplete_lookup_fields = {
+        'fk': ['agent'],
+    }
     raw_id_fields = ('agent',)
 
 
@@ -56,20 +66,31 @@ class RoleAdmin(admin.ModelAdmin):
         "slug": ("label",)
     }
 
+class UniversalIdentifierAdmin(admin.ModelAdmin):
+    search_fields = ('value', )
+
+class PublisherAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+
+class ClassificationAdmin(admin.ModelAdmin):
+    search_fields = ('value',)
 
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.Agent, AgentAdmin)
 admin.site.register(models.Role, RoleAdmin)
 admin.site.register(models.Subject, SubjectAdmin)
+admin.site.register(models.UniversalIdentifier, UniversalIdentifierAdmin)
+admin.site.register(models.Publisher, PublisherAdmin)
+admin.site.register(models.Classification, ClassificationAdmin)
 
 
 admin.site.register([
-    models.UniversalIdentifier, models.UniversalIdentifierType,
+    models.UniversalIdentifierType,
     models.BookIdentifier,
     models.BookAgent,
     models.AgentIdentifier, models.AgentIdentifierType,
     models.AgentAlias,
-    models.Classification, models.ClassificationType,
-    models.Publication, models.Publisher,
+    models.ClassificationType,
+    models.Publication,
     models.OpenLibrary,
 ])
