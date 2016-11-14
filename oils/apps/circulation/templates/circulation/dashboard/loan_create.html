@@ -1,0 +1,53 @@
+{% extends "circulation/dashboard/base.html" %}
+
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
+  <li>Loan Creation</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-header %}
+<h1>Loan Form</h1>
+{% endblock page-header %}
+
+{% block page-body %}
+{{ block.super }}
+<form method='POST' action=''>{% csrf_token %}
+  <div id="patron-field">
+    {{ form.patron.errors }}
+    {{ form.patron.label_tag }}
+    {{ form.patron }}
+  </div>
+  <div class="items-field">
+    <fieldset id="item-fieldset" class="items-fieldset">
+      <legend>Item List</legend>
+      {{ formset.management_form }}
+      {{ formset.non_form_errors }}
+      {% for form in formset %}
+        {{ form.id }}
+        <div class="item-form">
+          {{ form.item.errors }}
+          {{ form.item.label_tag }}
+          {{ form.item }}
+        </div>
+        <div class="item-info"></div>
+      {% endfor %}
+    </fieldset>
+  </div>
+  <button>Submit</button>
+  <!--
+  <div id="loan-form">
+  </div> -->
+</form>
+{% endblock page-body %}
+
+{% block script %}
+{{ block.super }}
+{% include "account/dashboard/patron-info-panel.html" %}
+{% include "shelving/dashboard/item-info-panel.html" %}
+<script src="{% static 'dist/dashboard/circulation/loan.js' %}"></script>
+{% endblock script %}

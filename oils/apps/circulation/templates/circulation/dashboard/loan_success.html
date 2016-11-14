@@ -1,0 +1,21 @@
+{% extends "circulation/dashboard/base.html" %}
+
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
+  <li><a href="{% url 'dashboard:circulation:loan:new' %}">Loan Form</a></li>
+  <li>Loan Success</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-header %}
+<h1>Loan Success</h1>
+{% endblock page-header %}
+
+{% block page-body %}
+{{ block.super }}
+Loan Successfully Made.
+{% endblock page-body %}

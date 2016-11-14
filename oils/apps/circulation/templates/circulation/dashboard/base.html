@@ -1,0 +1,18 @@
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page %}
+  {% block page-header %}{% endblock page-header %}
+  {% block page-body %}{% endblock page-body %}
+{% endblock page%}
+
+{% block script %}
+{{ block.super }}
+{% endblock script %}

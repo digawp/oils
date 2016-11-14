@@ -1,0 +1,19 @@
+{% extends "circulation/dashboard/base.html" %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<div class="nav-search">
+  <form class="form-search">
+    <input type="text" name="search" placeholder="Search Keyword" />
+    <input type="submit" value="Search" />
+  </form>
+</div>
+{% endblock breadcrumbs %}
+
+{% load render_table from django_tables2 %}
+{% block main %}
+{{ block.super }}
+<div>
+  {% render_table loan_table %}
+</div>
+{% endblock main %}

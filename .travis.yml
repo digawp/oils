@@ -17,13 +17,15 @@ addons:
     postgresql: "9.4"
 
 env:
-    - DJANGO_SETTINGS_MODULE=oils.settings.test
+    - DJANGO_SETTINGS_MODULE=hackerlibrary.settings.test
 
 install:
-    - travis_retry make setup_test
+    - travis_retry make setup_test -C demo/hackerlibrary
 
 before_install:
     - pip install codecov
+    - npm config set spin false
+    - npm install -g npm@^3
 
 script: 
     - make test

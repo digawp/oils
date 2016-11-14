@@ -1,0 +1,77 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Library Administration{% endblock title %}</title>
+    {% block style %}
+    {% endblock style %}
+  </head>
+  <body>
+
+    <header class="header">
+    {% block header %}
+      <nav class="topbar">
+        <a href="{% url 'dashboard:index' %}" class="brand">Library Administration</a>
+        <a href="#">Account</a>
+        <a href="{% url 'auth_logout' %}">Logout</a>
+      </nav>
+    {% endblock header %}
+    </header>
+
+    <div class="content row">
+      {% block content %}
+
+      <div class="sidebar col-sm-3" id="sidebar">
+      </div>
+
+      <main class='main col-sm-9'>
+        {% block main %}
+
+        <div class="breadcrumbs">
+        {% block breadcrumbs %}
+          <ul class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+          </ul>
+        {% endblock breadcrumbs %}
+        </div>
+
+        <div class="messages">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        {% block page %}
+          {% block page-header %}{% endblock page-header %}
+          {% block page-body %}{% endblock page-body %}
+        {% endblock page%}
+
+        {% endblock main %}
+      </main>
+
+      <footer class="footer">
+        {% block footer %}
+        {% endblock footer %}
+      </footer>
+
+      {% endblock content %}
+    </div>
+
+    {% block script %}
+    <script src="{% static 'dist/dashboard/app.js' %}"></script>
+    <script src="{% static 'dist/dashboard/menu.js' %}"></script>
+    {% if initial_data %}
+    <script>
+        // ReactJS Data Hydration
+        window.initialData = {{ initial_data|safe }};
+    </script>
+    {% endif %}
+    {% endblock script %}
+  </body>
+</html>
+

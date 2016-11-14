@@ -1,0 +1,11 @@
+{% if record.is_active %}
+<form action="{% url 'dashboard:account:deactivate' record.pk %}" method="post">
+  {% csrf_token %}
+  <button>Deactivate</button>
+</form>
+{% else %}
+<form action="{% url 'dashboard:account:activate' record.pk %}" method="post">
+  {% csrf_token %}
+  <button>Activate</button>
+</form>
+{% endif %}

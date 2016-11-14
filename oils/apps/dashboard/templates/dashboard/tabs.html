@@ -1,0 +1,36 @@
+<ul class="nav-list">
+  {% for item in nav_items %}
+  <li class="{{ item.css_class }}">
+
+    <a class="{% if item.children %}dropdown-toggle{% endif %}"
+       href="{% if item.children %}#{% else %}{{ item.url }}{% endif %}">
+
+      {% if item.icon %}
+      <i class='menu-left-icon {{ item.icon }}'></i>
+      {% endif %}
+
+      <span>
+      {{ item.html }}
+      </span>
+
+      {% if item.children %}
+      <i class="menu-right-icon fa fa-angle-down"></i>
+      {% endif %}
+
+    </a>
+
+    {% if item.children %}
+    <ul class="nav-list submenu {{ item.subnav_hide }}">
+      {% for child in item.children %}
+      <li class="{{ child.css_class }}">
+        <a href="{{ child.url }}" class="{{ child.css_class }}">
+          {{ child.html }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+  </li>
+  {% endfor %}
+</ul>

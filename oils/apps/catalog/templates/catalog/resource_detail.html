@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ object.title }} - <small>{{ object.subtitle }}</small></h2>
+<p>{{ object.bookannotation.abstract }}</p>
+
+{% for iden in object.identifiers.all %}
+{% if forloop.first %}
+<h3>Identifiers</h3>
+{% endif %}
+<dl>
+  <dt>{{ iden.id_type }}</dt>
+  <dd>{{ iden.value }}</dd>
+</dl>
+{% empty %}
+<h3>No identification</h3>
+{% endfor %}
+
+{% for cls in object.classifications.all %}
+{% if forloop.first %}
+<h3>Classification</h3>
+{% endif %}
+<dl>
+  <dt>{{ cls.classification_type }}</dt>
+  <dd>{{ cls.value }}</dd>
+</dl>
+{% empty %}
+<h3>No classification</h3>
+{% endfor %}
+
+{% for sub in object.subject.all %}
+{% if forloop.first %}
+<h3>Subjects</h3>
+{% endif %}
+<ul>
+  <li>{{ sub.name }}</li>
+</ul>
+{% empty %}
+<h3>No Subjects</h3>
+{% endfor %}
+
+{% for author in object.authors %}
+{% if forloop.first %}
+<h3>Author</h3>
+{% endif %}
+<ul>
+  <li>{{ author }}</li>
+</ul>
+{% empty %}
+<h3>No Authors</h3>
+{% endfor %}
+{% endblock content %}

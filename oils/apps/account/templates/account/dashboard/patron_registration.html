@@ -1,0 +1,30 @@
+{% extends "account/dashboard/base.html" %}
+{% load staticfiles %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+  <li><a href="{% url 'dashboard:account:index' %}">Patron</a></li>
+  <li>Patron Registration</li>
+</ul>
+{% endblock breadcrumbs %}
+
+{% block page-body %}
+{{ block.super }}
+
+<form method='POST' action=''>
+  {% csrf_token %}
+  <table>
+  {{ patron_identification_formset.as_table }}
+  {{ user_form.as_table }}
+  {{ form.as_table }}
+  </table>
+  <button>Submit</button>
+</form>
+
+{% endblock page-body %}
+
+{% block script %}
+{{ block.super }}
+<script src="{% static 'dist/account/registration.js' %}"></script>
+{% endblock script %}
