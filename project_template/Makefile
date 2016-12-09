@@ -41,7 +41,7 @@ setup_dev: dev_env
 	npm install
 	pip install -r requirements/dev.pip
 	-createdb $(PROJECT_NAME)_dev
-	$(MAKE) demo
+	$(MAKE) db initial_data
 
 dev: dev_env
 	$(DJANGO_CMD) runserver 0.0.0.0:8000
