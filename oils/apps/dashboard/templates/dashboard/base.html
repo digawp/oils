@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load dashboard_menu %}
 <!doctype html>
 <html>
   <head>
@@ -8,33 +9,27 @@
     {% endblock style %}
   </head>
   <body>
-
-    <header class="header">
+    {# Top Navigation Bar Section #}
     {% block header %}
-      <nav class="topbar">
-        <a href="{% url 'dashboard:index' %}" class="brand">Library Administration</a>
-        <a href="#">Account</a>
-        <a href="{% url 'auth_logout' %}">Logout</a>
-      </nav>
-    {% endblock header %}
-    </header>
 
-    <div class="content row">
-      {% block content %}
-
-      <div class="sidebar col-sm-3" id="sidebar">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        {% render_dashboard_topnav %}
       </div>
+    </nav>
+    {% endblock header %}
 
-      <main class='main col-sm-9'>
+    {# Main Content Section #}
+    {% block content %}
+    <div class="container-fluid">
+      <main class='main'>
         {% block main %}
 
-        <div class="breadcrumbs">
         {% block breadcrumbs %}
-          <ul class="breadcrumb">
-            <li><a href="{% url 'dashboard:index' %}">Home</a></li>
-          </ul>
+        <ul class="breadcrumb">
+          <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+        </ul>
         {% endblock breadcrumbs %}
-        </div>
 
         <div class="messages">
           {% if messages %}
@@ -53,24 +48,20 @@
 
         {% endblock main %}
       </main>
-
-      <footer class="footer">
-        {% block footer %}
-        {% endblock footer %}
-      </footer>
-
-      {% endblock content %}
     </div>
+    {% endblock content %}
+
+    {# Footer Section #}
+    <footer class="footer">
+      {% block footer %}
+      <div class="container-fluid">
+        <p class="text-muted">Open ILS Framework</p>
+      </div>
+      {% endblock footer %}
+    </footer>
 
     {% block script %}
     <script src="{% static 'dist/dashboard/app.js' %}"></script>
-    <script src="{% static 'dist/dashboard/menu.js' %}"></script>
-    {% if initial_data %}
-    <script>
-        // ReactJS Data Hydration
-        window.initialData = {{ initial_data|safe }};
-    </script>
-    {% endif %}
     {% endblock script %}
   </body>
 </html>

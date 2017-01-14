@@ -1,3 +1,3 @@
-import s from './dashboard.less'
-import '!style!css!flexboxgrid/dist/flexboxgrid.css'
-
+import 'jquery'
+import 'bootstrap'
+import './dashboard.less'

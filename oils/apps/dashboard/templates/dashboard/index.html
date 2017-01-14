@@ -2,5 +2,31 @@
 
 {% block main %}
 {{ block.super }}
-Welcome!!! Checkout some of the available features in the sidebar.
+<div class="row">
+  {% for sitenav in sitenavs %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>{{ sitenav.text }}</h3>
+        {{ sitenav.description|linebreaks }}
+        <p><a href="{{ sitenav.url }}" class="btn btn-primary">Overview</a>
+        {% for menuitem in sitenav.children %}
+        <a href="{{ menuitem.url }}" class="btn">{{menuitem.text}}</a>
+        {% endfor %}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-xs-12">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>No Access</h3>
+        <p>You don't have any permissions in the system.
+        Please contact the administrator if required.</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock main %}

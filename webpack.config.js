@@ -46,6 +46,13 @@ const config = {
     postcss: function (){
         return [require('autoprefixer'),];
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
+        })
+    ],
 };
 
 const dashboardConfig = Object.assign({}, config, {
