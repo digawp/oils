@@ -9,5 +9,5 @@ class DashboardIndexView(dashboard_mixins.DashboardContextMixin, generic.Templat
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['sitenavs'] = settings.OILS['DASHBOARD']['MENU']
+        ctx['sitenavs'] = settings.OILS['DASHBOARD']['MENU'].values()
         return ctx

@@ -25,12 +25,6 @@
       <main class='main'>
         {% block main %}
 
-        {% block breadcrumbs %}
-        <ul class="breadcrumb">
-          <li><a href="{% url 'dashboard:index' %}">Home</a></li>
-        </ul>
-        {% endblock breadcrumbs %}
-
         <div class="messages">
           {% if messages %}
           <ul class="messages">
@@ -42,8 +36,10 @@
         </div>
 
         {% block page %}
+        <div class="page-header">
           {% block page-header %}{% endblock page-header %}
-          {% block page-body %}{% endblock page-body %}
+        </div>
+        {% block page-body %}{% endblock page-body %}
         {% endblock page%}
 
         {% endblock main %}

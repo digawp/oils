@@ -1,0 +1,8 @@
+<ul class="nav nav-sidebar">
+  <li><a href="{{navitem.url}}">Overview</a></li>
+</ul>
+<ul class="nav nav-sidebar">
+  {% for menuitem in navitem.children %}
+  <li><a href="{{ menuitem.url }}">{{ menuitem.text }}</a></li>
+  {% endfor %}
+</ul>

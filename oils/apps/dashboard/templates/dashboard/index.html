@@ -1,6 +1,10 @@
 {% extends "dashboard/base.html" %}
 
-{% block main %}
+{% block page-header %}
+<h1>Dashboard</h1>
+{% endblock page-header %}
+
+{% block page-body %}
 {{ block.super }}
 <div class="row">
   {% for sitenav in sitenavs %}
@@ -29,4 +33,4 @@
   </div>
   {% endfor %}
 </div>
-{% endblock main %}
+{% endblock page-body %}

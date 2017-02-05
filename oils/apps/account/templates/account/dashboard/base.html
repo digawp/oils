@@ -1,1 +1,9 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/base_site.html" %}
+
+{% block sidebar %}
+<ul class="nav nav-sidebar">
+  {% for nav in navs %}
+  <li><a href="{{ nav.url }}">{{ nav.text }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock sidebar %}

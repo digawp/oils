@@ -1,0 +1,45 @@
+{% extends "dashboard/base.html" %}
+{% load dashboard_menu %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="col-sm-3 col-md-2 sidebar">
+    {% render_dashboard_sidebar %}
+    {% comment %}
+    {% block sidebar %}
+    <ul class="nav nav-sidebar">
+      <li><a href="">Overview</a></li>
+    </ul>
+    {% endblock sidebar %}
+    {% endcomment %}
+  </div>
+
+  <main class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main'>
+    {% block main %}
+
+    <div class="messages">
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    {% block page %}
+      {% block breadcrumbs %}
+      <ul class="breadcrumb">
+        <li><a href="{% url 'dashboard:index' %}">Home</a></li>
+      </ul>
+      {% endblock breadcrumbs %}
+      <div class="page-header">
+        {% block page-header %}{% endblock page-header %}
+      </div>
+      {% block page-body %}{% endblock page-body %}
+    {% endblock page%}
+
+    {% endblock main %}
+  </main>
+</div>
+{% endblock content %}
