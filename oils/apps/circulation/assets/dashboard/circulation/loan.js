@@ -27,20 +27,20 @@ let ItemView = Backbone.View.extend({
   events: {
     'input input': 'itemChanged',
   },
-  initialize(){
+  initialize(options){
     this.delayedUpdateItem = _.debounce(this.updateItem.bind(this), 1000)
+    this.itemInfoView = new ItemInfoView({el: $(`.items-info-${options.index}`)})
     let initialVal = this.$el.find('input').val()
     this.delayedUpdateItem(initialVal)
   },
   updateItem(item_code){
     this.item = new Item({id: item_code})
-    this.itemInfoView = new ItemInfoView({item: this.item, el: this.$el.next()})
     if (!item_code) {
       this.itemInfoView.$el.empty()
       return
     }
     this.item.on('change', ()=>{
-      this.itemInfoView = new ItemInfoView({item: this.item, el: this.$el.next()})
+      this.itemInfoView.item = this.item
       this.itemInfoView.render()      
     }, this)
     this.item.fetch()
@@ -111,6 +111,7 @@ var PatronView = Backbone.View.extend({
 
 var patronView = new PatronView({el: $('#patron-field')})
 
-$('.item-form').each(function(){
-  new ItemView({el: $(this)})
+$('div[id^=div_id_loan_set]').each(function(index){
+  console.log(index)
+  new ItemView({index, el: $(this)})
 })

@@ -219,6 +219,9 @@ CATALOG = {
 
 }
 
+# Crispy Form
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 # Circulation Apps
 CIRCULATION = {
     'RENEWAL_POLICY_BACKEND': 'circulation.backends.RenewalFromToday',

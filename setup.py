@@ -21,6 +21,7 @@ install_requires = [
     'django-mptt>=0.8,<0.9',
     'django-tables2>=1.0,<1.1',
     'django-registration>=2.0,<2.1',
+    'django-crispy-forms>=1.6,<1.7',
     'whoosh>=2.7,<2.8',
     'pyisbn>=1.0,<1.1',
     'requests>=2.9,<3.0',
