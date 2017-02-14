@@ -72,6 +72,11 @@ class LoanRenewalForm(forms.Form):
         backend.validate(last_loan)
         return item
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.add_input(crispy_forms.layout.Submit('submit', 'Submit'))
+
 
 class LoanReturnForm(forms.Form):
     item = forms.ModelChoiceField(
@@ -83,4 +88,8 @@ class LoanReturnForm(forms.Form):
                 'invalid_choice': 'This item is not being loaned out'
             })
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.add_input(crispy_forms.layout.Submit('submit', 'Submit'))
 
