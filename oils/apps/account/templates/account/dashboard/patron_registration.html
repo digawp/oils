@@ -1,5 +1,6 @@
 {% extends "account/dashboard/base.html" %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
@@ -19,11 +20,15 @@
 <form method='POST' action=''>
   {% csrf_token %}
   <table>
-  {{ patron_identification_formset.as_table }}
-  {{ user_form.as_table }}
-  {{ form.as_table }}
+  {{ patron_identification_formset|crispy }}
+  {{ user_form|crispy }}
+  {{ form|crispy }}
   </table>
-  <button>Submit</button>
+  <div class="form-group">
+    <div class="controls">
+      <input type="submit" name='submit' value="Submit" class="btn btn-primary" id="submit-id-submit">
+    </div>
+  </div>
 </form>
 
 {% endblock page-body %}

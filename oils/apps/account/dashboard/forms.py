@@ -6,6 +6,7 @@ from django.forms import ValidationError
 
 User = get_user_model()
 
+import crispy_forms
 import django_countries as dj_countries
 from .. import models
 
@@ -126,6 +127,10 @@ class PatronCreateForm(forms.ModelForm):
                 'address', 'country', 'postcode', 'contact', 
                 'note',)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.form_tag = False
 
     def clean_notification_type(self):
         return reduce(ior, self.cleaned_data['notification_type'])
@@ -166,6 +171,8 @@ class PatronIdentificationForm(forms.ModelForm):
             'identification': kwargs.get('instance')
         }
         super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.form_tag = False
 
     def clean_identification(self):
         data = self.cleaned_data['identification']
