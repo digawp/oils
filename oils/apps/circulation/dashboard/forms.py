@@ -10,34 +10,8 @@ from oils.apps.catalog import models as catalog_models
 from oils.apps.account import models as account_models
 from oils.apps.shelving import models as shelving_models
 
+import crispy_forms
 
-class LoanCreateForm(forms.Form):
-    item = forms.ModelChoiceField(
-            widget=forms.TextInput(),
-            label=_("Item Code"),
-            queryset=shelving_models.Item.objects.all(),
-            to_field_name='code',
-            error_messages={
-                'invalid_choice': 'One or more of the items is unavailable'
-            })
-    patron = forms.ModelChoiceField(
-            widget=forms.TextInput(),
-            label=_("Patron Username"),
-            queryset=User.objects.filter(patron__isnull=False),
-            to_field_name='username')
-
-
-    def clean(self):
-        data = super().clean()
-        try:
-            inst = models.Loan(patron=data['patron'].patron, item=data['item'])
-        except KeyError:
-            return data
-        try:
-            inst.clean()
-        except models.ValidationError as e:
-            raise forms.ValidationError(e.message_dict, code='invalid')
-        return data
 
 class LoanForm(forms.Form):
     patron = forms.ModelChoiceField(
@@ -54,6 +28,11 @@ class LoanForm(forms.Form):
             raise forms.ValidationError(e.message_dict['patron'], code='invalid')
         return user
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.form_tag = False
+
 
 class LoanItemBaseForm(forms.ModelForm):
     item = forms.ModelChoiceField(
@@ -62,10 +41,16 @@ class LoanItemBaseForm(forms.ModelForm):
             queryset=shelving_models.Item.objects.all(),
             to_field_name='code')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.form_tag = False
+
 
 LoanFormSet = forms.inlineformset_factory(
         account_models.Patron, models.Loan, fields=('item',),
         form=LoanItemBaseForm,
+        can_delete=False,
         widgets={'item': forms.TextInput()},
         min_num=1, validate_min=True, extra=3)
         
@@ -87,6 +72,11 @@ class LoanRenewalForm(forms.Form):
         backend.validate(last_loan)
         return item
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.add_input(crispy_forms.layout.Submit('submit', 'Submit'))
+
 
 class LoanReturnForm(forms.Form):
     item = forms.ModelChoiceField(
@@ -98,4 +88,8 @@ class LoanReturnForm(forms.Form):
                 'invalid_choice': 'This item is not being loaned out'
             })
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = crispy_forms.helper.FormHelper()
+        self.helper.add_input(crispy_forms.layout.Submit('submit', 'Submit'))
 

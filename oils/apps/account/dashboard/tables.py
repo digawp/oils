@@ -21,3 +21,4 @@ class PatronTable(tables.Table):
             'username', 'name', 'email', 'loan_limit',
             'datejoin', 'actions')
         order_by = '-datejoin'
+        template = 'django_tables2/bootstrap.html'

@@ -1,6 +1,7 @@
 {% extends "circulation/dashboard/base.html" %}
 
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
@@ -17,31 +18,35 @@
 {% block page-body %}
 {{ block.super }}
 <form method='POST' action=''>{% csrf_token %}
-  <div id="patron-field">
-    {{ form.patron.errors }}
-    {{ form.patron.label_tag }}
-    {{ form.patron }}
+  <div class="row patron-field">
+    <div class="col-sm-3">
+      {% crispy form %}
+    </div>
+    <div class="col-sm-9 patron-info">
+    </div>
   </div>
-  <div class="items-field">
-    <fieldset id="item-fieldset" class="items-fieldset">
-      <legend>Item List</legend>
-      {{ formset.management_form }}
-      {{ formset.non_form_errors }}
-      {% for form in formset %}
-        {{ form.id }}
-        <div class="item-form">
-          {{ form.item.errors }}
-          {{ form.item.label_tag }}
-          {{ form.item }}
+  <div class="row">
+    <div class="col-xs-12">
+      <fieldset id="item-fieldset" class="items-fieldset">
+        {{ formset.management_form|crispy }}
+        <legend>Item List</legend>
+        {% for iter_form in formset %}
+        <div class="row items-field">
+          <div class="col-sm-3">
+            {% crispy iter_form %}
+          </div>
+          <div class="col-sm-9 items-info-{{ forloop.counter0 }}">
+          </div>
         </div>
-        <div class="item-info"></div>
-      {% endfor %}
-    </fieldset>
+        {% endfor %}
+      </fieldset>
+    </div>
   </div>
-  <button>Submit</button>
-  <!--
-  <div id="loan-form">
-  </div> -->
+  <div class="form-group">
+    <div class="controls">
+      <input type="submit" name='submit' value="Submit" class="btn btn-primary" id="submit-id-submit">
+    </div>
+  </div>
 </form>
 {% endblock page-body %}
 

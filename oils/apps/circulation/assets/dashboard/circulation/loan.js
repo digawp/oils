@@ -27,20 +27,20 @@ let ItemView = Backbone.View.extend({
   events: {
     'input input': 'itemChanged',
   },
-  initialize(){
+  initialize(options){
     this.delayedUpdateItem = _.debounce(this.updateItem.bind(this), 1000)
+    this.itemInfoView = new ItemInfoView({el: $(`.items-info-${options.index}`)})
     let initialVal = this.$el.find('input').val()
     this.delayedUpdateItem(initialVal)
   },
   updateItem(item_code){
     this.item = new Item({id: item_code})
-    this.itemInfoView = new ItemInfoView({item: this.item, el: this.$el.next()})
     if (!item_code) {
       this.itemInfoView.$el.empty()
       return
     }
     this.item.on('change', ()=>{
-      this.itemInfoView = new ItemInfoView({item: this.item, el: this.$el.next()})
+      this.itemInfoView.item = this.item
       this.itemInfoView.render()      
     }, this)
     this.item.fetch()
@@ -50,11 +50,6 @@ let ItemView = Backbone.View.extend({
     this.delayedUpdateItem(item_code)
   },
   template: _.template(_.unescape($('#item-info-template').html())),
-  render(){
-    this.$el.append(this.itemInfoView.$el)
-    this.itemInfoView.render()
-    return this
-  }
 })
 
 var Patron = Backbone.Model.extend({
@@ -64,17 +59,15 @@ var Patron = Backbone.Model.extend({
     address: '',
   },    
   urlRoot: '/api/accounts/patrons',
-  initialize(){
-    this.on('change', (model, resp)=>{
-      patronView.render()                                    
-    })
-  },
 })
 let patron = new Patron()
 
 
 var PatronInfoView = Backbone.View.extend({
   template: _.template(_.unescape($('#patron-info-template').html())),
+  initialize(options){
+    this.patron = options.patron
+  },
   render(){
     let data = {patron: patron.toJSON()}
     this.$el.html(this.template(data))
@@ -88,29 +81,29 @@ var PatronView = Backbone.View.extend({
     'input input#id_patron': 'patronChanged',
   },
   initialize() {
-    this.patronInfoView = new PatronInfoView()
+    this.delayedUpdatePatron = _.debounce(this.updatePatron.bind(this), 1000),
+    this.patronInfoView = new PatronInfoView({el: $('.patron-info')})
     let initialVal = this.$el.find('input').val()
-    this.delayedPatronApi(initialVal)
+    this.delayedUpdatePatron(initialVal)
   },
-  delayedPatronApi: _.debounce((username)=>{
+  updatePatron(username){
     if (username){
       patron = new Patron({id: username});
+      patron.on('change', ()=>{
+        this.patronInfoView.patron = patron
+        this.patronInfoView.render()
+      }, this)
       patron.fetch()
     }
-  }, 1000),
-  patronChanged(e){
-    this.delayedPatronApi($(e.currentTarget).val())
   },
-  render(){
-    this.$el.append(this.patronInfoView.$el)
-    this.patronInfoView.render()
-    return this
-  }
+  patronChanged(e){
+    this.delayedUpdatePatron($(e.currentTarget).val())
+  },
 })
 
 
-var patronView = new PatronView({el: $('#patron-field')})
+var patronView = new PatronView({el: $('#div_id_patron')})
 
-$('.item-form').each(function(){
-  new ItemView({el: $(this)})
+$('div[id^=div_id_loan_set]').each(function(index){
+  new ItemView({index, el: $(this)})
 })

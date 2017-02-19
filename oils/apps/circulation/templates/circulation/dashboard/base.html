@@ -1,5 +1,14 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/base_site.html" %}
 {% load staticfiles %}
+
+{% block sidebar %}
+<ul class="nav nav-sidebar">
+  <li><a href="">Overview</a></li>
+  <li><a href="">Loan</a></li>
+  <li><a href="">Renewal</a></li>
+  <li><a href="">Return</a></li>
+</ul>
+{% endblock sidebar %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
@@ -7,11 +16,6 @@
   <li><a href="{% url 'dashboard:circulation:index' %}">Circulation</a></li>
 </ul>
 {% endblock breadcrumbs %}
-
-{% block page %}
-  {% block page-header %}{% endblock page-header %}
-  {% block page-body %}{% endblock page-body %}
-{% endblock page%}
 
 {% block script %}
 {{ block.super }}

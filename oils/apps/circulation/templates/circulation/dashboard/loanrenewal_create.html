@@ -1,6 +1,7 @@
 {% extends "circulation/dashboard/base.html" %}
 
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 {% block page-header %}
 <h1>Loan Renewal</h1>
 {% endblock page-header %}
@@ -15,17 +16,14 @@
 
 {% block page-body %}
 {{ block.super }}
-
-<form method='POST' action=''>
-  {% csrf_token %}
-  <div class="" id="loan-form">
-    {{ form }}
+<div class="row">
+  <div class="col-sm-3">
+    {% crispy form %}
   </div>
-  <table>
-    {{ form.errors }}
-  </table>
-  <button>Submit</button>
-</form>
+  <div class="col-sm-9">
+  </div>
+</div>
+
 {% endblock page-body %}
 
 {% block script %}

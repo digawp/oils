@@ -10,8 +10,10 @@ class LoanTable(tables.Table):
         verbose_name=_('Actions'),
         template_name='circulation/dashboard/loan_row_actions.html')
 
+
     class Meta:
         model = models.Loan
         fields = ('item', 'patron',
                 'loan_at', 'total_renewal', 'last_renewal', 'due_date', 
                 'actions',)
+        template = 'django_tables2/bootstrap.html'

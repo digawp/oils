@@ -53,6 +53,7 @@ class PatronIndexView(
 
 
 
+
 class PatronActivationView(
         mixins.DashboardContextMixin,
         braces_views.LoginRequiredMixin,

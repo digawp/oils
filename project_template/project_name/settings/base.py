@@ -182,73 +182,45 @@ OILS = {
     'DASHBOARD': {
         'MENU': [
             {
-                'label': 'Home',
-                'url': reverse_lazy('dashboard:index'),
-                'icon': 'fa fa-home',
-            },
-            {
-                'label': 'Catalog',
-                'url': reverse_lazy('dashboard:catalog:onestop'),
-                'access': 'cataloger',
-                'icon': 'fa fa-list',
+                'text': 'Membership',
+                'description': 'Membership Management, and Patron Management',
+                'url': reverse_lazy('dashboard:account:index'),
                 'children': [
                     {
-                        'label': 'Create Bibliographic',
-                        'url': reverse_lazy('dashboard:catalog:onestop'),
-                    }, 
-                    {
-                        'label': 'Add Copy',
-                        'url': '#',
-                    }, 
-                ]
-            },
-            {
-                'label': 'Circulation',
-                'url': reverse_lazy('dashboard:circulation:loan:new'),
-                'access': 'circulator',
-                'icon': 'fa fa-list',
-                'children': [
-                    {
-                        'label': 'Overview',
-                        'url': reverse_lazy('dashboard:circulation:loan:index'),
-                    }, 
-                    {
-                        'label': 'Loan',
-                        'url': reverse_lazy('dashboard:circulation:loan:new'),
-                    }, 
-                    {
-                        'label': 'Renewal',
-                        'url': reverse_lazy('dashboard:circulation:loan:renewal'),
-                    }, 
-                    {
-                        'label': 'Return',
-                        'url': reverse_lazy('dashboard:circulation:loan:return'),
-                    }, 
-                ]
-            },
-            {
-                'label': 'Membership',
-                'url': '#',
-                'icon': 'fa fa-list',
-                'access': 'account-manager',
-                'children': [
-                    {
-                        'label': 'Overview',
-                        'url': reverse_lazy('dashboard:account:index'),
-                    }, 
-                    {
-                        'label': 'Registration',
+                        'text': 'Registration',
                         'url': reverse_lazy('dashboard:account:registration'),
                     },
                 ],
             },
-        ]
+            {
+                'text': 'Circulation',
+                'description': 'Loan, Renewal, Return or Transfer of Books',
+                'url': reverse_lazy('dashboard:circulation:loan:index'),
+                'children': [
+                    {
+                        'text': 'Loan Form',
+                        'url': reverse_lazy('dashboard:circulation:loan:new'),
+                    },
+                    {
+                        'text': 'Renewal',
+                        'url': reverse_lazy('dashboard:circulation:loan:renewal'),
+                    }, 
+                    {
+                        'text': 'Return',
+                        'url': reverse_lazy('dashboard:circulation:loan:return'),
+                    }, 
+                ],
+            },
+        ],
     },
 }
 # Catalog Apps
 CATALOG = {
 
 }
+
+# Crispy Form
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Circulation Apps
 CIRCULATION = {
