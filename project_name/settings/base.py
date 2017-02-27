@@ -107,8 +107,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': '{{ project_name }}',
-        'USERNAME': '',
-        'PASSWORLD': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     }
@@ -180,11 +180,11 @@ OILS = {
         'DEFAULT_RENEWAL_LIMIT': 3,
     },
     'DASHBOARD': {
-        'MENU': [
-            {
+        'MENU': {
+            'dashboard:account': {
                 'text': 'Membership',
-                'description': 'Membership Management, and Patron Management',
                 'url': reverse_lazy('dashboard:account:index'),
+                'description': 'Manage Patron Information, their membership subscription.',
                 'children': [
                     {
                         'text': 'Registration',
@@ -192,9 +192,9 @@ OILS = {
                     },
                 ],
             },
-            {
+            'dashboard:circulation': {
                 'text': 'Circulation',
-                'description': 'Loan, Renewal, Return or Transfer of Books',
+                'description': 'Book Check-out, Check-in, Renewal and transfer',
                 'url': reverse_lazy('dashboard:circulation:loan:index'),
                 'children': [
                     {
@@ -211,9 +211,10 @@ OILS = {
                     }, 
                 ],
             },
-        ],
+        },
     },
 }
+
 # Catalog Apps
 CATALOG = {
 
