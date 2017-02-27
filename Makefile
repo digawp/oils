@@ -34,13 +34,13 @@ dev_env:
 	$(eval export DJANGO_SETTINGS_MODULE=$(PROJECT_NAME).settings.dev)
 
 reset_dev_db:
-	-dropdb $(PROJECT_NAME)_dev
-	createdb $(PROJECT_NAME)_dev
+	-dropdb -U postgres $(PROJECT_NAME)_dev
+	createdb -U postgres $(PROJECT_NAME)_dev
 
 setup_dev: dev_env
 	npm install
 	pip install -r requirements/dev.pip
-	-createdb $(PROJECT_NAME)_dev
+	-createdb -U postgres $(PROJECT_NAME)_dev
 	$(MAKE) db initial_data
 
 dev: dev_env
@@ -68,8 +68,8 @@ test_env:
 setup_test: test_env
 	npm install
 	pip install -r requirements/test.pip
-	-dropdb $(PROJECT_NAME)_test
-	createdb $(PROJECT_NAME)_test
+	-dropdb -U postgres $(PROJECT_NAME)_test
+	createdb -U postgres $(PROJECT_NAME)_test
 	$(MAKE) db initial_data
 
 test: test_env
