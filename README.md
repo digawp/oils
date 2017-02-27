@@ -3,6 +3,7 @@
 ## Development Setup
 
     # Setup
+    cp {{ project_name }}/settings/{__,}local_settings.py
     make setup_dev
 
     # run local server
