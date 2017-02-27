@@ -9,7 +9,7 @@ In this repository, you will find a few django apps that are common among librar
 such as cataloging, circulation and membership. 
 
 
-# How to use OILS
+## How to use OILS
 
 A django knowledge is very useful before start using OILS. Because OILS is just a collections of django apps without any project.
 You will have to create or use your existing django project, and include these apps into your project settings.
@@ -24,3 +24,22 @@ Alternatively, if you are starting a fresh new library project, you use our defa
     
     # Runserver at port 8000
     make dev
+
+## For contributors
+
+### Requirements
+
+- Python 3
+- NodeJS
+
+### Build and Run
+
+1. Create a spinoff library
+
+        django-admin.py startproject --template=https://github.com/9gix/oils/zipball/project-template -n Makefile <project-name>
+
+    You can change the template path to your own copy of project-template if you are making changes to it and want to test it out.
+
+2. Open `requirements/base.pip` in your spinoff library directory and change the path to the directory where your local copy of OILS is located.
+
+3. Follow the README.md of the spinoff library.
