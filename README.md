@@ -17,7 +17,7 @@ You will have to create or use your existing django project, and include these a
 Alternatively, if you are starting a fresh new library project, you use our default template to start the django project.
 
     # Start a Fresh django Project
-    django-admin.py startproject --template=https://github.com/9gix/oils/zipball/project-template -n Makefile <project-name>
+    django-admin.py startproject --template=https://github.com/9gix/oils/zipball/project-template -n Makefile,README.md <project-name>
     
     # Setup dependencies, db migration, assets
     make setup_dev
@@ -36,9 +36,9 @@ Alternatively, if you are starting a fresh new library project, you use our defa
 
 1. Create a spinoff library
 
-        django-admin.py startproject --template=https://github.com/9gix/oils/zipball/project-template -n Makefile <project-name>
+        django-admin.py startproject --template=https://github.com/9gix/oils/zipball/project-template -n Makefile,README.md <project-name>
 
-    You can change the template path to your own copy of project-template if you are making changes to it and want to test it out.
+    You can change the template path to your own copy of `project-template` if you are making changes to it and want to test it out.
 
 2. Open `requirements/base.pip` in your spinoff library directory and change the path to the directory where your local copy of OILS is located.
 
